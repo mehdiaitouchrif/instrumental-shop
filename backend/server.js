@@ -1,11 +1,15 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const connectDB = require("./database/db");
 
 // init app
 const app = express();
 
 // load vars
 dotenv.config();
+
+// connect to mongo
+connectDB();
 
 // Health check
 app.get("/health", (req, res) => {
