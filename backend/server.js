@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const connectDB = require("./database/db");
+const errorHandler = require("./middleware/error");
 
 // init app
 const app = express();
@@ -23,6 +24,9 @@ app.get("/health", (req, res) => {
 
 // Mount routes
 app.use("/api/auth", require("./routes/auth"));
+
+// Error middelware
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
