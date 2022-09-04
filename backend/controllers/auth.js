@@ -42,3 +42,10 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Current user
+// @route   GER /auth/me
+// @access  Private
+exports.getMe = async (req, res, next) => {
+  res.status(200).json({ success: true, data: req.user });
+};
