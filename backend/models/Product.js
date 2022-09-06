@@ -5,13 +5,14 @@ const productSchema = new mongoose.Schema(
     name: {
       type: String,
       required: [true, "Please enter product name"],
+      uniqued: true,
     },
     price: {
       type: Number,
       required: true,
       default: 0,
     },
-    mainImage: String,
+    mainImage: { type: String, default: "main_image.png" },
     secondaryImages: [String],
     features: {
       type: String,
@@ -23,7 +24,7 @@ const productSchema = new mongoose.Schema(
         quantity: Number,
       },
     ],
-    collection: {
+    collectionRef: {
       type: mongoose.Schema.Types.ObjectId,
       required: [true, "Please link product to a collection id"],
       ref: "Collection",
@@ -31,6 +32,18 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Sets latest product for a collection
+productSchema.methods.setCollectionProduct = async function (collectionRef) {
+  try {
+    const products = await this.model("Product").find({ collectionRef });
+    await this.model("Collection").findByIdAndUpdate(collectionRef, {
+      product: products[products.length - 1],
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const Product = mongoose.model("Product", productSchema);
 

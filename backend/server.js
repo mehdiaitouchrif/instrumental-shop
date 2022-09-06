@@ -24,6 +24,8 @@ app.get("/health", (req, res) => {
 
 // Mount routes
 app.use("/api/auth", require("./routes/auth"));
+app.use("/api/collections", require("./routes/collections"));
+app.use("/api/products", require("./routes/products"));
 
 // Error middelware
 app.use(errorHandler);
