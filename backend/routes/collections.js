@@ -5,18 +5,21 @@ const {
   updateCollection,
   createCollection,
 } = require("../controllers/collections");
-const protect = require("../middleware/auth");
+const { protect, requireAdmin } = require("../middleware/auth");
 const router = express.Router();
 
 // Include products router
 const productsRouter = require("./products");
 router.use("/:collectionId/products", productsRouter);
 
-router.route("/").get(getCollections).post(protect, createCollection);
+router
+  .route("/")
+  .get(getCollections)
+  .post(protect, requireAdmin, createCollection);
 
 router
   .route("/:id")
-  .delete(protect, deleteColletion)
-  .put(protect, updateCollection);
+  .delete(protect, requireAdmin, deleteColletion)
+  .put(protect, requireAdmin, updateCollection);
 
 module.exports = router;

@@ -17,6 +17,7 @@ exports.getCollections = async (req, res) => {
 // @access  Private
 exports.createCollection = async (req, res, next) => {
   try {
+    console.log(req.user);
     const collection = await Collection.create(req.body);
     res.status(201).json({ success: true, data: collection });
   } catch (error) {
