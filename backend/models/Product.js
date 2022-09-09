@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
 const productSchema = new mongoose.Schema(
   {
@@ -7,6 +8,7 @@ const productSchema = new mongoose.Schema(
       required: [true, "Please enter product name"],
       uniqued: true,
     },
+    slug: String,
     price: {
       type: Number,
       required: true,
@@ -32,6 +34,12 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Generate slug
+productSchema.pre("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 
 // Sets latest product for a collection
 productSchema.methods.setCollectionProduct = async function (collectionRef) {

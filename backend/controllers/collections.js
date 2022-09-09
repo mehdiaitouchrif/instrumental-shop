@@ -12,6 +12,22 @@ exports.getCollections = async (req, res) => {
   res.status(200).json({ success: true, data: collections });
 };
 
+// @desc  Get single collection
+// @route GET /collections/:slug
+// @access  public
+exports.getCollection = async (req, res, next) => {
+  try {
+    const collection = await Collection.findOne({
+      slug: req.params.slug,
+    }).populate("products");
+    if (!collection) return next(new ErrorResponse("No collection found", 404));
+
+    res.status(200).json({ success: true, data: collection });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc    Create new collection
 // @route   POST /collections
 // @access  Private

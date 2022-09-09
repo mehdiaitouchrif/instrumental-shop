@@ -9,7 +9,7 @@ exports.getProducts = async (req, res, next) => {
     // Get collection products
     if (req.params.collectionId) {
       const products = await Product.find({
-        collection: req.params.collectionId,
+        collectionRef: req.params.collectionId,
       });
       return res.status(200).json({ success: true, data: products });
     }
@@ -22,11 +22,11 @@ exports.getProducts = async (req, res, next) => {
 };
 
 // @desc    Get single product
-// @route   GET /api/products/:id
+// @route   GET /api/products/:slug
 // @access  Public
 exports.getProduct = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findOne({ slug: req.params.slug });
     if (!product) return next(new ErrorResponse("No product found", 404));
 
     res.status(200).json({ success: true, data: product });

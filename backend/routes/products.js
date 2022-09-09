@@ -15,7 +15,8 @@ router.route("/").get(getProducts).post(protect, requireAdmin, createProduct);
 router
   .route("/:id")
   .delete(protect, requireAdmin, deleteProduct)
-  .put(protect, requireAdmin, updateProduct)
-  .get(getProduct);
+  .put(protect, requireAdmin, updateProduct);
+
+router.get("/:slug", getProduct);
 
 module.exports = router;

@@ -4,6 +4,7 @@ const {
   deleteColletion,
   updateCollection,
   createCollection,
+  getCollection,
 } = require("../controllers/collections");
 const { protect, requireAdmin } = require("../middleware/auth");
 const router = express.Router();
@@ -21,5 +22,7 @@ router
   .route("/:id")
   .delete(protect, requireAdmin, deleteColletion)
   .put(protect, requireAdmin, updateCollection);
+
+router.get("/:slug", getCollection);
 
 module.exports = router;
