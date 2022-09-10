@@ -72,6 +72,54 @@ exports.getMe = async (req, res, next) => {
   res.status(200).json({ success: true, data: req.user });
 };
 
+// @desc      Update user profile
+// @route     PUT /api/auth/updatedetails
+// @access    Private
+exports.updateDetails = async (req, res, next) => {
+  try {
+    const fieldsToUpdate = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+    };
+
+    const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc      Update password
+// @route     PUT /api/auth/updatepassword
+// @access    Private
+exports.updatePassword = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).select("+password");
+
+    // Check current password
+    if (!(await user.matchPasswords(req.body.currentPassword))) {
+      return next(new ErrorResponse("Password is incorrect", 401));
+    }
+
+    user.password = req.body.newPassword;
+    await user.save();
+    // Generate token
+    const token = user.getSignedJwtToken();
+
+    res.status(200).json({ success: true, token });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // @desc  Confirm email
 // @route   GET /auth/confirmemail
 // @access  Public
