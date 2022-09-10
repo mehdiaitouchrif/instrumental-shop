@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -31,12 +32,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+    confirmEmailToken: String,
+    isEmailConfirmed: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
 // Hash password before save
-userSchema.pre("save", async function () {
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
@@ -51,6 +62,21 @@ userSchema.methods.getSignedJwtToken = function () {
 // Match passwords
 userSchema.methods.matchPasswords = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
+};
+
+// Generate email confirm token
+userSchema.methods.generateEmailConfirmationToken = function (next) {
+  // email confirmation token
+  const confirmationToken = crypto.randomBytes(20).toString("hex");
+
+  this.confirmEmailToken = crypto
+    .createHash("sha256")
+    .update(confirmationToken)
+    .digest("hex");
+
+  const confirmTokenExtend = crypto.randomBytes(100).toString("hex");
+  const confirmTokenCombined = `${confirmationToken}.${confirmTokenExtend}`;
+  return confirmTokenCombined;
 };
 
 const User = mongoose.model("User", userSchema);
