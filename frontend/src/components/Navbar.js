@@ -1,17 +1,13 @@
 import { Link } from "react-router-dom";
-import { FaShoppingCart, FaSignInAlt } from "react-icons/fa";
+import { CiLogin, CiShoppingCart } from "react-icons/ci";
 
 const Navbar = () => {
   return (
-    <nav className="py-4 px-8 bg-gray-900 text-white font-mono mb-10">
+    <nav className="py-4 px-8 bg-black text-white font-mono mb-10">
       <div className="container flex items-center justify-between mx-auto">
-        <Link to="/" className="cursor-pointer">
-          <h1 className="text-2xl font-bold hover:text-orange-500">
-            instrumental
-          </h1>
-        </Link>
+        <h1 className="text-2xl font-sans font-bold">instrumental</h1>
 
-        <div className="flex items-center font-bold h-full gap-6">
+        <div className="flex items-center font-medium h-full gap-6">
           <Link to="/" className="inline-block uppercase hover:text-orange-500">
             Home
           </Link>
@@ -38,11 +34,11 @@ const Navbar = () => {
         <div className="flex items-center gap-8">
           <Link to="/cart" className="hover:text-orange-500">
             {" "}
-            <FaShoppingCart size={24} />
+            <CiShoppingCart size={24} />
           </Link>
           <Link to="/login" className="hover:text-orange-500">
             {" "}
-            <FaSignInAlt size={24} />
+            <CiLogin size={24} />
           </Link>
         </div>
       </div>
