@@ -1,0 +1,2 @@
+export const SET_COLLECTIONS = "SET_COLLECTION";
+export const SET_LOADING = "SET_LOADING";

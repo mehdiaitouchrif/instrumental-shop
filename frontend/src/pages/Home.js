@@ -1,9 +1,10 @@
 import Layout from "../components/Layout";
+import Collections from "../components/Collections";
 
 const Home = () => {
   return (
     <Layout>
-      <div>Home</div>
+      <Collections />
     </Layout>
   );
 };
