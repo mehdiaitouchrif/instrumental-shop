@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="bg-black p-8 text-white w-full mt-auto">
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="my-2">
             <h2 className="text-2xl font-bold mb-4">instrumental</h2>
             <p className="my-4">
@@ -19,8 +19,8 @@ const Footer = () => {
               repudiandae blanditiis aliquam deleniti aut!
             </p>
           </div>
-          <div className="my-2 ml-auto">
-            <div className="flex items-center gap-6 my-6 font-mono font-medium">
+          <div className="my-2 md:ml-auto">
+            <div className="flex items-center gap-6 my-2 font-mono font-medium">
               <Link
                 to="/"
                 className="inline-block uppercase hover:text-orange-500"

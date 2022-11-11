@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex flex-col" style={{ minHeight: "100vh" }}>
       <Navbar />
-      {children}
+      <div className="px-4">{children}</div>
       <Footer />
     </div>
   );

@@ -1,21 +1,31 @@
 import { Link } from "react-router-dom";
+import { FaChevronRight } from "react-icons/fa";
 
 const CollectionItem = ({ collection }) => {
   return (
-    <Link to={`/collections/${collection.slug}`}>
-      <div className="rounded-2xl uppercase font-medium border border-gray-200 shadow-sm hover:shadow hover:border-gray-300">
-        <div className="p-4 my-2 h-56 w-80 ">
+    <Link to={`/${collection.slug}`} className="inline-block mt-24 md:mt-32">
+      <div className="bg-gray-100 h-44 p-8 uppercase rounded text-center relative">
+        <div
+          className="mx-auto h-40 w-40 text-center absolute -top-28"
+          style={{ left: 0, right: 0 }}
+        >
           <img
-            style={{ objectFit: "contain" }}
-            className="block h-full w-full"
             src={collection.product.mainImage}
+            style={{ mixBlendMode: "multiply", objectFit: "contain" }}
+            className="inline-block h-full w-full"
             alt=""
           />
         </div>
-        <div className="mt-2 p-4 bg-gray-100 flex flex-col items-center justify-center rounded-2xl">
-          <p className="text-xl">{collection.name}</p>
-          <div className="text-gray-500 ">SHOP</div>
-        </div>
+        <h1 className="text-xl font-medium mt-8">{collection.name}</h1>
+        <Link
+          to={`/${collection.slug}`}
+          className="flex items-center justify-center mt-2 hover:text-orange-600"
+        >
+          <p className="text-sm font-medium text-gray-600 mx-2 hover:text-orange-600">
+            Shop
+          </p>
+          <FaChevronRight />
+        </Link>
       </div>
     </Link>
   );
