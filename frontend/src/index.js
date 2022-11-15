@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import CollectionContextProvider from "./context/CollectionContext";
+import CollectionContextProvider from "./context/collections/CollectionContext";
 import "./index.css";
 import App from "./App";
 

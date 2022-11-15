@@ -1,20 +1,32 @@
 import { useEffect, useState } from "react";
+import { useCollectionContext } from "../hooks/useCollectionContext";
+
 import { Link } from "react-router-dom";
 
-const HomeProducts = ({ collections, loading }) => {
-  const piano = collections[0]?.product;
-  const guitar = collections[1]?.product;
-  const drum = collections[2]?.product;
+const HomeProducts = () => {
+  const { collections, loading } = useCollectionContext();
 
-  if (loading) {
-    return <h1>Loading...</h1>;
+  let piano, guitar, drum;
+
+  if (collections && collections.length === 3) {
+    piano = collections[0].product;
+    guitar = collections[1].product;
+    drum = collections[2].product;
   }
 
   return (
     <div className="max-w-6xl mx-auto my-8">
-      {collections[2] && <Guitar guitar={guitar} />}
-      {collections[1] && <Piano piano={piano} />}
-      {collections[0] && <Drum drum={drum} />}
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : (
+        collections && (
+          <>
+            <Guitar guitar={guitar} />
+            <Piano piano={piano} />
+            <Drum drum={drum} />
+          </>
+        )
+      )}
     </div>
   );
 };

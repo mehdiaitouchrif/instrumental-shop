@@ -1,4 +1,4 @@
-import { CollectionContext } from "../context/CollectionContext";
+import { CollectionContext } from "../context/collections/CollectionContext";
 import { useContext } from "react";
 
 export const useCollectionContext = () => {

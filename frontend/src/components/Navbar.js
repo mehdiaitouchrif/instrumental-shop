@@ -8,7 +8,9 @@ const Navbar = () => {
       <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center">
           <FaBars className="block md:hidden mr-8 cursor-pointer" />
-          <h1 className="text-2xl font-sans font-bold">instrumental</h1>
+          <a href="/">
+            <h1 className="text-2xl font-sans font-bold">instrumental</h1>
+          </a>
         </div>
 
         <div className="hidden md:flex items-center font-medium h-full gap-6">
@@ -37,11 +39,9 @@ const Navbar = () => {
 
         <div className="flex items-center gap-8">
           <Link to="/cart" className="hover:text-orange-500">
-            {" "}
             <CiShoppingCart size={24} />
           </Link>
           <Link to="/login" className="hover:text-orange-500">
-            {" "}
             <CiLogin size={24} />
           </Link>
         </div>
