@@ -6,8 +6,8 @@ export const CollectionContext = createContext();
 
 const CollectionContextProvider = ({ children }) => {
   const initialState = {
-    collections: null,
     collectionProducts: null,
+    collections: null,
     loading: null,
     error: null,
   };

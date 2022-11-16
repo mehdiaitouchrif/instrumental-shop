@@ -1,8 +1,15 @@
+import { useEffect } from "react";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import CollectionItem from "./CollectionItem";
 
 const Collections = () => {
-  const { collections, loading } = useCollectionContext();
+  const { fetchCollections, collections, loading } = useCollectionContext();
+
+  useEffect(() => {
+    fetchCollections();
+
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto my-16 w-full">
