@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Meta from "../components/Meta";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -33,6 +34,7 @@ const Login = () => {
 
   return (
     <Layout>
+      <Meta title={`Login | Instrumental Shop`} />
       <form
         className="mx-auto p-8 mt-10 mb-44 rounded shadow border border-gray-200"
         style={{ width: 600 }}

@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Meta from "../components/Meta";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -32,6 +33,7 @@ const Signup = () => {
 
   return (
     <Layout>
+      <Meta title="Sign Up | Instrumental Shop" />
       <form
         className="mx-auto p-8 mt-10 mb-44 rounded shadow border border-gray-200"
         style={{ width: 600 }}

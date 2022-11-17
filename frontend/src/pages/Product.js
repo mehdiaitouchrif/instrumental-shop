@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import PreFooter from "../components/PreFooter";
 import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
+import Meta from "../components/Meta";
 
 const Product = () => {
   const { productSlug, collection } = useParams();
@@ -27,6 +28,7 @@ const Product = () => {
 
   return (
     <Layout>
+      <Meta title={`${product && product.name} | Instrumental Shop`} />
       <div className="max-w-6xl mx-auto">
         {loading ? (
           <h1>Loading...</h1>

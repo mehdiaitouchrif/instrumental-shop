@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
+import Meta from "../components/Meta";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 
 const Collection = () => {
@@ -17,6 +18,11 @@ const Collection = () => {
 
   return (
     <Layout>
+      <Meta
+        title={`${
+          params.collection.charAt(0).toUpperCase() + params.collection.slice(1)
+        } | Instrumental Shop`}
+      />
       <div className="max-w-6xl mx-auto p-4">
         {loading ? (
           <h1>Loading</h1>
