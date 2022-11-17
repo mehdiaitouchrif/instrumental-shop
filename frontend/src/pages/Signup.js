@@ -17,7 +17,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (error && !loading) {
+    if (error && !loading && typeof error === "object") {
       error.map((err) => Object.keys(err).map((k) => toast.error(err[k])));
     }
     if (token) {
