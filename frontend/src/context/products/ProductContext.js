@@ -1,6 +1,7 @@
 import { createContext, useReducer } from "react";
 import productReducer from "./ProductReducer";
 import * as types from "../types";
+import API_URL from "../../utils/setupApi";
 
 export const ProductContext = createContext();
 
@@ -17,7 +18,7 @@ const ProductContextProvider = ({ children }) => {
   // Get last products
   const fetchProducts = async () => {
     dispatch({ type: types.SET_LOADING });
-    const res = await fetch(`http://localhost:5000/api/products`);
+    const res = await fetch(`${API_URL}/api/products`);
     const { data } = await res.json();
 
     dispatch({ type: types.SET_PRODUCT_LIST, payload: data });
@@ -26,7 +27,7 @@ const ProductContextProvider = ({ children }) => {
   // Get single product
   const fetchProduct = async (slug) => {
     dispatch({ type: types.SET_LOADING });
-    const res = await fetch(`http://localhost:5000/api/products/${slug}`);
+    const res = await fetch(`${API_URL}/api/products/${slug}`);
     const { data } = await res.json();
 
     dispatch({ type: types.SET_PRODUCT, payload: data });

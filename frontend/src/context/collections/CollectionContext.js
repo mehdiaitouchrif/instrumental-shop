@@ -1,6 +1,7 @@
 import { createContext, useReducer } from "react";
 import collectionReducer from "./CollectionReducer";
 import * as types from "../types";
+import API_URL from "../../utils/setupApi";
 
 export const CollectionContext = createContext();
 
@@ -17,7 +18,7 @@ const CollectionContextProvider = ({ children }) => {
   // Get all collections
   const fetchCollections = async () => {
     dispatch({ type: types.SET_LOADING });
-    const res = await fetch("http://localhost:5000/api/collections");
+    const res = await fetch(`${API_URL}/api/collections`);
     const { success, data } = await res.json();
 
     if (success) {
@@ -28,7 +29,7 @@ const CollectionContextProvider = ({ children }) => {
   // Get single collection/products
   const fetchCollectionProducts = async (slug) => {
     dispatch({ type: types.SET_LOADING });
-    const res = await fetch(`http://localhost:5000/api/collections/${slug}`);
+    const res = await fetch(`${API_URL}/api/collections/${slug}`);
     const { data } = await res.json();
 
     dispatch({ type: types.SET_COLLECTION_PRODUCTS, payload: data });

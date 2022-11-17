@@ -1,6 +1,9 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -8,11 +11,25 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { signup, loading, error, token } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error && !loading) {
+      error.map((err) => Object.keys(err).map((k) => toast.error(err[k])));
+    }
+    if (token) {
+      navigate("/account/dashboard");
+    }
+  }, [error, loading, navigate, token]);
+
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log(firstName, lastName, email, password);
+    signup({ firstName, lastName, email, password });
   };
+
   return (
     <Layout>
       <form
@@ -20,6 +37,7 @@ const Signup = () => {
         style={{ width: 600 }}
         onSubmit={onSubmit}
       >
+        <ToastContainer />
         <h3 className="text-3xl my-4 text-gray-700">Sign Up</h3>
         <div className="flex items-center justify-between gap-4 mt-6">
           <div>
@@ -73,9 +91,11 @@ const Signup = () => {
         </div>
         <input
           type="submit"
-          value="Login"
+          value="Sign Up"
           className="inline-block py-2 p-4 rounded bg-orange-500 text-white shadow hover:bg-orange-600 cursor-pointer"
         />
+
+        {loading && <h1>Loading....</h1>}
 
         <hr className="my-4" />
 

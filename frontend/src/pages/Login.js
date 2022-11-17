@@ -1,15 +1,36 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login, loading, error, token } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error && !loading) {
+      toast.error(error);
+    }
+    if (token) {
+      navigate("/account/dashboard");
+    }
+  }, [error, loading, navigate, token]);
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(email, password);
+    if (!email || !password) {
+      return toast.error("Enter your credentials!");
+    }
+
+    login(email, password);
   };
+
   return (
     <Layout>
       <form
@@ -17,6 +38,7 @@ const Login = () => {
         style={{ width: 600 }}
         onSubmit={onSubmit}
       >
+        <ToastContainer />
         <h3 className="text-3xl my-4 text-gray-700">Login</h3>
         <div className="my-4">
           <div className="mb-1">
@@ -48,8 +70,9 @@ const Login = () => {
           className="inline-block py-2 p-4 rounded bg-orange-500 text-white shadow hover:bg-orange-600 cursor-pointer"
         />
 
-        <hr className="my-4" />
+        {loading && <h1>Loading....</h1>}
 
+        <hr className="my-4" />
         <div>
           <p>
             Don't have an account?{" "}
