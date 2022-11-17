@@ -117,11 +117,15 @@ const Product = () => {
               {/*  Product Images */}
               <div className="my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4">
                 {product.secondaryImages.map((img, idx) => (
-                  <div className="bg-gray-50">
+                  <div
+                    className="bg-gray-50"
+                    style={{ minWidth: "550px", maxHeight: "550px" }}
+                  >
                     <img
                       src={img}
                       key={idx}
                       style={{ mixBlendMode: "multiply" }}
+                      className="object-contain w-full h-full"
                       alt=""
                     />
                   </div>
