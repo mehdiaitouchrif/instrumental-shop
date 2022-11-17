@@ -36,9 +36,9 @@ const Login = () => {
     <Layout>
       <Meta title={`Login | Instrumental Shop`} />
       <form
-        className="mx-auto p-8 mt-10 mb-44 rounded shadow border border-gray-200"
-        style={{ width: 600 }}
+        className="mx-auto p-4 md:p-8 mt-10 mb-28 md:mb-44 rounded shadow border border-gray-200"
         onSubmit={onSubmit}
+        style={{ maxWidth: 600 }}
       >
         <ToastContainer />
         <h3 className="text-3xl my-4 text-gray-700">Login</h3>

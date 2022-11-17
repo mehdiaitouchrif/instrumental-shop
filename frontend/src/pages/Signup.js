@@ -35,13 +35,13 @@ const Signup = () => {
     <Layout>
       <Meta title="Sign Up | Instrumental Shop" />
       <form
-        className="mx-auto p-8 mt-10 mb-44 rounded shadow border border-gray-200"
-        style={{ width: 600 }}
+        className="mx-auto p-4 md:p-8 mt-10 mb-44 rounded shadow border border-gray-200"
+        style={{ maxWidth: 600 }}
         onSubmit={onSubmit}
       >
         <ToastContainer />
         <h3 className="text-3xl my-4 text-gray-700">Sign Up</h3>
-        <div className="flex items-center justify-between gap-4 mt-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
           <div>
             <div className="mb-1">
               <label htmlFor="firstName">First Name</label>
