@@ -5,6 +5,7 @@ import Layout from "../components/Layout";
 import PreFooter from "../components/PreFooter";
 import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
+import { useCartContext } from "../hooks/useCartContext";
 import Meta from "../components/Meta";
 
 const Product = () => {
@@ -15,6 +16,8 @@ const Product = () => {
 
   // Add to cart / quantity
   const [quantity, setQuantity] = useState(1);
+
+  const { addToCart } = useCartContext();
 
   useEffect(() => {
     // Get selected product
@@ -60,7 +63,7 @@ const Product = () => {
 
                   <div className="my-4 flex items-center gap-6">
                     <div className="bg-gray-50 shadow-sm rounded-sm flex items-center text-center">
-                      <div
+                      <button
                         className="w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100"
                         onClick={() =>
                           setQuantity((prev) => {
@@ -72,16 +75,19 @@ const Product = () => {
                         }
                       >
                         -
-                      </div>
+                      </button>
                       <div className="w-11 py-2.5 px-2">{quantity}</div>
-                      <div
+                      <button
                         className="w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100"
                         onClick={() => setQuantity((prev) => prev + 1)}
                       >
                         +
-                      </div>
+                      </button>
                     </div>
-                    <button className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500">
+                    <button
+                      onClick={() => addToCart(productSlug, quantity)}
+                      className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500"
+                    >
                       Add to cart
                     </button>
                   </div>

@@ -4,6 +4,9 @@ export const SET_COLLECTION_PRODUCTS = "SET_COLLECTION_PRODUCTS";
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
 export const SET_PRODUCT = "SET_PRODUCT";
 
+export const ADD_TO_CART = "ADD_TO_CART";
+export const CLEAR_CART = "CLEAR_CART";
+
 export const LOGIN = "LOGIN";
 export const SIGN_UP = "SIGN_UP";
 export const LOGOUT = "LOGOUT";

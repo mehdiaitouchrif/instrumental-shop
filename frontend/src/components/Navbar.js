@@ -2,9 +2,16 @@ import { Link } from "react-router-dom";
 import { CiLogin, CiShoppingCart, CiUser } from "react-icons/ci";
 import { FaBars } from "react-icons/fa";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useState } from "react";
+import Cart from "./Cart";
 
 const Navbar = () => {
   const { user, loading, logout } = useAuthContext();
+
+  // Cart Modal state
+  const [isOpen, setIsOpen] = useState(false);
+  const onClose = () => setIsOpen(false);
+
   return (
     <nav className="py-4 px-4 bg-black text-white font-mono mb-10">
       <div className="container flex items-center justify-between mx-auto">
@@ -39,8 +46,14 @@ const Navbar = () => {
           </Link>
         </div>
 
+        {/* Cart Modal */}
+        <Cart isOpen={isOpen} onClose={onClose} />
+
         <div className="flex items-center gap-8">
-          <button className="hover:text-orange-500">
+          <button
+            className="hover:text-orange-500"
+            onClick={() => setIsOpen(true)}
+          >
             <CiShoppingCart size={24} />
           </button>
           {!user && !loading && (
