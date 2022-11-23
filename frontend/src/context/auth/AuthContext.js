@@ -66,6 +66,60 @@ export const AuthContextProvider = ({ children }) => {
     dispatch({ type: types.LOGOUT });
   };
 
+  // Update details
+  const updateDetails = async (userInfo) => {
+    dispatch({ type: types.UPDATE_USER_LOADING });
+    const token = JSON.parse(localStorage.getItem("token"));
+    const res = await fetch(`${API_URL}/api/auth/updatedetails`, {
+      method: "PUT",
+      body: JSON.stringify(userInfo),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { success, data, error } = await res.json();
+
+    if (success) {
+      dispatch({ type: types.UPDATE_USER, payload: data });
+    }
+
+    if (error) {
+      dispatch({ type: types.UPDATE_USER_ERROR, payload: error });
+    }
+  };
+
+  // Update password
+  const updatePassword = async (currentPassword, newPassword) => {
+    const token = JSON.parse(localStorage.getItem("token"));
+
+    dispatch({ type: types.UPDATE_PASSWORD_LOADING });
+    const res = await fetch(`${API_URL}/api/auth/updatepassword`, {
+      method: "PUT",
+      body: JSON.stringify({ currentPassword, newPassword }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { success, data, error } = await res.json();
+
+    if (success) {
+      dispatch({ type: types.UPDATE_PASSWORD, payload: data });
+    }
+
+    if (error) {
+      dispatch({ type: types.UPDATE_PASSWORD_ERROR, payload: error });
+    }
+  };
+
+  // reset state
+  const resetUserState = () => {
+    dispatch({ type: types.RESET_USER_STATE });
+  };
+
   // Check if user is logged in
   const checkUserLoggedIn = async (token) => {
     const res = await fetch(`${API_URL}/api/auth/me`, {
@@ -83,10 +137,18 @@ export const AuthContextProvider = ({ children }) => {
     }
   };
 
-  console.log("AuthContext state:", state);
-
   return (
-    <AuthContext.Provider value={{ ...state, login, signup, logout }}>
+    <AuthContext.Provider
+      value={{
+        ...state,
+        login,
+        signup,
+        logout,
+        updateDetails,
+        updatePassword,
+        resetUserState,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

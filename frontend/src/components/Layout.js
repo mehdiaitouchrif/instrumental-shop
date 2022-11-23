@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-col" style={{ minHeight: "100vh" }}>
+    <div className="flex flex-col" style={{ minHeight: "110vh" }}>
       <Navbar />
       <div className="px-4">{children}</div>
       <Footer />

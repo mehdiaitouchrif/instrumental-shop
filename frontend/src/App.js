@@ -28,7 +28,7 @@ const App = () => {
           path="/account/dashboard"
           element={
             !user ? (
-              <Login />
+              <Navigate to="/login" />
             ) : user.role === "admin" ? (
               <AdminDashboard />
             ) : (
