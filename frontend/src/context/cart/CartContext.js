@@ -9,10 +9,7 @@ const CartContextProvider = ({ children }) => {
   const itemsFromLS = JSON.parse(localStorage.getItem("cartItems")) || [];
   const initialState = {
     cartItems: itemsFromLS,
-    total:
-      itemsFromLS
-        .map((item) => item.price)
-        .reduce((partial, accum) => partial + accum, 0) || 0,
+    total: 0,
   };
 
   const [state, dispatch] = useReducer(cartReducer, initialState);
@@ -26,6 +23,7 @@ const CartContextProvider = ({ children }) => {
     // Update state
     const cartItem = {
       pid: data._id,
+      slug: data.slug,
       name: data.name,
       image: data.mainImage,
       price: data.price,

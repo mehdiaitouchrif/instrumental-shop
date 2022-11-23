@@ -15,6 +15,11 @@ const cartReducer = (state, action) => {
         return {
           ...state,
           cartItems: itemsToStore,
+          total: Number(
+            itemsToStore
+              .map((item) => item.price * item.qty)
+              .reduce((partial, accum) => partial + accum, 0)
+          ).toFixed(2),
         };
       } else {
         itemsToStore = [...state.cartItems, item];
@@ -22,6 +27,11 @@ const cartReducer = (state, action) => {
         return {
           ...state,
           cartItems: itemsToStore,
+          total: Number(
+            itemsToStore
+              .map((item) => item.price)
+              .reduce((partial, accum) => partial + accum, 0)
+          ).toFixed(2),
         };
       }
     case types.CLEAR_CART:
