@@ -1,13 +1,25 @@
+import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import CartItem from "./CartItem";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Modal from "./Modal";
 
 const Cart = ({ isOpen, onClose }) => {
-  const { cartItems, total, clearCart, addToCart } = useCartContext();
+  const { cartItems, total, clearCart } = useCartContext();
+  const navigate = useNavigate();
 
+  const handleCheckout = () => {
+    if (cartItems.length === 0) {
+      toast.warning("Your bag is empty!");
+      return;
+    }
+    navigate("/shipping");
+  };
   return (
     <Modal open={isOpen} onClose={onClose}>
+      <ToastContainer />
       {/* Cart header */}
       <div className="flex items-center justify-between">
         <h3 className="uppercase text-xl font-medium">
@@ -44,7 +56,10 @@ const Cart = ({ isOpen, onClose }) => {
         <h4 className="text-lg font-medium">${total}</h4>
       </div>
 
-      <button className="inline-block w-full my-2 bg-black text-white font-mono uppercase shadow-sm rounded-sm py-2.5 px-4 hover:bg-gray-900">
+      <button
+        onClick={handleCheckout}
+        className="inline-block w-full my-2 bg-black text-white font-mono uppercase shadow-sm rounded-sm py-2.5 px-4 hover:bg-gray-900"
+      >
         {cartItems.length === 0 ? "No items in the list " : "Checkout"}
       </button>
     </Modal>

@@ -15,7 +15,7 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
 
     if (token) {
       dispatch({ type: types.LOGIN, payload: { token } });
@@ -62,14 +62,14 @@ export const AuthContextProvider = ({ children }) => {
 
   // Logout
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("instrumental_auth_token");
     dispatch({ type: types.LOGOUT });
   };
 
   // Update details
   const updateDetails = async (userInfo) => {
     dispatch({ type: types.UPDATE_USER_LOADING });
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
     const res = await fetch(`${API_URL}/api/auth/updatedetails`, {
       method: "PUT",
       body: JSON.stringify(userInfo),
@@ -92,7 +92,7 @@ export const AuthContextProvider = ({ children }) => {
 
   // Update password
   const updatePassword = async (currentPassword, newPassword) => {
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
 
     dispatch({ type: types.UPDATE_PASSWORD_LOADING });
     const res = await fetch(`${API_URL}/api/auth/updatepassword`, {

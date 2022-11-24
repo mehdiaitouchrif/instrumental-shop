@@ -11,7 +11,10 @@ const cartReducer = (state, action) => {
         itemsToStore = state.cartItems.map((i) =>
           i.pid === existItem.pid ? item : i
         );
-        localStorage.setItem("cartItems", JSON.stringify(itemsToStore));
+        localStorage.setItem(
+          "instrumental_cart_items",
+          JSON.stringify(itemsToStore)
+        );
         return {
           ...state,
           cartItems: itemsToStore,
@@ -23,7 +26,10 @@ const cartReducer = (state, action) => {
         };
       } else {
         itemsToStore = [...state.cartItems, item];
-        localStorage.setItem("cartItems", JSON.stringify(itemsToStore));
+        localStorage.setItem(
+          "instrumental_cart_items",
+          JSON.stringify(itemsToStore)
+        );
         return {
           ...state,
           cartItems: itemsToStore,
@@ -36,6 +42,10 @@ const cartReducer = (state, action) => {
       }
     case types.CLEAR_CART:
       return { ...state, cartItems: [], total: 0 };
+    case types.SAVE_SHIPPING_ADDRESS:
+      return { ...state, shippingAddress: action.payload };
+    case types.SAVE_PAYMENT_METHOD:
+      return { ...state, paymentMethod: action.payload };
     default:
       return state;
   }

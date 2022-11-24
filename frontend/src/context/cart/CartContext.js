@@ -6,10 +6,16 @@ import API_URL from "../../utils/setupApi";
 export const CartContext = createContext();
 
 const CartContextProvider = ({ children }) => {
-  const itemsFromLS = JSON.parse(localStorage.getItem("cartItems")) || [];
+  const itemsFromLS =
+    JSON.parse(localStorage.getItem("instrumental_cart_items")) || [];
   const initialState = {
     cartItems: itemsFromLS,
     total: 0,
+    shippingAddress:
+      JSON.parse(localStorage.getItem("instrumental_shipping_address")) || {},
+    paymentMethod:
+      JSON.parse(localStorage.getItem("instrumental_payment_method")) ||
+      "PayPal",
   };
 
   const [state, dispatch] = useReducer(cartReducer, initialState);
@@ -35,9 +41,21 @@ const CartContextProvider = ({ children }) => {
     });
   };
 
+  // Save shipping address
+  const saveShippingAddress = (data) => {
+    localStorage.setItem("instrumental_shipping_address", JSON.stringify(data));
+    dispatch({ type: types.SAVE_SHIPPING_ADDRESS, payload: data });
+  };
+
+  // Save payment method
+  const savePaymentMethod = (method) => {
+    localStorage.setItem("instrumental_payment_method", JSON.stringify(method));
+    dispatch({ type: types.SAVE_PAYMENT_METHOD, payload: method });
+  };
+
   // Clear cart
   const clearCart = () => {
-    localStorage.removeItem("cartItems");
+    localStorage.removeItem("instrumental_cart_items");
     dispatch({ type: types.CLEAR_CART });
   };
 
@@ -47,6 +65,8 @@ const CartContextProvider = ({ children }) => {
         ...state,
         addToCart,
         clearCart,
+        saveShippingAddress,
+        savePaymentMethod,
       }}
     >
       {children}
