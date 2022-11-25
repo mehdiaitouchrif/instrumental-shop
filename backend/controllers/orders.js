@@ -62,7 +62,7 @@ exports.updateOrderToDelivered = async (req, res) => {
 // @access  Private
 exports.getOrder = async (req, res, next) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("user");
     if (!order) return next(new ErrorResponse("No order found", 404));
     res.status(200).json({ success: true, data: order });
   } catch (error) {

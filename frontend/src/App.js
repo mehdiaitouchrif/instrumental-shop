@@ -4,6 +4,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import Collection from "./pages/Collection";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Order from "./pages/Order";
 import PaymentMethod from "./pages/PaymentMethod";
 import PlaceOrder from "./pages/PlaceOrder";
 import Product from "./pages/Product";
@@ -39,9 +40,22 @@ const App = () => {
             )
           }
         />
-        <Route path="/shipping" element={<Shipping />} />
-        <Route path="/payment" element={<PaymentMethod />} />
-        <Route path="placeorder" element={<PlaceOrder />} />
+        <Route
+          path="/shipping"
+          element={user ? <Shipping /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/payment"
+          element={user ? <PaymentMethod /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="placeorder"
+          element={user ? <PlaceOrder /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/orders/:id"
+          element={user ? <Order /> : <Navigate to="/login" />}
+        />
       </Routes>
     </BrowserRouter>
   );

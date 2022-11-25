@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useOrdersContext from "../hooks/useOrdersContext";
 
 const UserDashboard = () => {
   // switch between orders and settings
@@ -58,29 +59,51 @@ const UserDashboard = () => {
 };
 
 const UserOrders = () => {
+  const { getUserOrders, userOrders, loading, success, error } =
+    useOrdersContext();
+
+  useEffect(() => {
+    getUserOrders();
+
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <div className="md:p-8 my-8">
-      <div className="flex justify-between items-center">
-        <div className="font-medium">All Orders</div>
-        <div>
-          <select
-            name="activeOrders"
-            className="border-none px-1 w-full bg-transparent text-inherit font-medium cursor-pointer focus:outline-none"
+    <div className="md:p-8 my-8 col-span-2">
+      {loading && <h1>Loading...</h1>}
+      {error && <h1>{error}</h1>}
+      {userOrders &&
+        userOrders.map((order) => (
+          <Link
+            className="inline-block w-full my-2 border-b border-gray-100"
+            to={`/orders/${order._id}`}
+            key={order._id}
           >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      </div>
-      {/* No orders */}
-      <div className="h-32 my-12 flex items-center justify-center rounded shadow-sm md:border border-gray-100">
-        <div className="p-4">
-          You don't have any orders.{" "}
-          <Link to="/" className="font-medium" style={{ color: "#153a5b" }}>
-            shop now!
+            <strong>
+              Ordered at {new Date(order.createdAt).toLocaleString()}{" "}
+            </strong>
+            {order.orderItems.map((item, idx) => (
+              <div className="flex justify-between items-center">
+                <p key={idx}>{item.name}</p>
+                <p>
+                  {item.qty} x ${item.price}
+                </p>
+              </div>
+            ))}
           </Link>
+        ))}
+
+      {/* No orders */}
+      {userOrders && userOrders.length === 0 && (
+        <div className="h-32 my-12 flex items-center justify-center rounded shadow-sm md:border border-gray-100">
+          <div className="p-4">
+            You don't have any orders.{" "}
+            <Link to="/" className="font-medium" style={{ color: "#153a5b" }}>
+              shop now!
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

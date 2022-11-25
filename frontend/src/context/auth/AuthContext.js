@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const initialState = {
-    user: null,
+    user: JSON.parse(localStorage.getItem("instrumental_user")) || null,
     loading: null,
     error: null,
   };
@@ -27,6 +27,7 @@ export const AuthContextProvider = ({ children }) => {
   // Login
   const login = async (email, password) => {
     dispatch({ type: types.SET_LOADING });
+
     const res = await fetch(`${API_URL}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -128,11 +129,12 @@ export const AuthContextProvider = ({ children }) => {
       },
     });
     const json = await res.json();
-    console.log(json);
 
     if (json.success) {
+      localStorage.setItem("instrumental_user", JSON.stringify(json.data));
       dispatch({ type: types.SET_USER, payload: json.data });
     } else {
+      localStorage.removeItem("instrumental_user");
       dispatch({ type: types.CLEAR_USER });
     }
   };

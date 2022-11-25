@@ -18,7 +18,7 @@ router
 router.put("/:id/pay", protect, updateOrderToPaid);
 router.put("/:id/deliver", protect, requireAdmin, updateOrderToDelivered);
 
-router.get("/:id", protect, getOrder);
 router.get("/myorders", protect, getMyOrders);
+router.get("/:id", protect, getOrder);
 
 module.exports = router;

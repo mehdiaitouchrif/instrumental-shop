@@ -1,17 +1,44 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Layout from "../components/Layout";
 import Message from "../components/Message";
 import { useCartContext } from "../hooks/useCartContext";
+import useOrdersContext from "../hooks/useOrdersContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PlaceOrder = () => {
   const { cartItems, total, shippingAddress, paymentMethod } = useCartContext();
 
-  const placeOrderHandler = () => {};
+  const { createOrder, order, loading, error, success } = useOrdersContext();
+
+  const placeOrderHandler = () => {
+    createOrder({
+      orderItems: cartItems,
+      shippingAddress,
+      paymentMethod,
+      totalPrice: total,
+    });
+
+    if (error) {
+      toast.error(error);
+    }
+  };
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (success) {
+      navigate(`/orders/${order._id}`);
+    }
+
+    // eslint-disable-next-line
+  }, [success, navigate]);
 
   return (
     <Layout>
+      <ToastContainer />
       <div className="max-w-6xl mx-auto my-8 md:mb-60">
         <CheckoutSteps step1 step2 step3 step4 />
         <div className="grid grid-cols-12 md:gap-16 text-gray-700">
@@ -95,6 +122,7 @@ const PlaceOrder = () => {
                 >
                   Place order
                 </button>
+                {loading && <h1>Loading...</h1>}
               </li>
             </ul>
           </div>

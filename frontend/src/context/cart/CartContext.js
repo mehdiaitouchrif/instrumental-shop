@@ -10,7 +10,12 @@ const CartContextProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("instrumental_cart_items")) || [];
   const initialState = {
     cartItems: itemsFromLS,
-    total: 0,
+    total:
+      Number(
+        itemsFromLS
+          .map((item) => item.price)
+          .reduce((partial, accum) => partial + accum, 0)
+      ).toFixed(2) || 0,
     shippingAddress:
       JSON.parse(localStorage.getItem("instrumental_shipping_address")) || {},
     paymentMethod:
@@ -29,6 +34,7 @@ const CartContextProvider = ({ children }) => {
     // Update state
     const cartItem = {
       pid: data._id,
+      product: data._id,
       slug: data.slug,
       name: data.name,
       image: data.mainImage,
