@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const Order = () => {
-  const { getOrder, order, loading, error, paymentLoading, paymentSuccess } =
+  const { getOrder, order, loading, error, createStripeSession } =
     useOrdersContext();
 
   const params = useParams();
@@ -21,6 +21,11 @@ const Order = () => {
 
     // eslint-disable-next-line
   }, [params.id]);
+
+  const createPaymentSession = () => {
+    console.log(order._id);
+    createStripeSession(order._id);
+  };
 
   return (
     <Layout>
@@ -124,7 +129,14 @@ const Order = () => {
                 </ul>
               </div>
 
-              <div className="col-span-12 md:col-span-4"></div>
+              <div className="col-span-12 md:col-span-4">
+                <button
+                  onClick={createPaymentSession}
+                  className="inline-block py-2 px-4 rounded bg-black text-white uppercase my-6"
+                >
+                  Pay with Card
+                </button>
+              </div>
             </div>
           )
         )}

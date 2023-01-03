@@ -83,6 +83,22 @@ const OrderContextProvider = ({ children }) => {
     }
   };
 
+  // Create payment session with Stripe
+  const createStripeSession = async (id) => {
+    const res = await fetch(
+      `${API_URL}/api/orders/${id}/create-stripe-session`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const data = await res.json();
+    window.location = data;
+  };
+
   // Update order to paid
   const updateToPaid = async (id) => {
     dispatch({ type: types.ORDER_PAY_LOADING });
@@ -111,6 +127,7 @@ const OrderContextProvider = ({ children }) => {
         createOrder,
         getOrder,
         getUserOrders,
+        createStripeSession,
         updateToPaid,
       }}
     >

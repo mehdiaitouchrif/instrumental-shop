@@ -10,6 +10,7 @@ import PlaceOrder from "./pages/PlaceOrder";
 import Product from "./pages/Product";
 import Shipping from "./pages/Shipping";
 import Signup from "./pages/Signup";
+import SuccessPayment from "./pages/SuccessPayment";
 import UserDashboard from "./pages/UserDashboard";
 
 const App = () => {
@@ -56,6 +57,7 @@ const App = () => {
           path="/orders/:id"
           element={user ? <Order /> : <Navigate to="/login" />}
         />
+        <Route path="/success/:orderId" element={<SuccessPayment />} />
       </Routes>
     </BrowserRouter>
   );

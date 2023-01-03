@@ -31,7 +31,7 @@ const ordersReducer = (state, action) => {
       return {
         ...state,
         paymentSuccess: true,
-        order: action.payload,
+        // order: action.payload,
       };
     case types.SET_ERROR:
       return {
