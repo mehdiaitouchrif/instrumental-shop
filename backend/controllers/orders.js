@@ -85,7 +85,7 @@ exports.updateOrderToDelivered = async (req, res, next) => {
     const order = await Order.findById(req.params.id);
     if (!order) return next(new ErrorResponse("No order found", 404));
 
-    order.isDelivered = true;
+    order.isDelivered = req.body.isDelivered;
     order.deliveredAt = Date.now();
 
     const updatedOrder = await order.save();
@@ -125,6 +125,6 @@ exports.getMyOrders = async (req, res, next) => {
 // @route   GET /orders
 // @access  Private (admin)
 exports.getOrders = async (req, res) => {
-  const orders = await Order.find({});
+  const orders = await Order.find({ isPaid: true });
   res.status(200).json({ success: true, data: orders });
 };
