@@ -5,6 +5,7 @@ import Message from "../components/Message";
 import useOrdersContext from "../hooks/useOrdersContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BiCreditCard } from "react-icons/bi";
 
 const Order = () => {
   const { getOrder, order, loading, error, createStripeSession } =
@@ -132,9 +133,10 @@ const Order = () => {
               <div className="col-span-12 md:col-span-4">
                 <button
                   onClick={createPaymentSession}
-                  className="inline-block py-2 px-4 rounded bg-black text-white uppercase my-6"
+                  className="flex items-center justify-between py-3 px-6 rounded-sm bg-black text-white uppercase my-6 hover:bg-gray-800"
                 >
-                  Pay with Card
+                  <BiCreditCard size={24} className="mr-2" />
+                  <p>Pay with Card</p>
                 </button>
               </div>
             </div>
