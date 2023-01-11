@@ -21,6 +21,14 @@ const ordersReducer = (state, action) => {
         loading: false,
         success: true,
       };
+    case types.GET_ALL_ORDERS:
+      return {
+        ...state,
+        orders: action.payload,
+        error: null,
+        loading: false,
+        success: true,
+      };
     case types.ORDER_PAY_LOADING:
       return {
         ...state,

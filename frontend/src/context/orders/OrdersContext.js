@@ -120,6 +120,25 @@ const OrderContextProvider = ({ children }) => {
     }
   };
 
+  // Get all orders
+  const getOrders = async () => {
+    dispatch({ type: types.SET_LOADING });
+    const res = await fetch(`${API_URL}/api/orders`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const { data, success, error } = await res.json();
+    if (success) {
+      dispatch({ type: types.GET_ALL_ORDERS, payload: data });
+    }
+
+    if (error) {
+      dispatch({ type: types.SET_ERROR, payload: error });
+    }
+  };
+
   return (
     <OrdersContext.Provider
       value={{
@@ -129,6 +148,7 @@ const OrderContextProvider = ({ children }) => {
         getUserOrders,
         createStripeSession,
         updateToPaid,
+        getOrders,
       }}
     >
       {children}

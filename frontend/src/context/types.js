@@ -43,3 +43,8 @@ export const ORDER_PAY_LOADING = "ORDER_PAY_LOADING";
 export const ORDER_PAY_SUCCESS = "ORDER_PAY_SUCCESS";
 
 export const CREATE_STRIPE_SESSION = "CREATE_STRIPE_SESSION";
+
+// orders - admin actions
+export const GET_ALL_ORDERS = "GET_ALL_ORDERS";
+export const DELETE_ORDER = "DELETE_ORDER";
+export const MARK_ORDER_DELIVERED = "MARK_ORDER_DELIVERED";
