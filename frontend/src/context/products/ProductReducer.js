@@ -6,6 +6,11 @@ const productReducer = (state, action) => {
       return {
         loading: true,
       };
+    case types.SET_ERROR:
+      return {
+        loading: false,
+        error: action.payload,
+      };
     case types.SET_PRODUCT_LIST:
       return {
         loading: false,
@@ -14,6 +19,27 @@ const productReducer = (state, action) => {
     case types.SET_PRODUCT:
       return {
         loading: false,
+        product: action.payload,
+      };
+    case types.CREATE_PRODUCT:
+      return {
+        loading: false,
+        success: true,
+        product: action.payload,
+      };
+    case types.UPDATE_PRODUCT:
+      return {
+        loading: false,
+        product: action.payload,
+      };
+    case types.DELETE_PRODUCT:
+      return {
+        ...state,
+        loading: false,
+        products: state.products.filter((prod) => prod._id !== action.payload),
+      };
+    case types.UPLOAD_MAIN_IMAGE:
+      return {
         product: action.payload,
       };
     default:

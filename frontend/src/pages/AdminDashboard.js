@@ -245,26 +245,6 @@ const OrdersManagement = () => {
 
       <ToastContainer />
       {orders && <TableComponent data={orders} />}
-      {/* {orders &&
-        orders.map((order) => (
-          <Link
-            className="inline-block w-full my-2 border-b border-gray-100"
-            to={`/orders/${order._id}`}
-            key={order._id}
-          >
-            <strong>
-              Ordered at {new Date(order.createdAt).toLocaleString()}{" "}
-            </strong>
-            {order.orderItems.map((item, idx) => (
-              <div className="flex justify-between items-center">
-                <p key={idx}>{item.name}</p>
-                <p>
-                  {item.qty} x ${item.price}
-                </p>
-              </div>
-            ))}
-          </Link>
-        ))} */}
 
       {/* No orders */}
       {orders && orders.length === 0 && (
@@ -277,11 +257,62 @@ const OrdersManagement = () => {
 };
 
 const ProductsManagement = () => {
-  const {} = useProductContext();
+  const { fetchProducts, deleteProduct, products, loading, error } =
+    useProductContext();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    fetchProducts();
+    // eslint-disable-next-line
+  }, []);
 
-  return <div className="md:p-8 mt-8 mb-16"></div>;
+  return (
+    <div className="md:p-8 mt-8 mb-16">
+      {/* Create Product */}
+      <Link
+        className="inline-block mb-10 rounded shadow-sm bg-gray-50 border text-orange-600 font-medium py-2 px-4 uppercase hover:bg-gray-100"
+        to="/admin/add-product"
+      >
+        Add new product
+      </Link>
+      {loading && <h1 className="text-xl my-4">Loading...</h1>}
+      {error && <h1 className="text-xl text-red-700">{error}</h1>}
+      {products &&
+        products.map((prod) => (
+          <div
+            key={prod._id}
+            className="flex py-2 shadow-sm mb-2 border-b border-gray-100 items-center justify-between"
+          >
+            {/* Image */}
+            <div className="w-14 h-14">
+              <img
+                className="w-full h-full object-contain"
+                src={prod.mainImage}
+                alt={`${prod.name} main`}
+              />
+            </div>
+            {/* Title */}
+            <Link
+              to={`/${prod.collectionRef.name}/${prod.slug}`}
+              className="w-2/3 hover:underline hover:text-orange-600"
+            >
+              {prod.name}{" "}
+            </Link>
+            <Link
+              to={`/admin/edit-product/${prod.slug}`}
+              className="inline-block py-2 px-4 bg-orange-400 hover:bg-orange-500 text-white shadow-sm rounded text-sm"
+            >
+              EDIT
+            </Link>
+            <button
+              onClick={() => deleteProduct(prod._id)}
+              className="inline-block py-2 px-4 rounded shadow-sm hover:bg-red-600 hover:text-white text-red-600 text-sm"
+            >
+              DELETE
+            </button>
+          </div>
+        ))}
+    </div>
+  );
 };
 
 export default AdminDashboard;

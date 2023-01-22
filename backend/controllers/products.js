@@ -15,7 +15,7 @@ exports.getProducts = async (req, res, next) => {
       return res.status(200).json({ success: true, data: products });
     }
 
-    const products = await Product.find({});
+    const products = await Product.find({}).populate("collectionRef");
     res.status(200).json({ success: true, data: products });
   } catch (error) {
     next(error);
