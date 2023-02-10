@@ -31,6 +31,7 @@ const productReducer = (state, action) => {
       return {
         loading: false,
         product: action.payload,
+        success: true,
       };
     case types.DELETE_PRODUCT:
       return {

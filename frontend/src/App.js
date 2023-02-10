@@ -3,7 +3,6 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import AddProduct from "./pages/AddProduct";
 import AdminDashboard from "./pages/AdminDashboard";
 import Collection from "./pages/Collection";
-import EditProduct from "./pages/EditProduct";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Order from "./pages/Order";
@@ -61,7 +60,6 @@ const App = () => {
         />
         <Route path="/success/:orderId" element={<SuccessPayment />} />
         <Route path="/admin/add-product" element={<AddProduct />} />
-        <Route path="/admin/edit-product/:slug" element={<EditProduct />} />
       </Routes>
     </BrowserRouter>
   );

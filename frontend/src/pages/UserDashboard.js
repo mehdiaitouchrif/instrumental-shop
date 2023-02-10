@@ -59,8 +59,7 @@ const UserDashboard = () => {
 };
 
 const UserOrders = () => {
-  const { getUserOrders, userOrders, loading, success, error } =
-    useOrdersContext();
+  const { getUserOrders, userOrders, loading, error } = useOrdersContext();
 
   useEffect(() => {
     getUserOrders();

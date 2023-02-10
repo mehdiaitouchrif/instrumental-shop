@@ -38,6 +38,8 @@ const AddProduct = () => {
 
   useEffect(() => {
     fetchCollections();
+
+    // eslint-disable-next-line
   }, []);
 
   return (
