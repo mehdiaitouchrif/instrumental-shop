@@ -12,11 +12,17 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const onClose = () => setIsOpen(false);
 
+  // Dropdown menu state
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <nav className="py-4 px-4 bg-black text-white font-mono mb-10">
       <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center">
-          <FaBars className="block md:hidden mr-4 cursor-pointer" />
+          <FaBars
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="block md:hidden mr-4 cursor-pointer"
+          />
           <Link to="/">
             <h1 className="text-2xl font-sans font-bold">instrumental</h1>
           </Link>
@@ -76,6 +82,35 @@ const Navbar = () => {
           )}
         </div>
       </div>
+      {/* Dropdown menu */}
+      {isDropdownOpen && (
+        <div className="flex flex-col md:hidden mt-2">
+          <Link
+            to="/"
+            className="block py-2 px-4 uppercase hover:text-orange-500"
+          >
+            Home
+          </Link>
+          <Link
+            to="/guitars"
+            className="block py-2 px-4 uppercase hover:text-orange-500"
+          >
+            Guitars
+          </Link>
+          <Link
+            to="/pianos"
+            className="block py-2 px-4 uppercase hover:text-orange-500"
+          >
+            Pianos
+          </Link>
+          <Link
+            to="/drums"
+            className="block py-2 px-4 uppercase hover:text-orange-500"
+          >
+            Drums
+          </Link>
+        </div>
+      )}
     </nav>
   );
 };
