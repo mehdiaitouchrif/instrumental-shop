@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 import AddProduct from "./pages/AddProduct";
-import AdminDashboard from "./pages/AdminDashboard";
 import Collection from "./pages/Collection";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -13,6 +12,9 @@ import Shipping from "./pages/Shipping";
 import Signup from "./pages/Signup";
 import SuccessPayment from "./pages/SuccessPayment";
 import UserDashboard from "./pages/UserDashboard";
+import EditProduct from "./pages/EditProduct";
+import AdminProductsPage from "./pages/AdminProductsPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -36,12 +38,33 @@ const App = () => {
             !user ? (
               <Navigate to="/login" />
             ) : user.role === "admin" ? (
-              <AdminDashboard />
+              <Navigate to="/admin/orders" />
             ) : (
               <UserDashboard />
             )
           }
         />
+        <Route
+          path="/admin/orders"
+          element={
+            user && user.role === "admin" ? (
+              <AdminOrdersPage />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            user && user.role === "admin" ? (
+              <AdminProductsPage />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
         <Route
           path="/shipping"
           element={user ? <Shipping /> : <Navigate to="/login" />}
@@ -60,6 +83,10 @@ const App = () => {
         />
         <Route path="/success/:orderId" element={<SuccessPayment />} />
         <Route path="/admin/add-product" element={<AddProduct />} />
+        <Route
+          path="/admin/edit-product/:productSlug"
+          element={<EditProduct />}
+        />
       </Routes>
     </BrowserRouter>
   );

@@ -11,6 +11,7 @@ const collectionReducer = (state, action) => {
       return {
         loading: false,
         collectionProducts: action.payload.products,
+        collectionSlug: action.payload.slug,
       };
     case types.SET_LOADING:
       return {

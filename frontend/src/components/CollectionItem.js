@@ -17,12 +17,12 @@ const CollectionItem = ({ collection }) => {
           />
         </div>
         <h1 className="text-xl font-medium mt-8">{collection.name}</h1>
-        <Link to={`/${collection.slug}`} className="mt-2">
+        <div to={`/${collection.slug}`} className="mt-2">
           <p className="flex items-center justify-center text-sm font-medium text-gray-600 hover:text-orange-600">
             <span className="mx-2">Shop</span>
             <FaChevronRight />
           </p>
-        </Link>
+        </div>
       </div>
     </Link>
   );

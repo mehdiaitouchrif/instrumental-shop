@@ -6,8 +6,9 @@ import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
+import { useParams } from "react-router-dom";
 
-const AddProduct = () => {
+const EditProduct = () => {
   // Product state
   const [name, setName] = useState("");
   const [features, setFeatures] = useState("");
@@ -25,18 +26,18 @@ const AddProduct = () => {
   const [mainImage, setMainImage] = useState(null);
   const [secondaryImages, setSecondaryImages] = useState([]);
 
-  // Upload state
-  const [mainImageUploaded, setMainImageUploaded] = useState(false);
-  const [secondaryImagesUploaded, setSecondaryImagesUploaded] = useState(false);
-
   const { fetchCollections, collections } = useCollectionContext();
   const {
-    createProduct,
+    updateProduct,
+    fetchProduct,
+    product,
     loading,
     success,
     error,
     uploadMainImage,
     uploadSecondaryImages,
+    uploadMainImageLoading,
+    uploadSecondaryImagesLoading,
     mainImageUrl,
     secondaryImagesUrls,
   } = useProductContext();
@@ -59,34 +60,39 @@ const AddProduct = () => {
 
     uploadSecondaryImages(formData);
   };
-
-  const createProductHandler = (e) => {
+  const updateProductHandler = (e) => {
     e.preventDefault();
-    createProduct(
-      {
-        name,
-        price,
-        features,
-        inBox,
-        mainImage,
-        secondaryImages,
-      },
-      collectionRef
-    );
+    const updateObj = {
+      name,
+      price,
+      features,
+      inBox,
+      collectionRef,
+    };
+    if (mainImage) updateObj.mainImage = mainImage;
+    if (secondaryImages) updateObj.secondaryImages = secondaryImages;
+    updateProduct(product._id, updateObj);
   };
+
+  const { productSlug } = useParams();
 
   useEffect(() => {
     fetchCollections();
 
+    if (!product) {
+      fetchProduct(productSlug);
+    }
+
+    if (product) {
+      setName(product.name);
+      setPrice(product.price);
+      setFeatures(product.features);
+      setInBox(product.inBox);
+      setCollectionRef(product.collectionRef);
+    }
+
     if (success) {
-      toast.success("Product added succesfully!");
-      setName("");
-      setPrice("");
-      setFeatures("");
-      setInBox([]);
-      setCollectionRef("");
-      setMainImage("");
-      setSecondaryImages("");
+      toast.success("Product updated succesfully!");
     }
 
     if (error) {
@@ -95,27 +101,25 @@ const AddProduct = () => {
 
     if (mainImageUrl) {
       setMainImage(() => mainImageUrl);
-      setMainImageUploaded(true);
       toast.success("Main image uploaded!");
     }
 
     if (secondaryImagesUrls) {
       setSecondaryImages(() => secondaryImagesUrls);
-      setSecondaryImagesUploaded(true);
       toast.success("Secondary images uploaded");
     }
 
     // eslint-disable-next-line
-  }, [success, error, secondaryImagesUrls, mainImageUrl]);
+  }, [product, productSlug, success, error]);
 
   return (
     <Layout>
       <ToastContainer />
       <Meta title={`Add Product | Instrumental Shop`} />
       <div className="max-w-4xl container mx-auto my-8">
-        <h1 className="text-4xl mb-8 text-gray-600 uppercase">Add Product</h1>
+        <h1 className="text-4xl mb-8 text-gray-600 uppercase">Edit Product</h1>
         <div>
-          <form className="flex flex-col" onSubmit={createProductHandler}>
+          <form className="flex flex-col" onSubmit={updateProductHandler}>
             <input
               type="text"
               name="name"
@@ -147,7 +151,7 @@ const AddProduct = () => {
             {/* Select collection */}
             <select
               onChange={(e) => setCollectionRef(e.target.value)}
-              name="collection"
+              name="collectionRef"
               className="capitalize py-3 px-2 my-2 h-12"
             >
               <option value="">Select product collection</option>
@@ -215,7 +219,8 @@ const AddProduct = () => {
                 </label>
                 <div className="text-gray-400">
                   {mainImage ? mainImage.name : "No file selected"}
-                  <span>{mainImageUploaded && "Main Image Uploaded"}</span>
+                  {uploadMainImageLoading && "Uploading..."}
+                  {mainImageUrl && "Image Uploaded"}
                 </div>
                 <input
                   type="file"
@@ -240,9 +245,8 @@ const AddProduct = () => {
                   {secondaryImages.length
                     ? secondaryImages.map((file) => file.name).join(", ")
                     : "No files selected"}
-                  <span>
-                    {secondaryImagesUploaded && "Secondary Images Uploaded"}
-                  </span>
+                  {uploadSecondaryImagesLoading && "Uploading..."}
+                  {mainImageUrl && "Images Uploaded"}
                 </div>
                 <input
                   type="file"
@@ -268,4 +272,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProduct;

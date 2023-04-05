@@ -34,6 +34,7 @@ const PaymentMethod = () => {
         <div className="flex items-center gap-4 mb-2">
           <input
             type="radio"
+            disabled
             value="PayPal"
             defaultChecked={method === "PayPal"}
             name="paymentMethod"

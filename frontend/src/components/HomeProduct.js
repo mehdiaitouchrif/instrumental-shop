@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 
 import { Link } from "react-router-dom";
+import Spinner from "./Spinner";
 
 const HomeProducts = () => {
   const { collections, loading } = useCollectionContext();
@@ -17,7 +18,7 @@ const HomeProducts = () => {
   return (
     <div className="max-w-6xl mx-auto my-8">
       {loading ? (
-        <h1>Loading...</h1>
+        <Spinner />
       ) : (
         collections && (
           <>

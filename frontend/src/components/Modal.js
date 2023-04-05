@@ -19,7 +19,7 @@ const Modal = ({ open, onClose, children }) => {
       {/* modal */}
       <div
         style={{ minWidth: 350 }}
-        className="fixed top-20 right-36 p-8 z-10 bg-white rounded shadow-sm"
+        className="fixed top-20 right-6 md:right-36 p-8 z-10 bg-white rounded shadow-sm"
       >
         {children}
       </div>

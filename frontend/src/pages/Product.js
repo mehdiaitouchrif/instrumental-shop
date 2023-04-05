@@ -7,11 +7,12 @@ import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import { useCartContext } from "../hooks/useCartContext";
 import Meta from "../components/Meta";
+import Spinner from "../components/Spinner";
 
 const Product = () => {
   const { productSlug, collection } = useParams();
   const { fetchProduct, product, loading } = useProductContext();
-  const { collectionProducts, fetchCollectionProducts } =
+  const { collectionProducts, fetchCollectionProducts, collectionSlug } =
     useCollectionContext();
 
   // Add to cart / quantity
@@ -34,7 +35,7 @@ const Product = () => {
       <Meta title={`${product && product.name} | Instrumental Shop`} />
       <div className="max-w-6xl mx-auto">
         {loading ? (
-          <h1>Loading...</h1>
+          <Spinner />
         ) : (
           product && (
             <>
@@ -124,6 +125,7 @@ const Product = () => {
               <div className="my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4">
                 {product.secondaryImages.map((img, idx) => (
                   <div
+                    key={img}
                     className="bg-gray-50"
                     style={{ minWidth: "550px", maxHeight: "550px" }}
                   >
@@ -152,10 +154,8 @@ const Product = () => {
                       .filter((p) => p.slug !== productSlug)
                       .slice(0, 3)
                       .map((p) => (
-                        <div className="p-4">
-                          {console.log(collectionProducts)}
+                        <div key={p._id} className="p-4">
                           <div
-                            key={p._id + 1}
                             className="bg-gray-50 flex flex-col items-center justify-center p-4"
                             style={{ height: 300, width: 300 }}
                           >
@@ -174,7 +174,10 @@ const Product = () => {
                             <h2 className="uppercase text-xl text-gray-900 font-bold my-2">
                               {p.name}
                             </h2>
-                            <Link className="inline-block py-3 px-4 rounded-sm shadow my-2 text-white uppercase font-medium bg-orange-600 hover:bg-orange-500">
+                            <Link
+                              to={`/${collectionSlug}/${p.slug}`}
+                              className="inline-block py-3 px-4 rounded-sm shadow my-2 text-white uppercase font-medium bg-orange-600 hover:bg-orange-500"
+                            >
                               See product
                             </Link>
                           </div>

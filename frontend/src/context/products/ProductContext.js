@@ -96,13 +96,12 @@ const ProductContextProvider = ({ children }) => {
   };
 
   // Main image
-  const uploadMainImage = async (id, formdata) => {
-    dispatch({ type: types.SET_LOADING });
-    const res = await fetch(`${API_URL}/api/products/${id}/main_image`, {
-      method: "PUT",
+  const uploadMainImage = async (formdata) => {
+    dispatch({ type: types.UPLOAD_MAIN_IMAGE_LOADING });
+    const res = await fetch(`${API_URL}/api/uploads/main_image`, {
+      method: "POST",
       body: formdata,
       headers: {
-        "Content-Type": "multipart/form-data",
         authorization: `Bearer ${JSON.parse(
           localStorage.getItem("instrumental_auth_token")
         )}`,
@@ -110,7 +109,26 @@ const ProductContextProvider = ({ children }) => {
     });
 
     const { data } = await res.json();
+    console.log("Context", data);
     dispatch({ type: types.UPLOAD_MAIN_IMAGE, payload: data });
+  };
+
+  // Main image
+  const uploadSecondaryImages = async (formdata) => {
+    dispatch({ type: types.UPLOAD_SECONDARY_IMAGES_LOADING });
+    const res = await fetch(`${API_URL}/api/uploads/secondary_images`, {
+      method: "POST",
+      body: formdata,
+      headers: {
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("instrumental_auth_token")
+        )}`,
+      },
+    });
+
+    const { data } = await res.json();
+    console.log("Context SECONDARY", data);
+    dispatch({ type: types.UPLOAD_SECONDARY_IMAGES, payload: data });
   };
 
   return (
@@ -123,6 +141,7 @@ const ProductContextProvider = ({ children }) => {
         updateProduct,
         deleteProduct,
         uploadMainImage,
+        uploadSecondaryImages,
       }}
     >
       {children}

@@ -82,8 +82,8 @@ const UserOrders = () => {
               Ordered at {new Date(order.createdAt).toLocaleString()}{" "}
             </strong>
             {order.orderItems.map((item, idx) => (
-              <div className="flex justify-between items-center">
-                <p key={idx}>{item.name}</p>
+              <div key={idx} className="flex justify-between items-center">
+                <p>{item.name}</p>
                 <p>
                   {item.qty} x ${item.price}
                 </p>

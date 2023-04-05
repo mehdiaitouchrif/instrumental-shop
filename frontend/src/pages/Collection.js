@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 import { useCollectionContext } from "../hooks/useCollectionContext";
+import Spinner from "../components/Spinner";
 
 const Collection = () => {
   const { fetchCollectionProducts, collectionProducts, loading } =
@@ -25,16 +26,18 @@ const Collection = () => {
       />
       <div className="max-w-6xl mx-auto p-4">
         {loading ? (
-          <h1>Loading</h1>
+          <Spinner />
         ) : (
           collectionProducts &&
-          collectionProducts.map((product) => (
+          collectionProducts.map((product, idx) => (
             <div
               key={product._id}
               className="grid grid-cols-1 md:grid-cols-2 gap-16 my-12"
             >
               <div
-                className="bg-gray-50 flex flex-col items-center justify-center p-4"
+                className={`bg-gray-50 flex flex-col items-center justify-center p-4 ${
+                  idx % 2 === 0 && "md:order-1"
+                }`}
                 style={{ height: 500 }}
               >
                 <img
@@ -44,7 +47,11 @@ const Collection = () => {
                   alt=""
                 />
               </div>
-              <div className="flex flex-col justify-center">
+              <div
+                className={`flex flex-col justify-center ${
+                  idx % 2 !== 0 && "md:order-2"
+                }`}
+              >
                 <h2 className="text-2xl uppercase font-medium">
                   {product.name}
                 </h2>
