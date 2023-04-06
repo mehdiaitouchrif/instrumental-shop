@@ -1,0 +1,32 @@
+[
+  {
+    "_id": "636c0b15fa4a7cb8d58562be",
+    "firstName": "Mehdi",
+    "lastName": "Ait Ouchrif",
+    "email": "mehdi@instrumental.com",
+    "password": "$2a$10$TW8wJOtz0i3dGpe0Y1cVr.EhiecBNbXJ3LtPTHI4nT.nbWFrtqA1q",
+    "role": "admin",
+    "isEmailConfirmed": false,
+    "confirmEmailToken": "964d77af29aa7151a903c365125982042f77d17c9313d65be369f69510040931"
+  },
+  {
+    "_id": "642e0b39e3a76f7789657131",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com",
+    "password": "$2a$10$H2NdtmNT8GvVOnO6PlHziuyio//9/PGOklxJWnN3jUCZ8VsnKWfa6",
+    "role": "user",
+    "isEmailConfirmed": false,
+    "confirmEmailToken": "fd4643b659c86ab90c664a9d52762baef396eb55f34b3887f40d41cced431a31"
+  },
+  {
+    "_id": "642e0ce50a4fce9ca8a32ba2",
+    "firstName": "Sarah",
+    "lastName": "Smith",
+    "email": "sarah@example.com",
+    "password": "$2a$10$./sL8OHCnHeychwuHwHSwu3uQ/SPgbS9/MDh5kRX8Sp202hFhjfii",
+    "role": "user",
+    "isEmailConfirmed": false,
+    "confirmEmailToken": "2cc508f5d9e6a2ea1f0a42e9af0e6556f6bd764e3ad467490d3cdbf54df08050"
+  }
+]

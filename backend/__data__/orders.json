@@ -1,0 +1,86 @@
+[
+  {
+    "_id": "642e0bd126c2d0aeada206e0",
+    "user": "642e0b39e3a76f7789657131",
+    "orderItems": [
+      {
+        "name": "Dixon Drums Jet Set Plus",
+        "qty": 1,
+        "image": "https://res.cloudinary.com/dk1rr8ma0/image/upload/v1668028047/Intrumental-shop/Products/dixon-drums-jet-set-plus-5pc-shell-pack-street-play-blue/main/rimuplhnyzb0awyo4obp.jpg",
+        "price": 399,
+        "product": "636c15eefa4a7cb8d5856329",
+        "_id": "642e0bd126c2d0aeada206e1"
+      }
+    ],
+    "shippingAddress": {
+      "address": "10 main street",
+      "city": "Boston",
+      "postalCode": "02110",
+      "country": "USA"
+    },
+    "paymentMethod": "Stripe",
+    "shippingPrice": 0,
+    "totalPrice": 399,
+    "isPaid": false,
+    "isDelivered": false
+  },
+  {
+    "_id": "642e0cb20a4fce9ca8a32b77",
+    "user": "642e0b39e3a76f7789657131",
+    "orderItems": [
+      {
+        "name": "Fender Aerodyne Jazz Electric Bass",
+        "qty": 2,
+        "image": "https://res.cloudinary.com/dk1rr8ma0/image/upload/v1668027047/Intrumental-shop/Products/fender-aerodyne-jazz-electric-bass/main/x6b1s2kyojxvtrpooip5.jpg",
+        "price": 894.5,
+        "product": "636c1537fa4a7cb8d585631a",
+        "_id": "642e0cb20a4fce9ca8a32b78"
+      }
+    ],
+    "shippingAddress": {
+      "address": "10 main street",
+      "city": "Boston",
+      "postalCode": "02110",
+      "country": "USA"
+    },
+    "paymentMethod": "Stripe",
+    "shippingPrice": 0,
+    "totalPrice": 894.5,
+    "isPaid": false,
+    "isDelivered": false
+  },
+  {
+    "_id": "642e0d5ce5ec6448bfff1cd7",
+    "user": "642e0ce50a4fce9ca8a32ba2",
+    "orderItems": [
+      {
+        "name": "Yamaha DTX6K-X Electronic Drum Kit",
+        "qty": 2,
+        "image": "https://res.cloudinary.com/dk1rr8ma0/image/upload/v1680651169/Instrumental-shop/main/apzjo9nprwbldm9hiueq.jpg",
+        "price": 870,
+        "product": "642cb3b2d4ca56c2fb4e7cea",
+        "_id": "642e0d5ce5ec6448bfff1cd8"
+      },
+      {
+        "name": "Dixon Drums Jet Set Plus",
+        "qty": 1,
+        "image": "https://res.cloudinary.com/dk1rr8ma0/image/upload/v1668028047/Intrumental-shop/Products/dixon-drums-jet-set-plus-5pc-shell-pack-street-play-blue/main/rimuplhnyzb0awyo4obp.jpg",
+        "price": 399,
+        "product": "636c15eefa4a7cb8d5856329",
+        "_id": "642e0d5ce5ec6448bfff1cd9"
+      }
+    ],
+    "shippingAddress": {
+      "address": "10 main street",
+      "city": "Boston",
+      "postalCode": "02110",
+      "country": "USA"
+    },
+    "paymentMethod": "Stripe",
+    "shippingPrice": 0,
+    "totalPrice": 2139,
+    "isPaid": true,
+    "paidAt": "04-03-2023",
+    "isDelivered": false
+  }
+]

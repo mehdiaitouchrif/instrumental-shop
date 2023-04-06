@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "636c0bc6fa4a7cb8d58562c5",
+    "name": "guitars",
+    "slug": "guitars",
+    "product": "642cba47b67223b3432af48f"
+  },
+  {
+    "_id": "636c0bcafa4a7cb8d58562c8",
+    "name": "drums",
+    "slug": "drums",
+    "product": "642cb53ad4ca56c2fb4e7ee3"
+  },
+  {
+    "_id": "642c6b661e24492fa13fdeaa",
+    "name": "pianos",
+    "slug": "pianos",
+    "product": "642cb7a4d4ca56c2fb4e817c"
+  }
+]
