@@ -6,6 +6,7 @@ import useOrdersContext from "../hooks/useOrdersContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BiCreditCard } from "react-icons/bi";
+import Spinner from "../components/Spinner";
 
 const Order = () => {
   const { getOrder, order, loading, error, createStripeSession } =
@@ -36,7 +37,7 @@ const Order = () => {
           Order #{params.id}{" "}
         </h2>
         {loading ? (
-          <h1>Loading...</h1>
+          <Spinner />
         ) : error ? (
           <h1>{error}</h1>
         ) : (
@@ -131,13 +132,15 @@ const Order = () => {
               </div>
 
               <div className="col-span-12 md:col-span-4">
-                <button
-                  onClick={createPaymentSession}
-                  className="flex items-center justify-between py-3 px-6 rounded-sm bg-black text-white uppercase my-6 hover:bg-gray-800"
-                >
-                  <BiCreditCard size={24} className="mr-2" />
-                  <p>Pay with Card</p>
-                </button>
+                {!order.isPaid && (
+                  <button
+                    onClick={createPaymentSession}
+                    className="flex items-center justify-between py-3 px-6 rounded-sm bg-black text-white uppercase my-6 hover:bg-gray-800"
+                  >
+                    <BiCreditCard size={24} className="mr-2" />
+                    <p>Pay with Card</p>
+                  </button>
+                )}
               </div>
             </div>
           )

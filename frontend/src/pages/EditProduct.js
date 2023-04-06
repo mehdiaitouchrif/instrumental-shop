@@ -7,6 +7,7 @@ import Meta from "../components/Meta";
 import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import { useParams } from "react-router-dom";
+import Spinner from "../components/Spinner";
 
 const EditProduct = () => {
   // Product state
@@ -26,6 +27,10 @@ const EditProduct = () => {
   const [mainImage, setMainImage] = useState(null);
   const [secondaryImages, setSecondaryImages] = useState([]);
 
+  // Upload state
+  const [mainImageUploaded, setMainImageUploaded] = useState(false);
+  const [secondaryImagesUploaded, setSecondaryImagesUploaded] = useState(false);
+
   const { fetchCollections, collections } = useCollectionContext();
   const {
     updateProduct,
@@ -36,8 +41,6 @@ const EditProduct = () => {
     error,
     uploadMainImage,
     uploadSecondaryImages,
-    uploadMainImageLoading,
-    uploadSecondaryImagesLoading,
     mainImageUrl,
     secondaryImagesUrls,
   } = useProductContext();
@@ -101,11 +104,13 @@ const EditProduct = () => {
 
     if (mainImageUrl) {
       setMainImage(() => mainImageUrl);
+      setMainImageUploaded(true);
       toast.success("Main image uploaded!");
     }
 
     if (secondaryImagesUrls) {
       setSecondaryImages(() => secondaryImagesUrls);
+      setSecondaryImagesUploaded(true);
       toast.success("Secondary images uploaded");
     }
 
@@ -115,7 +120,7 @@ const EditProduct = () => {
   return (
     <Layout>
       <ToastContainer />
-      <Meta title={`Add Product | Instrumental Shop`} />
+      <Meta title={`Edit Product | Instrumental Shop`} />
       <div className="max-w-4xl container mx-auto my-8">
         <h1 className="text-4xl mb-8 text-gray-600 uppercase">Edit Product</h1>
         <div>
@@ -219,8 +224,7 @@ const EditProduct = () => {
                 </label>
                 <div className="text-gray-400">
                   {mainImage ? mainImage.name : "No file selected"}
-                  {uploadMainImageLoading && "Uploading..."}
-                  {mainImageUrl && "Image Uploaded"}
+                  <span>{mainImageUploaded && "Main Image Uploaded"}</span>
                 </div>
                 <input
                   type="file"
@@ -242,11 +246,12 @@ const EditProduct = () => {
                   Select Files
                 </label>
                 <div className="text-gray-400">
-                  {secondaryImages.length
+                  {secondaryImages.length > 1
                     ? secondaryImages.map((file) => file.name).join(", ")
                     : "No files selected"}
-                  {uploadSecondaryImagesLoading && "Uploading..."}
-                  {mainImageUrl && "Images Uploaded"}
+                  <span>
+                    {secondaryImagesUploaded && "Secondary Images Uploaded"}
+                  </span>
                 </div>
                 <input
                   type="file"
@@ -262,7 +267,7 @@ const EditProduct = () => {
             <button className="inline-block py-2 px-4 rounded-sm shadow-sm my-4 bg-orange-500 text-white hover:bg-orange-600">
               Submit
             </button>
-            {loading && <h1>Loading...</h1>}
+            {loading && <Spinner />}
           </form>
         </div>
       </div>

@@ -7,6 +7,7 @@ import { useCartContext } from "../hooks/useCartContext";
 import useOrdersContext from "../hooks/useOrdersContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Spinner from "../components/Spinner";
 
 const PlaceOrder = () => {
   const { cartItems, total, shippingAddress, paymentMethod } = useCartContext();
@@ -34,7 +35,7 @@ const PlaceOrder = () => {
     }
 
     // eslint-disable-next-line
-  }, [success, navigate]);
+  }, [success, navigate, cartItems]);
 
   return (
     <Layout>
@@ -122,7 +123,7 @@ const PlaceOrder = () => {
                 >
                   Place order
                 </button>
-                {loading && <h1>Loading...</h1>}
+                {loading && <Spinner />}
               </li>
             </ul>
           </div>

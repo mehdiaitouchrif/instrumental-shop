@@ -5,6 +5,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Meta from "../components/Meta";
+import Spinner from "../components/Spinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -72,7 +73,7 @@ const Login = () => {
           className="inline-block py-2 p-4 rounded bg-orange-500 text-white shadow hover:bg-orange-600 cursor-pointer"
         />
 
-        {loading && <h1>Loading....</h1>}
+        {loading && <Spinner />}
 
         <hr className="my-4" />
         <div>
