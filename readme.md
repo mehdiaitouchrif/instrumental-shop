@@ -61,6 +61,20 @@ To run Instrumental Shop on your local machine, follow these steps:
    Run the frontend: `cd frontend && npm start`
 5. Open your browser and go to `http://localhost:3000`
 
+## Test Accounts
+
+You can use the following test accounts to try out the features of Instrumental Shop:
+
+### User Account
+
+- Email: `sarah@example.com`
+- Password: `123456`
+
+### Admin Account
+
+- Email: `mehdi@instrumental.com`
+- Password: `123456`
+
 ## Contributing
 
 Contributions to Instrumental Shop are welcome! To contribute, please follow these steps:
