@@ -8,6 +8,8 @@ import { useCollectionContext } from "../hooks/useCollectionContext";
 import { useCartContext } from "../hooks/useCartContext";
 import Meta from "../components/Meta";
 import Spinner from "../components/Spinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Product = () => {
   const { productSlug, collection } = useParams();
@@ -32,6 +34,7 @@ const Product = () => {
 
   return (
     <Layout>
+      <ToastContainer />
       <Meta title={`${product && product.name} | Instrumental Shop`} />
       <div className="max-w-6xl mx-auto">
         {loading ? (
@@ -86,7 +89,10 @@ const Product = () => {
                       </button>
                     </div>
                     <button
-                      onClick={() => addToCart(productSlug, quantity)}
+                      onClick={() => {
+                        addToCart(productSlug, quantity);
+                        toast.success("Product added to cart!");
+                      }}
                       className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500"
                     >
                       Add to cart
