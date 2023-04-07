@@ -124,11 +124,7 @@ const Product = () => {
               {/*  Product Images */}
               <div className="my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4">
                 {product.secondaryImages.map((img, idx) => (
-                  <div
-                    key={img}
-                    className="bg-gray-50"
-                    style={{ minWidth: "550px", maxHeight: "550px" }}
-                  >
+                  <div key={img} className="bg-gray-50">
                     <img
                       src={img}
                       key={idx}
@@ -148,23 +144,20 @@ const Product = () => {
                       You may also like
                     </h2>
                   )}
-                <div className="grid grid-cols-3 gap-8 md:gap-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
                   {collectionProducts &&
                     collectionProducts
                       .filter((p) => p.slug !== productSlug)
                       .slice(0, 3)
                       .map((p) => (
                         <div key={p._id} className="p-4">
-                          <div
-                            className="bg-gray-50 flex flex-col items-center justify-center p-4"
-                            style={{ height: 300, width: 300 }}
-                          >
+                          <div className="bg-gray-50 flex flex-col items-center justify-center p-4">
                             <img
                               style={{
                                 mixBlendMode: "multiply",
                                 objectFit: "contain",
                               }}
-                              className="block h-full w-2/4"
+                              className="block h-full md:w-2/4"
                               src={p.mainImage}
                               alt=""
                             />
