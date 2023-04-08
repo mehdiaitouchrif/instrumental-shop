@@ -130,7 +130,7 @@ const Product = () => {
               {/*  Product Images */}
               <div className="my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4">
                 {product.secondaryImages.map((img, idx) => (
-                  <div key={img} className="bg-gray-50">
+                  <div style={{ height: 500 }} key={img} className="bg-gray-50">
                     <img
                       src={img}
                       key={idx}
