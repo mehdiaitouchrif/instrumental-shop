@@ -14,6 +14,8 @@ const PlaceOrder = () => {
 
   const { createOrder, order, loading, error, success } = useOrdersContext();
 
+  const navigate = useNavigate();
+
   const placeOrderHandler = () => {
     createOrder({
       orderItems: cartItems,
@@ -25,17 +27,14 @@ const PlaceOrder = () => {
     if (error) {
       toast.error(error);
     }
-  };
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
     if (success) {
       navigate(`/orders/${order._id}`);
     }
+  };
 
+  useEffect(() => {
     // eslint-disable-next-line
-  }, [success, navigate, cartItems]);
+  }, [cartItems]);
 
   return (
     <Layout>

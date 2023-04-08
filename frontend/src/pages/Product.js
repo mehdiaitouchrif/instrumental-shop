@@ -157,11 +157,15 @@ const Product = () => {
                       .slice(0, 3)
                       .map((p) => (
                         <div key={p._id} className="p-4">
-                          <div className="bg-gray-50 flex flex-col items-center justify-center p-4">
+                          <div
+                            style={{ height: 200 }}
+                            className="bg-gray-50 flex flex-col items-center justify-center p-4"
+                          >
                             <img
                               style={{
                                 mixBlendMode: "multiply",
                                 objectFit: "contain",
+                                maxHeight: 200,
                               }}
                               className="block h-full md:w-2/4"
                               src={p.mainImage}
