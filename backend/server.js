@@ -14,20 +14,31 @@ const errorHandler = require("./middleware/error");
 // init app
 const app = express();
 
+// load vars
+dotenv.config();
+
+// connect to mongo
+connectDB();
+
 // middleware
 app.use(express.json());
 app.use(cors());
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+app.use(morgan("dev"));
 
 // Sanitize data
 app.use(mongoSanitize());
 
 // Set security headers
-app.use(helmet());
-
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "img-src": ["'self'", "https://res.cloudinary.com"],
+      "frame-src": ["'self'", "https://giphy.com/"],
+    },
+  })
+);
 // Prevent XSS attacks
 app.use(xss());
 
@@ -41,12 +52,6 @@ app.use(limiter);
 
 // Prevent http param pollution
 app.use(hpp());
-
-// load vars
-dotenv.config();
-
-// connect to mongo
-connectDB();
 
 // Health check
 app.get("/health", (req, res) => {
