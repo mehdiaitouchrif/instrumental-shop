@@ -36,39 +36,39 @@ const Product = () => {
     <Layout>
       <ToastContainer />
       <Meta title={`${product && product.name} | Instrumental Shop`} />
-      <div className="max-w-6xl mx-auto">
+      <div className='max-w-6xl mx-auto'>
         {loading ? (
           <Spinner />
         ) : (
           product && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 my-12">
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-16 my-12'>
                 <div
-                  className="bg-gray-50 flex flex-col items-center justify-center p-4"
+                  className='bg-gray-50 flex flex-col items-center justify-center p-4'
                   style={{ height: 500 }}
                 >
                   <img
                     style={{ mixBlendMode: "multiply", objectFit: "contain" }}
-                    className="block h-full w-2/3"
+                    className='block h-full w-2/3'
                     src={product.mainImage}
-                    alt=""
+                    alt=''
                   />
                 </div>
-                <div className="flex flex-col justify-center p-4">
-                  <h2 className="text-3xl uppercase font-medium">
+                <div className='flex flex-col justify-center p-4'>
+                  <h2 className='text-3xl uppercase font-medium'>
                     {product.name}
                   </h2>
-                  <p className="text-gray-700 font-thin my-4">
+                  <p className='text-gray-700 font-extralight my-4'>
                     {product.features}
                   </p>
-                  <p className="font-bold text-xl text-gray-900 my-4">
+                  <p className='font-bold text-xl text-gray-900 my-4'>
                     ${product.price}
                   </p>
 
-                  <div className="my-4 flex items-center gap-6">
-                    <div className="bg-gray-50 shadow-sm rounded-sm flex items-center text-center">
+                  <div className='my-4 flex items-center gap-6'>
+                    <div className='bg-gray-50 shadow-sm rounded-sm flex items-center text-center'>
                       <button
-                        className="w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100"
+                        className='w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100'
                         onClick={() =>
                           setQuantity((prev) => {
                             if (quantity === 1) {
@@ -80,9 +80,9 @@ const Product = () => {
                       >
                         -
                       </button>
-                      <div className="w-11 py-2.5 px-2">{quantity}</div>
+                      <div className='w-11 py-2.5 px-2'>{quantity}</div>
                       <button
-                        className="w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100"
+                        className='w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100'
                         onClick={() => setQuantity((prev) => prev + 1)}
                       >
                         +
@@ -93,73 +93,73 @@ const Product = () => {
                         addToCart(productSlug, quantity);
                         toast.success("Product added to cart!");
                       }}
-                      className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500"
+                      className='py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500'
                     >
                       Add to cart
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="my-16 px-4 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap28">
-                <div className="col-span-2 my-4 md:my-8">
-                  <h2 className="uppercase font-medium text-3xl my-4">
+              <div className='my-16 px-4 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap28'>
+                <div className='col-span-2 my-4 md:my-8'>
+                  <h2 className='uppercase font-medium text-3xl my-4'>
                     Features
                   </h2>
-                  <p className="font-light md:my-4 text-gray-600">
+                  <p className='font-light md:my-4 text-gray-600'>
                     {product.features}
                   </p>
                 </div>
-                <div className="my-4 md:my-8">
-                  <h2 className="uppercase font-medium text-3xl my-4">
+                <div className='my-4 md:my-8'>
+                  <h2 className='uppercase font-medium text-3xl my-4'>
                     In the box
                   </h2>
                   {product.inBox.map((item) => (
                     <div
                       key={item._id}
-                      className="flex items-center justify-left my-3"
+                      className='flex items-center justify-left my-3'
                     >
-                      <div className="font-bold text-orange-600 mr-4">
+                      <div className='font-bold text-orange-600 mr-4'>
                         {item.quantity}x
                       </div>
-                      <div className="text-gray-900">{item.itemName}</div>
+                      <div className='text-gray-900'>{item.itemName}</div>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/*  Product Images */}
-              <div className="my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4">
+              <div className='my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4'>
                 {product.secondaryImages.map((img, idx) => (
-                  <div style={{ height: 500 }} key={img} className="bg-gray-50">
+                  <div style={{ height: 500 }} key={img} className='bg-gray-50'>
                     <img
                       src={img}
                       key={idx}
                       style={{ mixBlendMode: "multiply" }}
-                      className="object-contain w-full h-full"
-                      alt=""
+                      className='object-contain w-full h-full'
+                      alt=''
                     />
                   </div>
                 ))}
               </div>
 
-              <div className="my-8 md:my-16">
+              <div className='my-8 md:my-16'>
                 {collectionProducts &&
                   collectionProducts.filter((p) => p.slug !== productSlug)
                     .length > 0 && (
-                    <h2 className="text-3xl uppercase text-center font-medium text-gray-900 my-4 md:my-8">
+                    <h2 className='text-3xl uppercase text-center font-medium text-gray-900 my-4 md:my-8'>
                       You may also like
                     </h2>
                   )}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16'>
                   {collectionProducts &&
                     collectionProducts
                       .filter((p) => p.slug !== productSlug)
                       .slice(0, 3)
                       .map((p) => (
-                        <div key={p._id} className="p-4">
+                        <div key={p._id} className='p-4'>
                           <div
                             style={{ height: 200 }}
-                            className="bg-gray-50 flex flex-col items-center justify-center p-4"
+                            className='bg-gray-50 flex flex-col items-center justify-center p-4'
                           >
                             <img
                               style={{
@@ -167,19 +167,19 @@ const Product = () => {
                                 objectFit: "contain",
                                 maxHeight: 200,
                               }}
-                              className="block h-full md:w-2/4"
+                              className='block h-full md:w-2/4'
                               src={p.mainImage}
-                              alt=""
+                              alt=''
                             />
                           </div>
 
-                          <div className="my-2 text-center p-4">
-                            <h2 className="uppercase text-xl text-gray-900 font-bold my-2">
+                          <div className='my-2 text-center p-4'>
+                            <h2 className='uppercase text-xl text-gray-900 font-bold my-2'>
                               {p.name}
                             </h2>
                             <Link
                               to={`/${collectionSlug}/${p.slug}`}
-                              className="inline-block py-3 px-4 rounded-sm shadow my-2 text-white uppercase font-medium bg-orange-600 hover:bg-orange-500"
+                              className='inline-block py-3 px-4 rounded-sm shadow my-2 text-white uppercase font-medium bg-orange-600 hover:bg-orange-500'
                             >
                               See product
                             </Link>

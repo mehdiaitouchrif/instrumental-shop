@@ -24,7 +24,7 @@ const Collection = () => {
           params.collection.charAt(0).toUpperCase() + params.collection.slice(1)
         } | Instrumental Shop`}
       />
-      <div className="max-w-6xl mx-auto p-4">
+      <div className='max-w-6xl mx-auto p-4'>
         {loading ? (
           <Spinner />
         ) : (
@@ -32,7 +32,7 @@ const Collection = () => {
           collectionProducts.map((product, idx) => (
             <div
               key={product._id}
-              className="grid grid-cols-1 md:grid-cols-2 gap-16 my-12"
+              className='grid grid-cols-1 md:grid-cols-2 gap-16 my-12'
             >
               <div
                 className={`bg-gray-50 flex flex-col items-center justify-center p-4 ${
@@ -42,9 +42,9 @@ const Collection = () => {
               >
                 <img
                   style={{ mixBlendMode: "multiply", objectFit: "contain" }}
-                  className="block h-full w-2/3"
+                  className='block h-full w-2/3'
                   src={product.mainImage}
-                  alt=""
+                  alt=''
                 />
               </div>
               <div
@@ -52,15 +52,15 @@ const Collection = () => {
                   idx % 2 !== 0 && "md:order-2"
                 }`}
               >
-                <h2 className="text-2xl uppercase font-medium">
+                <h2 className='text-2xl uppercase font-medium'>
                   {product.name}
                 </h2>
-                <p className="text-gray-700 font-thin my-4">
+                <p className='text-gray-700 font-extralight my-4'>
                   {product.features}
                 </p>
                 <Link
                   to={`/${params.collection}/${product.slug}`}
-                  className="inline-block w-fit py-2 px-4 rounded-sm shadow-sm bg-orange-600 text-white font-medium uppercase hover:bg-orange-500"
+                  className='inline-block w-fit py-2 px-4 rounded-sm shadow-sm bg-orange-600 text-white font-medium uppercase hover:bg-orange-500'
                 >
                   See Product
                 </Link>
