@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import CollectionContextProvider from "./context/collections/CollectionContext";
 import "./index.css";
+import "photoswipe/dist/photoswipe.css";
+import "react-toastify/dist/ReactToastify.css";
 import App from "./App";
 import ProductContextProvider from "./context/products/ProductContext";
 import { AuthContextProvider } from "./context/auth/AuthContext";
