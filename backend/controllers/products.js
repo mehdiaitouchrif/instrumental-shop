@@ -22,6 +22,7 @@ exports.getProducts = async (req, res, next) => {
     ) {
       const limit = parseInt(req.query.limit);
       const products = await Product.find({})
+        .populate("collectionRef", "name")
         .sort({ createdAt: -1 })
         .limit(limit); //
       return res.status(200).json({ success: true, data: products });
