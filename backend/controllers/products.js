@@ -14,6 +14,19 @@ exports.getProducts = async (req, res, next) => {
       return res.status(200).json({ success: true, data: products });
     }
 
+    // Fetch  latest products
+    if (
+      req.query.latest === "true" &&
+      req.query.limit &&
+      !isNaN(parseInt(req.query.limit))
+    ) {
+      const limit = parseInt(req.query.limit);
+      const products = await Product.find({})
+        .sort({ createdAt: -1 })
+        .limit(limit); //
+      return res.status(200).json({ success: true, data: products });
+    }
+
     const products = await Product.find({}).populate("collectionRef", "name");
     res.status(200).json({ success: true, data: products });
   } catch (error) {
@@ -30,6 +43,7 @@ exports.getProduct = async (req, res, next) => {
       "collectionRef",
       "name"
     );
+
     if (!product) return next(new ErrorResponse("No product found", 404));
 
     res.status(200).json({ success: true, data: product });
