@@ -121,9 +121,15 @@ const OrderContextProvider = ({ children }) => {
   };
 
   // Get all orders
-  const getOrders = async () => {
+  const getOrders = async (page = null, pageSize = null) => {
+    let endpoint = `${API_URL}/api/orders`;
+
+    if (page || pageSize) {
+      endpoint += `?page=${page}&pageSize=${pageSize}`;
+    }
+
     dispatch({ type: types.SET_LOADING });
-    const res = await fetch(`${API_URL}/api/orders`, {
+    const res = await fetch(endpoint, {
       method: "GET",
       headers: {
         authorization: `Bearer ${token}`,
@@ -139,6 +145,40 @@ const OrderContextProvider = ({ children }) => {
     }
   };
 
+  //  Handle order status (delivered / not delivered)
+  const toggleDeliveryStatus = async (order) => {
+    try {
+      const res = await fetch(`${API_URL}/api/orders/${order._id}/deliver`, {
+        method: "PUT",
+        body: JSON.stringify({
+          orderId: order._id,
+          isDelivered: !order.isDelivered,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      const { error, success, data } = await res.json();
+
+      if (success) {
+        dispatch({ type: types.TOGGLE_DELIVERY_STATUS, payload: data });
+      }
+
+      if (error) {
+        dispatch({ type: types.SET_ERROR, payload: error });
+      }
+    } catch (error) {
+      dispatch({ type: types.SET_ERROR, payload: error });
+      console.error("Error updating order status:", error);
+    }
+  };
+
+  const toggleOrderExpanded = (orderId) => {
+    dispatch({ type: types.EXPAND_ORDER_TOGGLE, payload: { orderId } });
+  };
+
   return (
     <OrdersContext.Provider
       value={{
@@ -149,6 +189,8 @@ const OrderContextProvider = ({ children }) => {
         createStripeSession,
         updateToPaid,
         getOrders,
+        toggleDeliveryStatus,
+        toggleOrderExpanded,
       }}
     >
       {children}

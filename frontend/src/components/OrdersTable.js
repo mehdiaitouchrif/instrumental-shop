@@ -1,10 +1,39 @@
 import { Table, Tag, Space, Button } from "antd";
 import { useState, useEffect } from "react";
-import API_URL from "../utils/setupApi";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useOrdersContext from "../hooks/useOrdersContext";
 
-const OrdersTable = (props) => {
+const OrdersTable = () => {
+  const {
+    getOrders,
+    orders,
+    page,
+    count,
+    loading,
+    toggleOrderExpanded,
+    toggleDeliveryStatus,
+  } = useOrdersContext();
+  const [currentPage, setCurrentPage] = useState(page);
+  const [pageSize, setPageSize] = useState(3);
+
+  useEffect(() => {
+    getOrders(currentPage, pageSize);
+
+    // eslint-disable-next-line
+  }, [currentPage, pageSize]);
+
+  const handleOrderStatus = async (record) => {
+    toggleDeliveryStatus(record);
+  };
+  const handleExpandToggle = (record) => {
+    toggleOrderExpanded(record._id);
+  };
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
+
   const columns = [
     {
       title: "Date",
@@ -86,90 +115,22 @@ const OrdersTable = (props) => {
     },
   ];
 
-  const [data, setData] = useState(props.data);
-
-  const handleOrderStatus = async (record) => {
-    try {
-      const res = await fetch(`${API_URL}/api/orders/${record._id}/deliver`, {
-        method: "PUT",
-        body: JSON.stringify({
-          orderId: record._id,
-          isDelivered: !record.isDelivered,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("instrumental_auth_token")
-          )}`,
-        },
-      });
-
-      const { error, success } = await res.json();
-
-      if (success) {
-        console.log("Success");
-
-        const newData = data.map((item) => {
-          if (item._id === record._id) {
-            item.isDelivered = !item.isDelivered;
-          }
-          return item;
-        });
-        setData(newData);
-      }
-
-      if (error) {
-        toast.error(JSON.stringify(error));
-      }
-    } catch (error) {
-      JSON.stringify({ catch: "CATCH", error });
-    }
-  };
-
-  const handleExpandToggle = (record) => {
-    const newData = data.map((item) => {
-      if (item._id === record._id) {
-        return {
-          ...item,
-
-          expanded: !record.expanded,
-        };
-      }
-      return item;
-    });
-    setData(newData);
-  };
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
-
-  useEffect(() => {}, [data]);
-
   return (
-    <>
-      <ToastContainer />
-      <Table
-        columns={columns}
-        dataSource={data.slice(
-          (currentPage - 1) * pageSize,
-          currentPage * pageSize
-        )}
-        pagination={{
-          total: data.length,
-          pageSize,
-          showSizeChanger: true,
-          pageSizeOptions: ["5", "10", "20", "50"],
-          showTotal: (total) => `Total ${total} items`,
-          onChange: (page) => {
-            setCurrentPage(page);
-          },
-          onShowSizeChange: (current, size) => {
-            setPageSize(size);
-            setCurrentPage(1);
-          },
-        }}
-      />
-    </>
+    <Table
+      columns={columns}
+      dataSource={orders}
+      loading={loading}
+      pagination={{
+        total: count,
+        pageSize,
+        showSizeChanger: true,
+        pageSizeOptions: ["3", "5", "10"],
+        showTotal: (total) => `Total ${total} items`,
+        current: currentPage,
+        onChange: handlePageChange,
+        onShowSizeChange: handlePageChange,
+      }}
+    />
   );
 };
 
