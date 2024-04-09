@@ -15,13 +15,23 @@ const ProductContextProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(productReducer, initialState);
 
-  // Get last products
-  const fetchProducts = async () => {
+  // Get products
+  const fetchProducts = async (latest = false, limit = null) => {
     dispatch({ type: types.SET_LOADING });
-    const res = await fetch(`${API_URL}/api/products`);
-    const { data } = await res.json();
+    let apiUrl = `${API_URL}/api/products`;
 
-    dispatch({ type: types.SET_PRODUCT_LIST, payload: data });
+    if (latest && limit) {
+      apiUrl += `?latest=true&limit=${limit}`;
+    }
+
+    try {
+      const res = await fetch(apiUrl);
+      const { data } = await res.json();
+      dispatch({ type: types.SET_PRODUCT_LIST, payload: data });
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      dispatch({ type: types.SET_ERROR, payload: error });
+    }
   };
 
   // Get single product

@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <nav className="py-4 px-4 bg-black text-white font-mono mb-10">
+    <nav className="py-4 px-4 bg-black text-white font-mono ">
       <div className="container flex items-center justify-between mx-auto">
         <div className="flex items-center">
           <FaBars

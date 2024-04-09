@@ -93,14 +93,14 @@ const Piano = ({ piano }) => {
           See Product
         </Link>
       </div>
-      <div className="h-64">
+      <div className="h-72">
         <img
           src={piano.mainImage}
           alt=""
           className="h-full w-full p-4"
           style={{
             mixBlendMode: "multiply",
-            objectFit: "cover",
+            objectFit: "contain",
           }}
         />
       </div>
@@ -111,14 +111,14 @@ const Piano = ({ piano }) => {
 const Drum = ({ drum }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
-      <div className="from-slate-200 bg-gradient-to-b rounded-xl border h-72">
+      <div className="from-slate-200 bg-gradient-to-b rounded-xl border h-80">
         <img
           src={drum.mainImage}
           alt=""
           className="h-full w-full p-4  "
           style={{
             mixBlendMode: "multiply",
-            objectFit: "cover",
+            objectFit: "contain",
           }}
         />
       </div>

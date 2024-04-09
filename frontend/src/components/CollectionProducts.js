@@ -19,7 +19,6 @@ const CollectionProducts = ({ collectionName }) => {
         collectionProducts &&
         collectionProducts.map((p) => (
           <div className="p-4">
-            {console.log(collectionProducts)}
             <div
               key={p._id + 1}
               className="bg-gray-50 flex flex-col items-center justify-center p-4"
