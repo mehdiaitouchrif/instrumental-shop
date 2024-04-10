@@ -5,11 +5,8 @@ const {
   updateProduct,
   createProduct,
   getProduct,
-  uploadSecondaryImages,
-  uploadMainImage,
 } = require("../controllers/products");
 const { protect, requireAdmin } = require("../middleware/auth");
-const uploadMiddleware = require("../middleware/multer");
 
 const router = express.Router({ mergeParams: true });
 
