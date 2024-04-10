@@ -122,6 +122,22 @@ const OrderContextProvider = ({ children }) => {
     }
   };
 
+  // Cancel order
+  const deleteOrder = async (id) => {
+    dispatch({ type: types.SET_LOADING });
+    const res = await fetch(`${API_URL}/api/orders/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("instrumental_auth_token")
+        )}`,
+      },
+    });
+    await res.json();
+    dispatch({ type: types.DELETE_ORDER, payload: id });
+  };
+
   // Get all orders
   const getOrders = async (page = null, pageSize = null) => {
     let endpoint = `${API_URL}/api/orders`;
@@ -195,6 +211,7 @@ const OrderContextProvider = ({ children }) => {
         getOrders,
         toggleDeliveryStatus,
         toggleOrderExpanded,
+        deleteOrder,
       }}
     >
       {children}

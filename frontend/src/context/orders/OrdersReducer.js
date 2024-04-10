@@ -31,6 +31,14 @@ const ordersReducer = (state, action) => {
         loading: false,
         success: true,
       };
+    case types.DELETE_ORDER:
+      return {
+        ...state,
+        loading: false,
+        userOrders: state.userOrders.filter(
+          (order) => order._id !== action.payload
+        ),
+      };
     case types.EXPAND_ORDER_TOGGLE:
       return {
         ...state,
