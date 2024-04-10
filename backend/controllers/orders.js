@@ -142,3 +142,33 @@ exports.getOrders = async (req, res) => {
     },
   });
 };
+
+// @desc    Delete order
+// @route   DELETE /api/orders/:id
+// @access  Private
+exports.deleteOrder = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return next(new ErrorResponse("No order found", 404));
+    }
+
+    // Verify ownership
+    const { _id: userId } = req.user;
+    if (
+      userId.toString() !== order.user.toString() &&
+      req.user.role !== "admin"
+    ) {
+      return next(
+        new ErrorResponse("Not authorized to access this route", 401)
+      );
+    }
+
+    await order.remove();
+
+    res.status(200).json({ success: true, data: {} });
+  } catch (error) {
+    next(error);
+  }
+};

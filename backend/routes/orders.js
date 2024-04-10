@@ -7,6 +7,7 @@ const {
   updateOrderToPaid,
   updateOrderToDelivered,
   createStripeSession,
+  deleteOrder,
 } = require("../controllers/orders");
 const { protect, requireAdmin } = require("../middleware/auth");
 
@@ -22,5 +23,6 @@ router.route("/:id/create-stripe-session").post(createStripeSession);
 
 router.get("/myorders", protect, getMyOrders);
 router.get("/:id", protect, getOrder);
+router.delete("/:id", protect, deleteOrder);
 
 module.exports = router;
