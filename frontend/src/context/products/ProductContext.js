@@ -16,12 +16,25 @@ const ProductContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(productReducer, initialState);
 
   // Get products
-  const fetchProducts = async (latest = false, limit = null) => {
+  const fetchProducts = async (options = {}) => {
     dispatch({ type: types.SET_LOADING });
+
     let apiUrl = `${API_URL}/api/products`;
 
+    const { latest, limit, page, pageSize } = options;
+
+    // Construct query parameters
+    const queryParams = new URLSearchParams();
     if (latest && limit) {
-      apiUrl += `?latest=true&limit=${limit}`;
+      queryParams.append("latest", true);
+      queryParams.append("limit", limit);
+    }
+    if (page && pageSize) {
+      queryParams.append("page", page);
+      queryParams.append("pageSize", pageSize);
+    }
+    if (queryParams.toString()) {
+      apiUrl += `?${queryParams.toString()}`;
     }
 
     try {

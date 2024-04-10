@@ -1,28 +1,71 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 import { Link } from "react-router-dom";
 import { useProductContext } from "../hooks/useProductContext";
-import Spinner from "../components/Spinner";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
+import { Table, Button } from "antd";
 
 const AdminProductsPage = () => {
-  const { fetchProducts, deleteProduct, products, loading, error } =
+  const { fetchProducts, deleteProduct, products, count, loading, error } =
     useProductContext();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
+
   useEffect(() => {
-    fetchProducts();
+    fetchProducts({ page: currentPage, pageSize });
 
     if (error) {
       toast.error("Something Went Wrong!");
     }
     // eslint-disable-next-line
-  }, []);
+  }, [currentPage, pageSize]);
+
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "mainImage",
+      key: "mainImage",
+      render: (mainImage) => (
+        <img className="w-20 h-20 object-contain" src={mainImage} alt="" />
+      ),
+    },
+    {
+      title: "Product Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Edit",
+      dataIndex: "slug",
+      key: "slug",
+      render: (slug) => (
+        <Link to={`/admin/edit-product/${slug}`}>
+          <Button type="primary">Edit</Button>
+        </Link>
+      ),
+    },
+    {
+      title: "Delete",
+      dataIndex: "_id",
+      key: "_id",
+      render: (_id) => (
+        <Button danger onClick={() => deleteProduct(_id)}>
+          Delete
+        </Button>
+      ),
+    },
+  ];
 
   return (
     <Layout>
-      <ToastContainer />
       <Meta title="Admin Dashboard | Instrumental Shop" />
       <div className="max-w-7xl mx-auto md:my-8">
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8">
@@ -34,7 +77,7 @@ const AdminProductsPage = () => {
               Products management
             </h1>
             <p className="text-gray-500 my-2">
-              "Manage products, create, update and delete.
+              Manage products, create, update and delete.
             </p>
           </div>
 
@@ -47,50 +90,29 @@ const AdminProductsPage = () => {
                 <button className="text-gray-600 underline">Products</button>
               </Link>
             </div>
-            <div className="md:p-8 mt-8 mb-16">
-              {/* Create Product */}
+            <div className="md:p-8 my-8">
               <Link
-                className="inline-block mb-10 rounded shadow-sm bg-gray-50 border text-orange-600 font-medium py-2 px-4 uppercase hover:bg-gray-100"
+                className="inline-block mb-6 rounded shadow-sm bg-gray-50 border text-orange-600 font-medium py-2 px-4 uppercase hover:bg-gray-100"
                 to="/admin/add-product"
               >
                 Add new product
               </Link>
-              {loading && <Spinner />}
-              {products &&
-                products.map((prod) => (
-                  <div
-                    key={prod._id}
-                    className="flex py-2 shadow-sm mb-2 border-b border-gray-100 items-center justify-between"
-                  >
-                    {/* Image */}
-                    <div className="w-14 h-14">
-                      <img
-                        className="w-full h-full object-contain"
-                        src={prod.mainImage}
-                        alt={`${prod.name} main`}
-                      />
-                    </div>
-                    {/* Title */}
-                    <Link
-                      to={`/${prod.collectionRef.name}/${prod.slug}`}
-                      className="w-2/3 hover:underline hover:text-orange-600"
-                    >
-                      {prod.name}{" "}
-                    </Link>
-                    <Link
-                      to={`/admin/edit-product/${prod.slug}`}
-                      className="inline-block py-2 px-4 mx-2 bg-orange-400 hover:bg-orange-500 text-white shadow-sm rounded text-sm"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => deleteProduct(prod._id)}
-                      className="inline-block py-2 px-4 rounded shadow-sm hover:bg-red-600 hover:text-white text-red-600 text-sm"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                ))}
+
+              <Table
+                columns={columns}
+                dataSource={products}
+                loading={loading}
+                pagination={{
+                  total: count,
+                  pageSize,
+                  showSizeChanger: true,
+                  pageSizeOptions: ["3", "5", "10", "20"],
+                  showTotal: (total) => `Total ${total} items`,
+                  current: currentPage,
+                  onChange: handlePageChange,
+                  onShowSizeChange: handlePageChange,
+                }}
+              />
             </div>
           </div>
         </div>

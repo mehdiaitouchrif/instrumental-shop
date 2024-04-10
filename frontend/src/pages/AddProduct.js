@@ -129,7 +129,7 @@ const AddProduct = () => {
               name="price"
               placeholder="Price"
               value={price}
-              step={10}
+              step={0.01}
               min={0}
               max={10000}
               onChange={(e) => setPrice(e.target.value)}

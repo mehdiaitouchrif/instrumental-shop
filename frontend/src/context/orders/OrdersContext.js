@@ -69,7 +69,9 @@ const OrderContextProvider = ({ children }) => {
     const res = await fetch(`${API_URL}/api/orders/myorders`, {
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("instrumental_auth_token")
+        )}`,
       },
     });
 
@@ -132,7 +134,9 @@ const OrderContextProvider = ({ children }) => {
     const res = await fetch(endpoint, {
       method: "GET",
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${JSON.parse(
+          localStorage.getItem("instrumental_auth_token")
+        )}`,
       },
     });
     const { data, success, error } = await res.json();

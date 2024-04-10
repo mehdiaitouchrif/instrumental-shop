@@ -1,19 +1,18 @@
 import { Table, Tag, Space, Button } from "antd";
 import { useState, useEffect } from "react";
-import "react-toastify/dist/ReactToastify.css";
 import useOrdersContext from "../hooks/useOrdersContext";
 
 const OrdersTable = () => {
   const {
     getOrders,
     orders,
-    page,
     count,
     loading,
     toggleOrderExpanded,
     toggleDeliveryStatus,
   } = useOrdersContext();
-  const [currentPage, setCurrentPage] = useState(page);
+
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(3);
 
   useEffect(() => {

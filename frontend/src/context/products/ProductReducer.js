@@ -14,7 +14,9 @@ const productReducer = (state, action) => {
     case types.SET_PRODUCT_LIST:
       return {
         loading: false,
-        products: action.payload,
+        products: action.payload.products,
+        page: action.payload.page,
+        count: action.payload.count,
       };
     case types.SET_PRODUCT:
       return {

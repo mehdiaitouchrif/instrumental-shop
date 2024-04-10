@@ -6,30 +6,35 @@ const ErrorResponse = require("../utils/ErrorResponse");
 // @access  Public
 exports.getProducts = async (req, res, next) => {
   try {
-    // Get collection products
+    let productsQuery = Product.find();
+
     if (req.params.collectionId) {
-      const products = await Product.find({
-        collectionRef: req.params.collectionId,
-      });
-      return res.status(200).json({ success: true, data: products });
+      productsQuery.where("collectionRef").equals(req.params.collectionId);
     }
 
-    // Fetch  latest products
     if (
       req.query.latest === "true" &&
       req.query.limit &&
       !isNaN(parseInt(req.query.limit))
     ) {
       const limit = parseInt(req.query.limit);
-      const products = await Product.find({})
-        .populate("collectionRef", "name")
+      productsQuery
         .sort({ createdAt: -1 })
-        .limit(limit); //
-      return res.status(200).json({ success: true, data: products });
+        .limit(limit)
+        .populate("collectionRef", "name");
     }
 
-    const products = await Product.find({}).populate("collectionRef", "name");
-    res.status(200).json({ success: true, data: products });
+    const count = await Product.countDocuments();
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 3;
+
+    const skip = (page - 1) * pageSize;
+    const products = await productsQuery
+      .skip(skip)
+      .limit(pageSize)
+      .populate("collectionRef", "name");
+
+    res.status(200).json({ success: true, data: { products, count, page } });
   } catch (error) {
     next(error);
   }
