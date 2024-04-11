@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useProductContext } from "../hooks/useProductContext";
-import Spinner from "./Spinner";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   extractPublicId,
   getBackgroundRemovedUrl,
 } from "../utils/cloudinaryUtils";
+import CarouselLoadingSkeleton from "./CarouselLoadingSkeleton";
 
 const ProductCarousel = () => {
   const { fetchProducts, products, loading } = useProductContext();
@@ -17,11 +17,10 @@ const ProductCarousel = () => {
     // eslint-disable-next-line
   }, []);
 
-  if (loading) return <Spinner />;
-
   return (
     <div className="bg-black from-slate-700 bg-gradient-to-l text-white p-8">
       <div className="container mx-auto">
+        {loading && <CarouselLoadingSkeleton />}
         <Swiper slidesPerView={1} autoplay={true}>
           {products &&
             products.map((product) => (

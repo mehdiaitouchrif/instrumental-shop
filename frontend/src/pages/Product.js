@@ -7,10 +7,10 @@ import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import { useCartContext } from "../hooks/useCartContext";
 import Meta from "../components/Meta";
-import Spinner from "../components/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import { Gallery, Item } from "react-photoswipe-gallery";
 import ProductImage from "../components/ProductImage";
+import ProductLoadingSkeleton from "../components/ProductLoadingSkeleton";
 
 const Product = () => {
   const { productSlug, collection } = useParams();
@@ -39,7 +39,7 @@ const Product = () => {
       <Meta title={`${product && product.name} | Instrumental Shop`} />
       <div className="max-w-6xl mx-auto">
         {loading ? (
-          <Spinner />
+          <ProductLoadingSkeleton />
         ) : (
           product && (
             <>

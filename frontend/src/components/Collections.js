@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import CollectionItem from "./CollectionItem";
-import Spinner from "./Spinner";
 
 const Collections = () => {
   const { fetchCollections, collections, loading } = useCollectionContext();
@@ -14,16 +13,12 @@ const Collections = () => {
 
   return (
     <div className="max-w-6xl mx-auto my-16 w-full">
-      {loading ? (
-        <Spinner />
-      ) : (
-        collections && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
-            {collections.map((col) => (
-              <CollectionItem key={col._id} collection={col} />
-            ))}
-          </div>
-        )
+      {collections && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+          {collections.map((col) => (
+            <CollectionItem loading={loading} key={col._id} collection={col} />
+          ))}
+        </div>
       )}
     </div>
   );

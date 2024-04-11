@@ -10,3 +10,35 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes pulse {
+  0% {
+    background-color: rgba(240, 240, 240, 0.2);
+  }
+  50% {
+    background-color: rgba(240, 240, 240, 0.15);
+  }
+  100% {
+    background-color: rgba(240, 240, 240, 0.2);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes color-change {
+  0% {
+    border-color: #f6ad55;
+  }
+  50% {
+    border-color: #ed8936;
+  }
+  100% {
+    border-color: #f6ad55;
+  }
+}
+
+.color-change {
+  animation: color-change 2s linear infinite;
+}
