@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
-import { useCollectionContext } from "../hooks/useCollectionContext";
 
 import { Link } from "react-router-dom";
 import PianoLoadingSkeleton from "./PianoLoadingSkeleton";
 import DrumLoadingSkeleton from "./DrumLoadingSkeleton";
 import GuitarLoadingSkeleton from "./GuitarLoadingSkeleton";
 
-const HomeProducts = () => {
-  const { collections, loading } = useCollectionContext();
-
+const HomeProducts = ({ collections, loading }) => {
   let piano, guitar, drum;
 
   if (collections && collections.length === 3) {
@@ -95,7 +92,7 @@ const Drum = ({ drum }) => {
 const Guitar = ({ guitar }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 p-8 from-gray-200 bg-gradient-to-tr bg-gray-100 shadow-sm rounded-md my-12">
-      <div className="flex flex-col items-center mb-4 md:mb-0 md:items-start justify-center ">
+      <div className="flex flex-col items-center mb-4 md:mb-0 md:items-start justify-center order-2 md:order-1">
         <h1 className="text-2xl font-medium uppercase my-4">{guitar.name}</h1>
         <Link
           to={`/guitars/${guitar.slug}`}
@@ -104,7 +101,7 @@ const Guitar = ({ guitar }) => {
           See Product
         </Link>
       </div>
-      <div className="h-72">
+      <div className="h-72 order-1 md:order-2">
         <img
           src={guitar.mainImage}
           alt=""
