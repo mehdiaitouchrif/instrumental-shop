@@ -15,7 +15,7 @@ const Cart = ({ isOpen, onClose }) => {
       toast.warning("Your bag is empty!");
       return;
     }
-    navigate("/shipping");
+    navigate("/login?redirect=/shipping");
   };
   return (
     <Modal open={isOpen} onClose={onClose}>

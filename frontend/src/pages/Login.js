@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Meta from "../components/Meta";
 import Spinner from "../components/Spinner";
 
@@ -11,18 +10,24 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, loading, error, token } = useAuthContext();
+  const { login, loading, error, user } = useAuthContext();
 
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect");
 
   useEffect(() => {
     if (error && !loading) {
       toast.error(error);
     }
-    if (token) {
-      navigate("/account/dashboard");
+
+    if (user) {
+      if (redirect) navigate(redirect);
+      else if (user.role === "admin") navigate("/admin/products");
+      else if (user.role === "user") navigate("/account/dashboard");
     }
-  }, [error, loading, navigate, token]);
+  }, [error, loading, user, redirect, navigate]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -41,7 +46,6 @@ const Login = () => {
         onSubmit={onSubmit}
         style={{ maxWidth: 600 }}
       >
-        <ToastContainer />
         <h3 className="text-3xl my-4 text-gray-700">Login</h3>
         <div className="my-4">
           <div className="mb-1">
@@ -80,7 +84,7 @@ const Login = () => {
           <p>
             Don't have an account?{" "}
             <Link
-              to="/signup"
+              to={redirect ? `/signup?redirect=${redirect}` : "/signup"}
               className="text-orange-500 cursor-pointer hover:text-orange-600"
             >
               Sign Up

@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Meta from "../components/Meta";
 import Spinner from "../components/Spinner";
 
@@ -13,18 +12,24 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signup, loading, error, token } = useAuthContext();
+  const { signup, loading, error, user } = useAuthContext();
 
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect");
 
   useEffect(() => {
     if (error && !loading && typeof error === "object") {
       error.map((err) => Object.keys(err).map((k) => toast.error(err[k])));
     }
-    if (token) {
-      navigate("/account/dashboard");
+
+    if (user) {
+      if (redirect) navigate(redirect);
+      else if (user.role === "admin") navigate("/admin/products");
+      else if (user.role === "user") navigate("/account/dashboard");
     }
-  }, [error, loading, navigate, token]);
+  }, [error, loading, navigate, user, redirect]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -40,7 +45,6 @@ const Signup = () => {
         style={{ maxWidth: 600 }}
         onSubmit={onSubmit}
       >
-        <ToastContainer />
         <h3 className="text-3xl my-4 text-gray-700">Sign Up</h3>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mt-6">
           <div>
@@ -106,7 +110,7 @@ const Signup = () => {
           <p>
             Already have an account?{" "}
             <Link
-              to="/login"
+              to={redirect ? `/login?redirect=${redirect}` : "/login"}
               className="text-orange-500 cursor-pointer hover:text-orange-600"
             >
               Login

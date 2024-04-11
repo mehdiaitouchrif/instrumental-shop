@@ -69,7 +69,14 @@ const Navbar = () => {
           )}
           {user && !loading && (
             <>
-              <Link to="/account/dashboard" className="hover:text-orange-500">
+              <Link
+                to={
+                  user.role === "user"
+                    ? "/account/dashboard"
+                    : "/admin/products"
+                }
+                className="hover:text-orange-500"
+              >
                 <CiUser size={24} />
               </Link>
               <button

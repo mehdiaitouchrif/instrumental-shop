@@ -1,5 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useAuthContext } from "./hooks/useAuthContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AddProduct from "./pages/AddProduct";
 import Collection from "./pages/Collection";
 import Home from "./pages/Home";
@@ -15,78 +14,37 @@ import UserDashboard from "./pages/UserDashboard";
 import EditProduct from "./pages/EditProduct";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
+import UserRoutes from "./components/UserRoutes";
+import AdminRoutes from "./components/AdminRoutes";
 
 const App = () => {
-  const { user } = useAuthContext();
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/login"
-          element={!user ? <Login /> : <Navigate to="/" />}
-        />
-        <Route
-          path="/signup"
-          element={!user ? <Signup /> : <Navigate to="/" />}
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/:collection" element={<Collection />} />
         <Route path="/:collection/:productSlug" element={<Product />} />
-        <Route
-          path="/account/dashboard"
-          element={
-            !user ? (
-              <Navigate to="/login" />
-            ) : user.role === "admin" ? (
-              <Navigate to="/admin/orders" />
-            ) : (
-              <UserDashboard />
-            )
-          }
-        />
-        <Route
-          path="/admin/orders"
-          element={
-            user && user.role === "admin" ? (
-              <AdminOrdersPage />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/admin/products"
-          element={
-            user && user.role === "admin" ? (
-              <AdminProductsPage />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
 
-        <Route
-          path="/shipping"
-          element={user ? <Shipping /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/payment"
-          element={user ? <PaymentMethod /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="placeorder"
-          element={user ? <PlaceOrder /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/orders/:id"
-          element={user ? <Order /> : <Navigate to="/login" />}
-        />
-        <Route path="/success/:orderId" element={<SuccessPayment />} />
-        <Route path="/admin/add-product" element={<AddProduct />} />
-        <Route
-          path="/admin/edit-product/:productSlug"
-          element={<EditProduct />}
-        />
+        <Route element={<UserRoutes />}>
+          <Route path="/account/dashboard" element={<UserDashboard />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/payment" element={<PaymentMethod />} />
+          <Route path="placeorder" element={<PlaceOrder />} />
+          <Route path="/orders/:id" element={<Order />} />
+          <Route path="/success/:orderId" element={<SuccessPayment />} />
+        </Route>
+
+        <Route element={<AdminRoutes />}>
+          <Route path="/admin/orders" element={<AdminOrdersPage />} />
+          <Route path="/admin/products" element={<AdminProductsPage />} />
+          <Route path="/admin/add-product" element={<AddProduct />} />
+          <Route
+            path="/admin/edit-product/:productSlug"
+            element={<EditProduct />}
+          />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
