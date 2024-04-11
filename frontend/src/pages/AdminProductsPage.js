@@ -83,11 +83,11 @@ const AdminProductsPage = () => {
 
           <div className="col-span-2 py-4 px-8">
             <div className="flex gap-x-8 justify-center">
-              <Link to="/admin/orders">
-                <button className="text-gray-600">Orders</button>
-              </Link>
               <Link to="/admin/products">
                 <button className="text-gray-600 underline">Products</button>
+              </Link>
+              <Link to="/admin/orders">
+                <button className="text-gray-600">Orders</button>
               </Link>
             </div>
             <div className="md:p-8 my-8">
