@@ -1,5 +1,6 @@
 const path = require("path");
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -22,7 +23,14 @@ connectDB();
 
 // middleware
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 app.use(morgan("dev"));
 
@@ -35,7 +43,6 @@ app.use(
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
       "img-src": ["'self'", "https://res.cloudinary.com"],
-      "frame-src": ["'self'", "https://giphy.com/"],
     },
   })
 );
