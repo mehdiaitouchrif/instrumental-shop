@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const User = require("../models/User");
 const ErrorResponse = require("../utils/ErrorResponse");
 const sendEmail = require("../utils/sendEmail");
+const { sendAuthResponse } = require("../utils/sendAuthResponse");
 
 // @desc    Sign up
 // @route   POST /auth/register
@@ -9,28 +10,31 @@ const sendEmail = require("../utils/sendEmail");
 exports.signUp = async (req, res, next) => {
   try {
     const user = await User.create(req.body);
-    const token = user.getSignedJwtToken();
 
     //****** Send Confirmation Email */ */
-    const confirmEmailToken = user.generateEmailConfirmationToken();
+    try {
+      const confirmEmailToken = user.generateEmailConfirmationToken();
 
-    const confirmEmailURL = `${req.protocol}://${req.get(
-      "host"
-    )}/api/auth/confirmemail?confirmToken=${confirmEmailToken}`;
+      const confirmEmailURL = `${req.protocol}://${req.get(
+        "host"
+      )}/api/auth/confirmemail?confirmToken=${confirmEmailToken}`;
 
-    const message = `Hey ${user.firstName}, <br /> Please confirm your Instrumental Shop email address by following the link below. `;
+      const message = `Hey ${user.firstName}, <br /> Please confirm your Instrumental Shop email address by following the link below. `;
 
-    user.save({ validateBeforeSave: false });
+      user.save({ validateBeforeSave: false });
 
-    await sendEmail({
-      email: user.email,
-      subject: "Email confirmation token",
-      message,
-      url: confirmEmailURL,
-      buttonTitle: "Confirm Email",
-    });
+      await sendEmail({
+        email: user.email,
+        subject: "Email confirmation token",
+        message,
+        url: confirmEmailURL,
+        buttonTitle: "Confirm Email",
+      });
+    } catch (error) {
+      console.log(error);
+    }
 
-    res.status(200).json({ success: true, token });
+    sendAuthResponse(user, res, 201);
   } catch (error) {
     next(error);
   }
@@ -56,10 +60,7 @@ exports.login = async (req, res, next) => {
     if (!isMatch)
       return next(new ErrorResponse("Invalid email or password", 400));
 
-    // Generate token
-    const token = user.getSignedJwtToken();
-
-    res.status(200).json({ success: true, token });
+    sendAuthResponse(user, res);
   } catch (error) {
     next(error);
   }
@@ -70,6 +71,18 @@ exports.login = async (req, res, next) => {
 // @access  Private
 exports.getMe = async (req, res, next) => {
   res.status(200).json({ success: true, data: req.user });
+};
+
+// @desc      Logout / destroy auth cookie
+// @route     GET /auth/logout
+// @access    Private
+exports.logout = async (req, res, next) => {
+  res.clearCookie("auth.token-instrumental");
+
+  res.status(200).json({
+    success: true,
+    data: {},
+  });
 };
 
 // @desc      Update user profile
@@ -111,10 +124,8 @@ exports.updatePassword = async (req, res, next) => {
 
     user.password = req.body.newPassword;
     await user.save();
-    // Generate token
-    const token = user.getSignedJwtToken();
 
-    res.status(200).json({ success: true, token });
+    sendAuthResponse(user, res);
   } catch (error) {
     next(error);
   }
@@ -155,9 +166,7 @@ exports.confirmEmail = async (req, res, next) => {
     // save
     user.save({ validateBeforeSave: false });
 
-    // regenerate auth token
-    const token = user.getSignedJwtToken();
-    res.status(200).json({ success: true, token });
+    sendAuthResponse(user, res);
   } catch (error) {
     next(error);
   }
@@ -236,8 +245,7 @@ exports.resetPassword = async (req, res, next) => {
     user.resetPasswordExpire = undefined;
     await user.save();
 
-    const token = user.getSignedJwtToken();
-    res.status(200).json({ success: true, token });
+    sendAuthResponse(user, res);
   } catch (error) {
     next(error);
   }

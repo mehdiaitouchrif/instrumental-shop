@@ -2,13 +2,13 @@ import * as types from "../types";
 
 const authReducer = (state, action) => {
   switch (action.type) {
-    case types.LOGIN:
-    case types.SIGN_UP:
-      localStorage.setItem(
-        "instrumental_auth_token",
-        JSON.stringify(action.payload.token)
-      );
-      return state;
+    // case types.LOGIN:
+    // case types.SIGN_UP:
+    //   // localStorage.setItem(
+    //   //   "instrumental_auth_token",
+    //   //   JSON.stringify(action.payload.token)
+    //   // );
+    //   return state;
     case types.SET_USER:
       return {
         loading: false,

@@ -15,13 +15,7 @@ export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
-
-    if (token) {
-      dispatch({ type: types.LOGIN, payload: { token } });
-    }
-
-    checkUserLoggedIn(token);
+    checkUserLoggedIn();
   }, []);
 
   // Login
@@ -32,12 +26,13 @@ export const AuthContextProvider = ({ children }) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
+      credentials: "include",
     });
 
     const json = await res.json();
     if (json.success) {
-      dispatch({ type: types.LOGIN, payload: json });
-      checkUserLoggedIn(json.token);
+      // dispatch({ type: types.LOGIN, payload: json });
+      checkUserLoggedIn();
     } else {
       dispatch({ type: types.SET_ERROR, payload: json.error });
     }
@@ -50,34 +45,42 @@ export const AuthContextProvider = ({ children }) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData),
+      credentials: "include",
     });
 
     const json = await res.json();
     if (json.success) {
-      dispatch({ type: types.SIGN_UP, payload: json });
-      checkUserLoggedIn(json.token);
+      // dispatch({ type: types.SIGN_UP, payload: json });
+      checkUserLoggedIn();
     } else {
       dispatch({ type: types.SET_ERROR, payload: json.error });
     }
   };
 
   // Logout
-  const logout = () => {
-    localStorage.removeItem("instrumental_auth_token");
-    dispatch({ type: types.LOGOUT });
+  const logout = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/auth/logout`, {
+        credentials: "include",
+      });
+
+      await res.json();
+      dispatch({ type: types.LOGOUT });
+    } catch (error) {
+      dispatch({ type: types.SET_ERROR, payload: error });
+    }
   };
 
   // Update details
   const updateDetails = async (userInfo) => {
     dispatch({ type: types.UPDATE_USER_LOADING });
-    const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
     const res = await fetch(`${API_URL}/api/auth/updatedetails`, {
       method: "PUT",
-      body: JSON.stringify(userInfo),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(userInfo),
+      credentials: "include",
     });
 
     const { success, data, error } = await res.json();
@@ -93,16 +96,14 @@ export const AuthContextProvider = ({ children }) => {
 
   // Update password
   const updatePassword = async (currentPassword, newPassword) => {
-    const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
-
     dispatch({ type: types.UPDATE_PASSWORD_LOADING });
     const res = await fetch(`${API_URL}/api/auth/updatepassword`, {
       method: "PUT",
-      body: JSON.stringify({ currentPassword, newPassword }),
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ currentPassword, newPassword }),
+      credentials: "include",
     });
 
     const { success, data, error } = await res.json();
@@ -122,11 +123,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   // Check if user is logged in
-  const checkUserLoggedIn = async (token) => {
+  const checkUserLoggedIn = async () => {
     const res = await fetch(`${API_URL}/api/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      credentials: "include",
     });
     const json = await res.json();
 

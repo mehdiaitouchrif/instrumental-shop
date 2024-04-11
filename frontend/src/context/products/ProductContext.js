@@ -62,14 +62,11 @@ const ProductContextProvider = ({ children }) => {
       `${API_URL}/api/collections/${collectionRef}/products`,
       {
         method: "POST",
-        body: JSON.stringify(product),
         headers: {
           "Content-Type": "application/json",
-
-          authorization: `Bearer ${JSON.parse(
-            localStorage.getItem("instrumental_auth_token")
-          )}`,
         },
+        body: JSON.stringify(product),
+        credentials: "include",
       }
     );
 
@@ -86,13 +83,11 @@ const ProductContextProvider = ({ children }) => {
   const updateProduct = async (id, updates) => {
     const res = await fetch(`${API_URL}/api/products/${id}`, {
       method: "PUT",
-      body: JSON.stringify(updates),
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
       },
+      body: JSON.stringify(updates),
+      credentials: "include",
     });
     const { data, success, error } = await res.json();
     if (success) {
@@ -107,12 +102,7 @@ const ProductContextProvider = ({ children }) => {
   const deleteProduct = async (id) => {
     const res = await fetch(`${API_URL}/api/products/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
-      },
+      credentials: "include",
     });
     await res.json();
     dispatch({ type: types.DELETE_PRODUCT, payload: id });
@@ -124,15 +114,10 @@ const ProductContextProvider = ({ children }) => {
     const res = await fetch(`${API_URL}/api/uploads/main_image`, {
       method: "POST",
       body: formdata,
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
-      },
+      credentials: "include",
     });
 
     const { data } = await res.json();
-    console.log("Context", data);
     dispatch({ type: types.UPLOAD_MAIN_IMAGE, payload: data });
   };
 
@@ -142,15 +127,10 @@ const ProductContextProvider = ({ children }) => {
     const res = await fetch(`${API_URL}/api/uploads/secondary_images`, {
       method: "POST",
       body: formdata,
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
-      },
+      credentials: "include",
     });
 
     const { data } = await res.json();
-    console.log("Context SECONDARY", data);
     dispatch({ type: types.UPLOAD_SECONDARY_IMAGES, payload: data });
   };
 

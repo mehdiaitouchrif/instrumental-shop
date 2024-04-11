@@ -17,9 +17,6 @@ const OrderContextProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(ordersReducer, initialState);
 
-  // Get auth token
-  const token = JSON.parse(localStorage.getItem("instrumental_auth_token"));
-
   // Create order
   const createOrder = async (orderData) => {
     dispatch({ type: types.SET_LOADING });
@@ -28,8 +25,8 @@ const OrderContextProvider = ({ children }) => {
       body: JSON.stringify(orderData),
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
       },
+      credentials: "include",
     });
 
     const { success, data, error } = await res.json();
@@ -47,10 +44,7 @@ const OrderContextProvider = ({ children }) => {
   const getOrder = async (id) => {
     dispatch({ type: types.SET_LOADING });
     const res = await fetch(`${API_URL}/api/orders/${id}`, {
-      headers: {
-        "content-type": " application/json",
-        authorization: `Bearer ${token}`,
-      },
+      credentials: "include",
     });
     const { data, success, error } = await res.json();
 
@@ -67,12 +61,7 @@ const OrderContextProvider = ({ children }) => {
   const getUserOrders = async () => {
     dispatch({ type: types.SET_LOADING });
     const res = await fetch(`${API_URL}/api/orders/myorders`, {
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
-      },
+      credentials: "include",
     });
 
     const { data, success, error } = await res.json();
@@ -94,6 +83,7 @@ const OrderContextProvider = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       }
     );
 
@@ -106,10 +96,7 @@ const OrderContextProvider = ({ children }) => {
     dispatch({ type: types.ORDER_PAY_LOADING });
     const res = await fetch(`${API_URL}/api/orders/${id}/pay`, {
       method: "PUT",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
+      credentials: "include",
     });
 
     const { data, success, error } = await res.json();
@@ -127,12 +114,7 @@ const OrderContextProvider = ({ children }) => {
     dispatch({ type: types.SET_LOADING });
     const res = await fetch(`${API_URL}/api/orders/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
-      },
+      credentials: "include",
     });
     await res.json();
     dispatch({ type: types.DELETE_ORDER, payload: id });
@@ -148,12 +130,7 @@ const OrderContextProvider = ({ children }) => {
 
     dispatch({ type: types.SET_LOADING });
     const res = await fetch(endpoint, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${JSON.parse(
-          localStorage.getItem("instrumental_auth_token")
-        )}`,
-      },
+      credentials: "include",
     });
     const { data, success, error } = await res.json();
     if (success) {
@@ -176,8 +153,8 @@ const OrderContextProvider = ({ children }) => {
         }),
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
         },
+        credentials: "include",
       });
 
       const { error, success, data } = await res.json();
