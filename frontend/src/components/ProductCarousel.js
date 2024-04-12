@@ -27,13 +27,13 @@ const ProductCarousel = () => {
               <SwiperSlide key={product._id}>
                 <div className="grid grid-cols-1 md:grid-cols-2 w-full">
                   <div className="flex flex-col justify-center items-start text-left order-2 md:order-1">
-                    <p className="text-xl md:text-2xl text-gray-300 font-thin uppercase -mt-6 mb-4">
+                    <p className="text-xl md:text-2xl text-gray-300 font-thin uppercase mb-4">
                       New Product
                     </p>
                     <h2 className="text-3xl md:text-5xl uppercase font-bold my-4 text-white">
                       {product.name}
                     </h2>
-                    <p className="text-gray-300 text-left">
+                    <p className="text-gray-300 text-left hidden md:block">
                       {product.features.slice(0, 200) + "..."}{" "}
                     </p>
 

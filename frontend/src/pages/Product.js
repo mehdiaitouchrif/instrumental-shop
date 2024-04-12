@@ -45,7 +45,7 @@ const Product = () => {
         ) : (
           product && (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-16 my-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-16 md:my-12">
                 <div
                   className="bg-gray-50 flex flex-col relative items-center justify-center p-4"
                   style={{ height: 500 }}

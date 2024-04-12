@@ -55,7 +55,7 @@ const Navbar = () => {
         {/* Cart Modal */}
         <Cart isOpen={isOpen} onClose={onClose} />
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 md:gap-8">
           <button
             className="hover:text-orange-500"
             onClick={() => setIsOpen(true)}

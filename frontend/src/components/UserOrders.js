@@ -71,13 +71,14 @@ const UserOrders = () => {
   ];
 
   return (
-    <div className="md:p-8 my-8 col-span-2 w-full">
+    <div className="md:p-8 my-8 col-span-2 w-full overflow-x-scroll">
       <Table
         loading={loading}
         dataSource={userOrders}
         columns={columns}
         rowKey={(record) => record._id}
         pagination={false}
+        responsive={true}
       />
     </div>
   );

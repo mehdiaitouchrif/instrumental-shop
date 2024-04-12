@@ -17,10 +17,7 @@ const Modal = ({ open, onClose, children }) => {
       {/* overlay */}
       <div style={OVERLAY_STYLES} onClick={onClose} />
       {/* modal */}
-      <div
-        style={{ width: 350 }}
-        className='fixed top-20 right-6 md:right-36 p-8 z-10 bg-white rounded shadow-sm'
-      >
+      <div className="fixed top-20 right-6 md:right-36 p-8 z-10 bg-white rounded shadow-sm w-[350px]">
         {children}
       </div>
     </>,

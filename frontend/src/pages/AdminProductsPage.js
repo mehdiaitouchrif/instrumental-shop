@@ -81,7 +81,7 @@ const AdminProductsPage = () => {
             </p>
           </div>
 
-          <div className="col-span-2 py-4 px-8">
+          <div className="col-span-2 py-4 px-2 md:px-8">
             <div className="flex gap-x-8 justify-center">
               <Link to="/admin/products">
                 <button className="text-gray-600 underline">Products</button>

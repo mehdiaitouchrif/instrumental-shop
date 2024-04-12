@@ -1,8 +1,8 @@
 const CarouselLoadingSkeleton = () => {
   return (
-    <div className="grid grid-cols-2 gap-8 min-h-80 md:my-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-h-80 md:my-6">
       {/* Left Column Skeleton */}
-      <div className=" p-4">
+      <div className=" p-4 order-2 md:order-1">
         <div className="h-6 w-3/4 animate-pulse bg-gray-800 rounded mb-10"></div>
         <div className="h-9 animate-pulse bg-gray-800 rounded mb-4"></div>
 
@@ -13,7 +13,7 @@ const CarouselLoadingSkeleton = () => {
       </div>
 
       {/* Right Column Skeleton */}
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center order-1 md:order-2">
         <div className="bg-gray-700 animate-pulse w-64 h-64 rounded-lg relative p-4">
           {/* Piano Body */}
           <div className="bg-gray-800 w-5/6 h-3/5 rounded-lg absolute bottom-0 left-1/2 transform -translate-x-1/2"></div>
