@@ -98,7 +98,7 @@ const Product = () => {
                   </div>
                 </div>
               </div>
-              <div className="my-16 px-4 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap28">
+              <div className="my-8 md:my-16 px-4 grid grid-cols-1 md:grid-cols-3 gap-8 md:gap28">
                 <div className="col-span-2 my-4 md:my-8">
                   <h2 className="uppercase font-medium text-3xl my-4">
                     Features
@@ -126,13 +126,12 @@ const Product = () => {
               </div>
 
               {/*  Product Images */}
-              <div className="my-8 md:my-16 p-4 hidden md:grid grid-cols-2 gap-4">
+              <div className="my-4 md:my-16 p-4 grid grid-cols-2 gap-4">
                 <Gallery>
                   {product.secondaryImages.map((img, idx) => (
                     <div
-                      style={{ height: 500 }}
                       key={img}
-                      className="bg-gray-50"
+                      className="bg-gray-50 h-[200px] md:h-[500px] "
                     >
                       <Item
                         original={img}
@@ -145,9 +144,11 @@ const Product = () => {
                             ref={ref}
                             onClick={open}
                             src={img}
+                            loading="lazy"
+                            decoding="async"
                             key={idx}
                             style={{ mixBlendMode: "multiply" }}
-                            className="object-contain w-full h-full hover:cursor-zoom-in"
+                            className="object-contain w-full h-full  hover:cursor-zoom-in"
                             alt=""
                           />
                         )}
