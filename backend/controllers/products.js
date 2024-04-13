@@ -12,16 +12,8 @@ exports.getProducts = async (req, res, next) => {
       productsQuery.where("collectionRef").equals(req.params.collectionId);
     }
 
-    if (
-      req.query.latest === "true" &&
-      req.query.limit &&
-      !isNaN(parseInt(req.query.limit))
-    ) {
-      const limit = parseInt(req.query.limit);
-      productsQuery
-        .sort({ createdAt: -1 })
-        .limit(limit)
-        .populate("collectionRef", "name");
+    if (req.query.latest === "true") {
+      productsQuery.sort({ createdAt: -1 });
     }
 
     const count = await Product.countDocuments();
@@ -66,6 +58,7 @@ exports.createProduct = async (req, res, next) => {
     req.body.collectionRef = req.params.collectionId;
     const product = await Product.create(req.body);
     product.setCollectionProduct(req.params.collectionId);
+
     res.status(201).json({ success: true, data: product });
   } catch (error) {
     next(error);

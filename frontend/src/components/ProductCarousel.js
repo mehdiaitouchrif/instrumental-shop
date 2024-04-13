@@ -12,7 +12,7 @@ const ProductCarousel = () => {
   const { fetchProducts, products, loading } = useProductContext();
 
   useEffect(() => {
-    fetchProducts({ latest: true, limit: 3, page: null, pageSize: null });
+    fetchProducts({ latest: true, page: null, pageSize: null });
 
     // eslint-disable-next-line
   }, []);

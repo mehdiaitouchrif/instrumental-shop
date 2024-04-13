@@ -21,18 +21,21 @@ const ProductContextProvider = ({ children }) => {
 
     let apiUrl = `${API_URL}/api/products`;
 
-    const { latest, limit, page, pageSize } = options;
+    const { latest, page, pageSize } = options;
 
     // Construct query parameters
     const queryParams = new URLSearchParams();
-    if (latest && limit) {
+
+    if (latest) {
       queryParams.append("latest", true);
-      queryParams.append("limit", limit);
     }
-    if (page && pageSize) {
-      queryParams.append("page", page);
+    if (pageSize) {
       queryParams.append("pageSize", pageSize);
     }
+    if (page) {
+      queryParams.append("page", page);
+    }
+
     if (queryParams.toString()) {
       apiUrl += `?${queryParams.toString()}`;
     }
