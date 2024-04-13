@@ -11,6 +11,7 @@ const hpp = require("hpp");
 const rateLimiter = require("express-rate-limit");
 const connectDB = require("./database/db");
 const errorHandler = require("./middleware/error");
+const { initializeRedisClient } = require("./middleware/redis");
 
 // init app
 const app = express();
@@ -24,6 +25,9 @@ connectDB();
 // middleware
 app.use(express.json());
 app.use(cookieParser());
+
+// connect to redis
+initializeRedisClient();
 
 app.use(
   cors({
