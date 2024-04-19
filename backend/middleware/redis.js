@@ -72,7 +72,7 @@ const deleteData = async (key) => {
 const redisCachingMiddleware =
   (
     options = {
-      EX: 90, // 1h
+      EX: 3600, // 1h
     }
   ) =>
   async (req, res, next) => {
