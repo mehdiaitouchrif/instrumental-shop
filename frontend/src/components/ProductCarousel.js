@@ -47,9 +47,11 @@ const ProductCarousel = () => {
                   <div className="h-[420px] order-1 md:order-2">
                     <img
                       className="p-4 h-full w-full self-center object-contain shadow-md"
-                      src={getBackgroundRemovedUrl(
-                        extractPublicId(product.mainImage)
-                      )}
+                      src={
+                        getBackgroundRemovedUrl(
+                          extractPublicId(product.mainImage)
+                        ) || product.mainImage
+                      }
                       alt=""
                     />
                   </div>
