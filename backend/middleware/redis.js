@@ -59,16 +59,6 @@ const readData = async (key) => {
   }
 };
 
-const deleteData = async (key) => {
-  if (isRedisWorking()) {
-    try {
-      await redisClient.del(key);
-    } catch (e) {
-      console.error(`Failed to delete cached data for key=${key}`, e);
-    }
-  }
-};
-
 const redisCachingMiddleware =
   (
     options = {
