@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const ErrorResponse = require("../utils/ErrorResponse");
+const { removeResourceCache } = require("../middleware/redis");
 
 // @desc    Get products
 // @route   GET /api/products || /api/collections/:collectionId/products
@@ -59,6 +60,12 @@ exports.createProduct = async (req, res, next) => {
     const product = await Product.create(req.body);
     product.setCollectionProduct(req.params.collectionId);
 
+    const collectionName = (await product.populate("collectionRef", "name"))
+      .collectionRef.name;
+    await removeResourceCache("products");
+    await removeResourceCache("collections@");
+    await removeResourceCache(`collections/${collectionName}`);
+
     res.status(201).json({ success: true, data: product });
   } catch (error) {
     next(error);
@@ -73,7 +80,11 @@ exports.updateProduct = async (req, res, next) => {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
-    });
+    }).populate("collectionRef", "name");
+
+    await removeResourceCache("products");
+    await removeResourceCache("collections@");
+    await removeResourceCache(`collections/${product.collectionRef.name}`);
     res.status(200).json({ success: true, data: product });
   } catch (error) {
     next(error);
@@ -85,7 +96,10 @@ exports.updateProduct = async (req, res, next) => {
 // @access  Private
 exports.deleteProduct = async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate(
+      "collectionRef",
+      "name"
+    );
 
     if (!product) {
       return next(new ErrorResponse("No product found", 404));
@@ -93,6 +107,9 @@ exports.deleteProduct = async (req, res, next) => {
 
     await product.remove();
     product.setCollectionProduct(product.collectionRef);
+    await removeResourceCache("products");
+    await removeResourceCache("collections@");
+    await removeResourceCache(`collections/${product.collectionRef.name}`);
 
     res.status(200).json({ success: true, data: {} });
   } catch (error) {

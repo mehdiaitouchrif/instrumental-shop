@@ -26,11 +26,12 @@ const initializeRedisClient = async () => {
 
 const requestToKey = (req) => {
   const reqDataToHash = {
+    originalUrl: req.originalUrl,
     query: req.query,
     body: req.body,
   };
 
-  return `${req.path}@${hash.sha1(reqDataToHash)}`;
+  return `${reqDataToHash.originalUrl}@${hash.sha1(reqDataToHash)}`;
 };
 
 const isRedisWorking = () => {
@@ -58,15 +59,26 @@ const readData = async (key) => {
   }
 };
 
+const deleteData = async (key) => {
+  if (isRedisWorking()) {
+    try {
+      await redisClient.del(key);
+    } catch (e) {
+      console.error(`Failed to delete cached data for key=${key}`, e);
+    }
+  }
+};
+
 const redisCachingMiddleware =
   (
     options = {
-      EX: 3600, // 1h
+      EX: 90, // 1h
     }
   ) =>
   async (req, res, next) => {
     if (isRedisWorking()) {
       const key = requestToKey(req);
+      console.log("cache key", key);
 
       const cachedValue = await readData(key);
       if (cachedValue) {
@@ -97,4 +109,31 @@ const redisCachingMiddleware =
     }
   };
 
-module.exports = { initializeRedisClient, redisCachingMiddleware };
+const removeResourceCache = async (resource) => {
+  if (!isRedisWorking()) {
+    console.warn("Redis is not connected, cannot remove cache.");
+    return;
+  }
+
+  const keys = await redisClient.keys(`*${resource}*`);
+  console.log("before deleting keys", keys);
+
+  for (const key of keys) {
+    redisClient.del(key, (delErr, reply) => {
+      if (delErr) {
+        console.error("Error deleting key:", delErr);
+      } else {
+        console.log("Key deleted:", key);
+      }
+    });
+  }
+
+  const keysAfter = await redisClient.keys(`*${resource}*`);
+  console.log("after deleting keys", keysAfter);
+};
+
+module.exports = {
+  initializeRedisClient,
+  redisCachingMiddleware,
+  removeResourceCache,
+};

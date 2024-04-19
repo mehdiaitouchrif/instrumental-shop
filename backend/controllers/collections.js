@@ -1,3 +1,4 @@
+const { removeResourceCache } = require("../middleware/redis");
 const Collection = require("../models/Collection");
 const ErrorResponse = require("../utils/ErrorResponse");
 
@@ -35,6 +36,8 @@ exports.createCollection = async (req, res, next) => {
   try {
     console.log(req.user);
     const collection = await Collection.create(req.body);
+
+    await removeResourceCache("collections");
     res.status(201).json({ success: true, data: collection });
   } catch (error) {
     next(error);
@@ -61,6 +64,8 @@ exports.updateCollection = async (req, res, next) => {
       }
     );
 
+    await removeResourceCache("collections");
+
     res.status(200).json({ success: true, data: collection });
   } catch (error) {
     next(error);
@@ -79,6 +84,7 @@ exports.deleteColletion = async (req, res, next) => {
     }
 
     await collection.remove();
+    await removeResourceCache("collections");
 
     res.status(200).json({ success: true, data: {} });
   } catch (error) {
