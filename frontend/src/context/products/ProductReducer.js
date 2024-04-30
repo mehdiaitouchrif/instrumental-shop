@@ -43,21 +43,25 @@ const productReducer = (state, action) => {
       };
     case types.UPLOAD_MAIN_IMAGE:
       return {
+        ...state,
         mainImageUrl: action.payload,
         mainImageLoading: false,
       };
     case types.UPLOAD_SECONDARY_IMAGES:
       return {
+        ...state,
         secondaryImagesUrls: action.payload,
         secondaryImagesLoading: false,
       };
     case types.UPLOAD_MAIN_IMAGE_LOADING:
       return {
+        ...state,
         mainImageUrl: null,
         mainImageLoading: true,
       };
     case types.UPLOAD_SECONDARY_IMAGES_LOADING:
       return {
+        ...state,
         secondaryImagesUrls: null,
         secondaryImagesLoading: true,
       };
