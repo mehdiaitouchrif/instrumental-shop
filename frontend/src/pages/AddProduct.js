@@ -1,34 +1,33 @@
 import { useState, useEffect } from "react";
-import { FiDelete } from "react-icons/fi";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import { FiDelete, FiPlus, FiTrash2, FiUpload, FiCheck } from "react-icons/fi";
+import { toast } from "react-toastify";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 import { useProductContext } from "../hooks/useProductContext";
 import { useCollectionContext } from "../hooks/useCollectionContext";
+import Spinner from "../components/Spinner";
 
 const AddProduct = () => {
   // Product state
   const [name, setName] = useState("");
   const [features, setFeatures] = useState("");
   const [price, setPrice] = useState("");
-  const [inBox, setInBox] = useState([]);
+  const [inBox, setInBox] = useState([
+    {
+      itemName: "",
+      quantity: "",
+    },
+  ]);
   const [collectionRef, setCollectionRef] = useState("");
-
-  const [item, setItem] = useState("");
-  const [quantity, setQuantity] = useState("");
-
-  const addItemToBox = (itemName, quantity) => {
-    setInBox((prev) => [...prev, { itemName, quantity }]);
-  };
-
   const [mainImage, setMainImage] = useState(null);
   const [secondaryImages, setSecondaryImages] = useState([]);
+  const [mainImagePreview, setMainImagePreview] = useState(null);
+  const [secondaryImagesPreview, setSecondaryImagesPreview] = useState([]);
+  const [createProductLoading, setCreateProductLoading] = useState(false);
 
-  // Upload state
-  const [mainImageUploaded, setMainImageUploaded] = useState(false);
-  const [secondaryImagesUploaded, setSecondaryImagesUploaded] = useState(false);
-
+  // Context state
   const { fetchCollections, collections } = useCollectionContext();
   const {
     createProduct,
@@ -37,39 +36,96 @@ const AddProduct = () => {
     error,
     uploadMainImage,
     uploadSecondaryImages,
+    mainImageLoading,
+    secondaryImagesLoading,
     mainImageUrl,
     secondaryImagesUrls,
   } = useProductContext();
 
+  // Handle inBox input change
+  const handleInBoxInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedItems = [...inBox];
+    updatedItems[index][name] = value;
+    setInBox(updatedItems);
+  };
+
+  // Add nox item
+  const addItemToBox = () => {
+    const inBoxCopy = [...inBox];
+    inBoxCopy.push({ itemName: "", quantity: "" });
+    setInBox(inBoxCopy);
+  };
+
+  // Handle inputs change
   const handleMainImageChange = (event) => {
     const file = event.target.files[0];
-    setMainImage(file);
-    const formData = new FormData();
-    formData.append("mainImage", file);
-    uploadMainImage(formData);
+    if (file) {
+      setMainImage(file);
+      setMainImagePreview(URL.createObjectURL(file));
+    }
   };
 
   const handleSecondaryImagesChange = (event) => {
     const files = Array.from(event.target.files);
-    setSecondaryImages([...files]);
-    const formData = new FormData();
-    files.forEach((file, _) => {
-      formData.append(`secondaryImages`, file);
-    });
+    // Concatenate the new files with the existing secondary images
+    const newSecondaryImages = secondaryImages.concat(files);
+    setSecondaryImages(newSecondaryImages);
 
-    uploadSecondaryImages(formData);
+    // Generate previews for all secondary images
+    const previews = newSecondaryImages.map((file) =>
+      URL.createObjectURL(file)
+    );
+    setSecondaryImagesPreview(previews);
   };
 
-  const createProductHandler = (e) => {
-    e.preventDefault();
+  const removeSecondaryImage = (index) => {
+    const updatedImages = [...secondaryImages];
+    updatedImages.splice(index, 1);
+    const updatedPreviews = [...secondaryImagesPreview];
+    updatedPreviews.splice(index, 1);
+    setSecondaryImages(updatedImages);
+    setSecondaryImagesPreview(updatedPreviews);
+  };
+
+  // Upload images handlers
+  const uploadImagesHandler = () => {
+    // main image
+    const mainImgFormData = new FormData();
+    mainImgFormData.append("mainImage", mainImage);
+    uploadMainImage(mainImgFormData);
+
+    // secondary images
+    const secondaryImgsFormData = new FormData();
+    secondaryImages.forEach((file, _) => {
+      secondaryImgsFormData.append("secondaryImages", file);
+    });
+
+    uploadSecondaryImages(secondaryImgsFormData);
+  };
+
+  // Create product handler
+  const createProductHandler = () => {
+    if (!collectionRef) {
+      toast.error("Please assign a collection");
+      return;
+    }
+
+    if (!mainImageUrl || !secondaryImagesUrls) {
+      toast.error("Please upload images");
+      return;
+    }
+
+    setCreateProductLoading(true);
+
     createProduct(
       {
         name,
         price,
         features,
         inBox,
-        mainImage,
-        secondaryImages,
+        mainImage: mainImageUrl,
+        secondaryImages: secondaryImagesUrls,
       },
       collectionRef
     );
@@ -80,143 +136,184 @@ const AddProduct = () => {
 
     if (success) {
       toast.success("Product added succesfully!");
+
+      window.open("/admin/products");
       setName("");
       setPrice("");
       setFeatures("");
-      setInBox([]);
+      setInBox([{ itemName: "", quantity: "" }]);
       setCollectionRef("");
-      setMainImage("");
+      setMainImage(null);
       setSecondaryImages("");
+      setMainImagePreview(null);
+      setSecondaryImagesPreview([]);
+      setCreateProductLoading(false);
     }
 
     if (error) {
-      toast.error("Something went wrong!");
-    }
-
-    if (mainImageUrl) {
-      setMainImage(() => mainImageUrl);
-      setMainImageUploaded(true);
-      toast.success("Main image uploaded!");
-    }
-
-    if (secondaryImagesUrls) {
-      setSecondaryImages(() => secondaryImagesUrls);
-      setSecondaryImagesUploaded(true);
-      toast.success("Secondary images uploaded");
+      setCreateProductLoading(false);
+      console.log(error);
+      if (Array.isArray(error)) {
+        error.map((errField) => toast.error(Object.values(errField)[0]));
+      } else {
+        toast.error("Something went wrong");
+      }
     }
 
     // eslint-disable-next-line
-  }, [success, error, secondaryImagesUrls, mainImageUrl]);
+  }, [success, error]);
 
   return (
     <Layout>
-      <ToastContainer />
       <Meta title={`Add Product | Instrumental Shop`} />
-      <div className="max-w-4xl container mx-auto my-8">
-        <h1 className="text-4xl mb-8 text-gray-600 uppercase">Add Product</h1>
+      <div className="max-w-5xl mx-auto my-8 px-2">
+        {/* Go back link */}
         <div>
-          <form className="flex flex-col" onSubmit={createProductHandler}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Product name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="py-2 px-4 my-2 border border-gray-200 rounded-sm shadow-sm"
-            />
-            <input
-              type="number"
-              name="price"
-              placeholder="Price"
-              value={price}
-              step={0.01}
-              min={0}
-              max={10000}
-              onChange={(e) => setPrice(e.target.value)}
-              className="py-2 px-4 my-2 border border-gray-200 rounded-sm shadow-sm"
-            />
+          <Link
+            to="/admin/products"
+            className="flex items-center gap-3 mb-4 text-gray-500 font-medium hover:text-gray-600"
+          >
+            <FaArrowLeft />
+            <p>Back to products</p>
+          </Link>
+        </div>
 
-            <textarea
-              name="features"
-              placeholder="Product features, description..."
-              value={features}
-              onChange={(e) => setFeatures(e.target.value)}
-              className="py-2 px-4 my-2 border border-gray-200 rounded-sm shadow-sm h-60"
-            ></textarea>
+        {/* Header */}
+        <div className="flex justify-between items-center my-4">
+          <h1 className="text-3xl text-gray-700">Add Product</h1>
+          <button
+            onClick={createProductHandler}
+            className="block py-2 px-6 rounded-3xl bg-green-500 text-white font-medium"
+          >
+            Add Product
+          </button>
+        </div>
 
-            {/* Select collection */}
-            <select
-              onChange={(e) => setCollectionRef(e.target.value)}
-              name="collection"
-              className="capitalize py-3 px-2 my-2 h-12"
-            >
-              <option value="">Select product collection</option>
-              {collections &&
-                collections.map((collection) => (
-                  <option value={collection._id}>{collection.name}</option>
-                ))}
-            </select>
+        {createProductLoading && <Spinner />}
 
-            {/* List in box items */}
-            {inBox.length > 0 &&
-              inBox.map((item) => (
-                <ul className="my-4 p-1">
-                  <li className="flex items-start justify-between">
-                    <strong>Item: </strong> {item.itemName}
-                    <strong>Quantity: </strong> {item.quantity}
-                    <FiDelete
-                      cursor={"pointer"}
-                      size={20}
-                      onClick={() =>
-                        setInBox((state) =>
-                          state.filter((i) => i.itemName !== item.itemName)
-                        )
-                      }
-                    />
-                  </li>
-                </ul>
-              ))}
-
-            <div className="flex flex-col" onSubmit={(e) => e.preventDefault()}>
+        {/* Grid here */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+          <div className="col-span-2">
+            <div className="flex flex-col bg-gray-50 rounded-xl p-4">
               <input
                 type="text"
-                placeholder="Item name. Ex. USB Cable"
-                value={item}
-                onChange={(e) => setItem(e.target.value)}
+                name="name"
+                placeholder="Product name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="py-2 px-4 my-2 border border-gray-200 rounded-sm shadow-sm"
               />
               <input
                 type="number"
-                min={1}
-                step={1}
-                placeholder="Quantity"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
+                name="price"
+                placeholder="Price"
+                value={price}
+                step={0.01}
+                min={0}
+                max={10000}
+                onChange={(e) => setPrice(e.target.value)}
                 className="py-2 px-4 my-2 border border-gray-200 rounded-sm shadow-sm"
               />
-              <button
-                type="button"
-                onClick={() => addItemToBox(item, quantity)}
-                className="inline-block py-2 px-4 font-medium bg-gray-100 border shadow-sm rounded-sm my-4"
-              >
-                Add InBox items
-              </button>
+
+              <textarea
+                name="features"
+                placeholder="Product features, description..."
+                value={features}
+                onChange={(e) => setFeatures(e.target.value)}
+                className="py-2 px-4 my-2 border border-gray-200 rounded-sm shadow-sm h-44"
+              ></textarea>
             </div>
 
-            {/* IMAGES */}
-            <div className="mt-6">
-              <h2 className="text-lg font-semibold mb-2">Upload Main Image</h2>
-              <div className="flex items-center space-x-4">
-                <label
-                  htmlFor="main-image"
-                  className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer"
-                >
-                  Select File
-                </label>
-                <div className="text-gray-400">
-                  {mainImage ? mainImage.name : "No file selected"}
-                  <span>{mainImageUploaded && "Main Image Uploaded"}</span>
+            {/* Set product collection */}
+            <div className="bg-gray-50 p-4 rounded my-4 ">
+              <h3 className="text-2xl mb-4">Category</h3>
+              <p>Product category</p>
+
+              <select
+                onChange={(e) => setCollectionRef(e.target.value)}
+                name="collection"
+                className="capitalize py-3 px-2 my-2 h-12 w-full"
+              >
+                <option value="">Select collection</option>
+                {collections &&
+                  collections.map((collection) => (
+                    <option key={collection._id} value={collection._id}>
+                      {collection.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+
+            {/* Specifications */}
+            <div className="my-4 bg-gray-50 p-4 rounded-xl">
+              <h3 className="text-2xl">In-Box</h3>
+              {inBox.map(({ itemName, quantity }, index) => (
+                <div className="flex items-center gap-x-2" key={index}>
+                  <input
+                    type="text"
+                    placeholder="Item name"
+                    value={itemName}
+                    className="py-2 px-4 border border-gray-200 rounded-sm shadow-sm w-full"
+                    name="itemName"
+                    onChange={(e) => handleInBoxInputChange(e, index)}
+                  />
+                  <input
+                    type="number"
+                    min={1}
+                    step={1}
+                    placeholder="Quantity"
+                    value={quantity}
+                    className="py-2 px-4 border border-gray-200 rounded-sm shadow-sm w-full"
+                    name="quantity"
+                    onChange={(e) => handleInBoxInputChange(e, index)}
+                  />
+                  <button
+                    type="button"
+                    className="inline-block p-2 font-medium border shadow-sm rounded my-2"
+                    onClick={() => {
+                      const updatedItems = [...inBox];
+                      updatedItems.splice(index, 1);
+                      setInBox(updatedItems);
+                    }}
+                  >
+                    <FiTrash2 size={20} />
+                  </button>
                 </div>
+              ))}
+
+              {/* Add inBox row */}
+              <button
+                onClick={addItemToBox}
+                className="inline-block py-2 px-4 rounded bg-black text-white hover:bg-gray-800 my-4"
+              >
+                Add row
+              </button>
+            </div>
+          </div>
+
+          {/* Images upload & select collection */}
+          <div>
+            {/* Upload Main Image */}
+            <div className="mb-2">
+              <label
+                htmlFor="main-image"
+                className="flex flex-col items-center justify-center w-full h-60 border border-dashed rounded-md cursor-pointer overflow-hidden"
+              >
+                {!mainImagePreview && (
+                  <>
+                    <FiUpload size={30} />
+                    <p className="my-2 text-gray-500 text-sm">
+                      Upload Main Image
+                    </p>
+                  </>
+                )}
+                {mainImagePreview && (
+                  <img
+                    src={mainImagePreview}
+                    alt="Main Preview"
+                    className="w-full h-full object-cover"
+                  />
+                )}
                 <input
                   type="file"
                   id="main-image"
@@ -224,42 +321,82 @@ const AddProduct = () => {
                   className="hidden"
                   onChange={handleMainImageChange}
                 />
-              </div>
+              </label>
+            </div>
 
-              <h2 className="text-lg font-semibold mt-6 mb-2">
-                Upload Secondary Images
-              </h2>
-              <div className="flex items-center space-x-4">
-                <label
-                  htmlFor="secondary-images"
-                  className="py-2 px-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer"
-                >
-                  Select Files
-                </label>
-                <div className="text-gray-400">
-                  {secondaryImages.length
-                    ? secondaryImages.map((file) => file.name).join(", ")
-                    : "No files selected"}
-                  <span>
-                    {secondaryImagesUploaded && "Secondary Images Uploaded"}
-                  </span>
-                </div>
-                <input
-                  type="file"
-                  id="secondary-images"
-                  accept="image/*"
-                  className="hidden"
-                  multiple
-                  onChange={handleSecondaryImagesChange}
-                />
+            {/* Upload Secondary Images */}
+            <div>
+              <div className="grid grid-cols-3 gap-2">
+                {secondaryImagesPreview.map((preview, index) => (
+                  <div key={index} className="relative">
+                    <img
+                      src={preview}
+                      alt="Secondary Preview"
+                      className="w-full h-24 object-cover rounded-md"
+                    />
+                    <div className="absolute top-0 right-0">
+                      <button
+                        onClick={() => removeSecondaryImage(index)}
+                        className="p-1 bg-red-500 text-white rounded-full shadow-md hover:bg-red-600 transition duration-300 focus:outline-none"
+                      >
+                        <FiDelete size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                {secondaryImagesPreview.length < 6 && (
+                  <label
+                    htmlFor="secondary-images"
+                    className="flex items-center justify-center w-full h-24 border border-dashed rounded-md cursor-pointer overflow-hidden"
+                  >
+                    <FiPlus size={28} className="text-gray-500" />
+
+                    <input
+                      type="file"
+                      multiple
+                      id="secondary-images"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleSecondaryImagesChange}
+                    />
+                  </label>
+                )}
               </div>
             </div>
 
-            <button className="inline-block py-2 px-4 rounded-sm shadow-sm my-4 bg-orange-500 text-white hover:bg-orange-600">
-              Submit
+            <div className="my-4 text-sm text-gray-600">
+              {mainImageUrl && (
+                <p className="flex items-center gap-2">
+                  <FiCheck /> <span>Main image uploaded</span>
+                </p>
+              )}
+              {secondaryImagesUrls?.length > 0 && (
+                <p className="flex items-center gap-2">
+                  <FiCheck /> <span>Secondary images uploaded</span>
+                </p>
+              )}
+            </div>
+
+            <button
+              onClick={uploadImagesHandler}
+              disabled={
+                !mainImagePreview ||
+                secondaryImagesPreview.length === 0 ||
+                mainImageUrl ||
+                secondaryImagesUrls?.length > 0 ||
+                loading
+              }
+              className="block w-full h-10 my-4 py-2 px-4 text-white rounded shadow bg-black hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed relative"
+            >
+              {mainImageLoading || secondaryImagesLoading ? (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                </div>
+              ) : (
+                "Upload Images"
+              )}
             </button>
-            {loading && <h1>Loading...</h1>}
-          </form>
+          </div>
         </div>
       </div>
 
