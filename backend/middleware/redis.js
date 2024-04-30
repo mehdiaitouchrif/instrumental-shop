@@ -16,6 +16,7 @@ const initializeRedisClient = async () => {
     await redisClient.connect();
     console.log(`Connected to Redis successfully!`);
   } catch (e) {
+    redisClient = null;
     console.error(`Connection to Redis failed with error:`);
     console.error(e);
   }
@@ -32,7 +33,7 @@ const requestToKey = (req) => {
 };
 
 const isRedisWorking = () => {
-  return !!redisClient.isOpen;
+  return !!redisClient?.isOpen;
 };
 
 const writeData = async (key, data, options) => {
