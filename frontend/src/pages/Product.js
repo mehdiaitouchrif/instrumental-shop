@@ -23,6 +23,13 @@ const Product = () => {
 
   const { addToCart } = useCartContext();
 
+  // Image keyboard listener
+  const handleKeyPress = (e, open) => {
+    if (e.key === "Enter") {
+      open();
+    }
+  };
+
   useEffect(() => {
     // Get selected product
     fetchProduct(productSlug);
@@ -143,6 +150,9 @@ const Product = () => {
                           <img
                             ref={ref}
                             onClick={open}
+                            onKeyDown={(e) => handleKeyPress(e, open)}
+                            role="img"
+                            tabIndex={0}
                             src={img}
                             loading="lazy"
                             decoding="async"

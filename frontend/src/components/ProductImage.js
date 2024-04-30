@@ -18,6 +18,12 @@ const ProductImage = ({ imageUrl }) => {
     setMagnifierVisible(false);
   };
 
+  const handleKeyPress = (e, open) => {
+    if (e.key === "Enter") {
+      open();
+    }
+  };
+
   return (
     <div
       className="image-container"
@@ -31,6 +37,9 @@ const ProductImage = ({ imageUrl }) => {
             <img
               ref={ref}
               onClick={open}
+              onKeyDown={(e) => handleKeyPress(e, open)}
+              role="img"
+              tabIndex={0}
               src={imageUrl}
               alt=""
               className="block h-full w-2/3 hover:cursor-zoom-in"
