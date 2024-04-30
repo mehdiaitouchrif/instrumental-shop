@@ -154,7 +154,7 @@ const AddProduct = () => {
       setCreateProductLoading(false);
       console.log(error);
       if (Array.isArray(error)) {
-        error.map((errField) => toast.error(Object.values(errField)[0]));
+        error.forEach((errField) => toast.error(Object.values(errField)[0]));
       } else {
         toast.error("Something went wrong");
       }
