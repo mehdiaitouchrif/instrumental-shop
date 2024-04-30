@@ -6,10 +6,7 @@ exports.protect = async (req, res, next) => {
   try {
     let token;
 
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
+    if (req.headers?.authorization?.startsWith("Bearer")) {
       token = req.headers.authorization.split(" ")[1];
     } else if (req.cookies["auth.token-instrumental"]) {
       token = req.cookies["auth.token-instrumental"];

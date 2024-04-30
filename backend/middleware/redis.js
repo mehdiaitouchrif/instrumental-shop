@@ -1,7 +1,7 @@
 const { createClient } = require("redis");
 const hash = require("object-hash");
 
-let redisClient = undefined;
+let redisClient;
 
 const initializeRedisClient = async () => {
   redisClient = createClient({
@@ -10,9 +10,6 @@ const initializeRedisClient = async () => {
       host: process.env.REDIS_SOCKET_HOST,
       port: process.env.REDIS_SOCKET_PORT,
     },
-  }).on("error", (e) => {
-    console.error(`Failed to create the Redis client with error:`);
-    console.error(e);
   });
 
   try {
@@ -35,7 +32,7 @@ const requestToKey = (req) => {
 };
 
 const isRedisWorking = () => {
-  return !!redisClient?.isOpen;
+  return !!redisClient.isOpen;
 };
 
 const writeData = async (key, data, options) => {

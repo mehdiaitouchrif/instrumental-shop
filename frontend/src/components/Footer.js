@@ -13,10 +13,7 @@ const Footer = () => {
           <div className="my-2">
             <h2 className="text-2xl font-bold mb-4">instrumental</h2>
             <p className="my-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas
-              laborum ut obcaecati autem dolor perferendis cum similique,
-              nostrum magnam expedita ducimus fuga ullam deserunt maxime
-              repudiandae blanditiis aliquam deleniti aut!
+              Demo full-featured web shop app using fullstack JS & MongoDB.
             </p>
           </div>
           <div className="my-2 md:ml-auto">
@@ -75,7 +72,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <p className="my-4">Copyright &copy; 2022</p>
+        <p className="my-4">Copyright &copy; 2024</p>
       </div>
     </footer>
   );

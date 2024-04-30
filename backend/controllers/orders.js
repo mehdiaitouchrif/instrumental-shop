@@ -62,12 +62,7 @@ exports.updateOrderToPaid = async (req, res, next) => {
     }
     order.isPaid = true;
     order.paidAt = Date.now();
-    // order.paymentResult = {
-    //   id: req.body.id,
-    //   status: req.body.status,
-    //   update_time: req.body.update_time,
-    //   email_address: req.body.payer.email_address,
-    // };
+
     const updatedOrder = await order.save();
     res.status(200).json({ success: true, data: updatedOrder });
   } catch (error) {
@@ -126,8 +121,6 @@ exports.getMyOrders = async (req, res, next) => {
 // @route   GET /orders
 // @access  Private (admin)
 exports.getOrders = async (req, res) => {
-  // const orders = await Order.find({ isPaid: true });
-
   // Pagination
   const count = await Order.find({ isPaid: true }).countDocuments();
   const page = req.query.page || 1;
