@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema(
     slug: String,
     price: {
       type: Number,
-      required: true,
+      required: [true, "Please add product price"],
       default: 0,
     },
     mainImage: { type: String, default: "main_image.png" },
