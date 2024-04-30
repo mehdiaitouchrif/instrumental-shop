@@ -20,7 +20,7 @@ const AdminProductsPage = () => {
   };
 
   useEffect(() => {
-    fetchProducts({ page: currentPage, pageSize });
+    fetchProducts({ page: currentPage, pageSize, latest: true });
 
     if (error) {
       toast.error("Something Went Wrong!");
