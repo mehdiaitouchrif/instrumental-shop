@@ -8,7 +8,9 @@
 
 Instrumental Shop is an ecommerce platform for selling musical gears and instruments, mainly drums, pianos, and guitars. The website is built with the MERN stack and Tailwind CSS, and is designed to provide an easy and intuitive shopping experience for customers.
 
-![Instrumental Shop](https://user-images.githubusercontent.com/112659075/230420029-06b3534b-11f1-420a-9286-de4346d9083f.png)
+Here are a few preview image of the project:
+
+![Homepage](https://github.com/mehdiaitouchrif/instrumental-shop/assets/112659075/7bb71f6d-8c21-4883-a073-b927fda5f164)
 
 ## Table of Contents
 
@@ -32,7 +34,13 @@ Instrumental Shop offers the following features:
 
 ![Product Detail](https://user-images.githubusercontent.com/112659075/230420168-4da7b37d-6546-44f3-b2e3-f1ea51de8e26.png)
 
-![Orders Management](https://user-images.githubusercontent.com/112659075/230420520-4e4b59d7-a17e-44fc-bef8-692b2b45f8ce.png)
+![Orders Management](https://github.com/mehdiaitouchrif/instrumental-shop/assets/112659075/f56ce560-2210-466a-9a84-e6f3b2bce346)
+
+![Products Management](https://github.com/mehdiaitouchrif/instrumental-shop/assets/112659075/d27bb5e3-75a9-4366-982f-add3ed99074d)
+
+![Edit Product](https://github.com/mehdiaitouchrif/instrumental-shop/assets/112659075/91b62b14-9ad5-4af6-a5c8-a41b1208542c)
+
+![Account Management](https://github.com/mehdiaitouchrif/instrumental-shop/assets/112659075/893d33ad-94a2-45e2-a85b-8b52eb5c6e9c)
 
 ## Getting Started
 
@@ -41,22 +49,36 @@ To run Instrumental Shop on your local machine, follow these steps:
 1. Clone the repository: `git clone https://github.com/mehdiaitouchrif/instrumental-shop.git`
 2. Install dependencies: `npm install`
 3. Create a `.env` file in the root directory with the following environment variables:
+
+```
    NODE_ENV=development
    PORT=5000
-   MONGODB_URI=<your mongodb uri>
-   JWT_SECRET=<your jwt secret>
+   CLIENT_URL=http://localhost:3000
+
+   MONGODB_URI=<private>
+
+   JWT_SECRET=<private>
    JWT_EXPIRE=30d
-   STRIPE_PRIVATE_KEY=<your stripe secret key>
-   CLOUDINARY_CLOUD_NAME = <your cloudinary credentials>
-   CLOUDINARY_API_KEY=<your cloudinary credentials>
-   CLOUDINARY_API_SECRET=<your cloudinary credentials>
+
+   STRIPE_PRIVATE_KEY=<private>
+
+   CLOUDINARY_CLOUD_NAME = <private>
+   CLOUDINARY_API_KEY=<private>
+   CLOUDINARY_API_SECRET=<private>
+
    SMTP_HOST=
    SMTP_PORT=2525
    SMTP_USER=
    SMTP_PASSWORD=
    FROM_EMAIL=noreply@instrumental.shop
    FROM_NAME=Instrumental Shop
-   CLIENT_URL=http://localhost:3000
+
+   REDIS_PASSWORD=<private>
+   REDIS_SOCKET_HOST=<private>
+   REDIS_SOCKET_PORT=12813
+
+```
+
 4. Run the development server: `npm run dev`
    Run the frontend: `cd frontend && npm start`
 5. Open your browser and go to `http://localhost:3000`
@@ -72,7 +94,7 @@ You can use the following test accounts to try out the features of Instrumental 
 
 ### Admin Account
 
-- Email: `mehdi@instrumental.com`
+- Email: `admin@instrumental.com`
 - Password: `123456`
 
 ## Contributing
