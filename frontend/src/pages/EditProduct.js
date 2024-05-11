@@ -154,7 +154,7 @@ const EditProduct = () => {
     if (success) {
       toast.success("Product updated succesfully!");
 
-      window.open(`/${collectionRef.name}/${productSlug}`);
+      window.open(`/${collectionRef.name}/${product.slug}`);
       setUpdateProductLoading(false);
     }
 
