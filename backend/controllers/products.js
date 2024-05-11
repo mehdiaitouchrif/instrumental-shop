@@ -1,3 +1,4 @@
+const slugify = require("slugify");
 const Product = require("../models/Product");
 const ErrorResponse = require("../utils/ErrorResponse");
 const { removeResourceCache } = require("../middleware/redis");
@@ -81,6 +82,10 @@ exports.updateProduct = async (req, res, next) => {
       new: true,
       runValidators: true,
     }).populate("collectionRef", "name");
+
+    // Manually set slug
+    product.slug = slugify(product.name, { lower: true });
+    await product.save();
 
     await removeResourceCache("products");
     await removeResourceCache("collections@");
