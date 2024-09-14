@@ -62,11 +62,20 @@ const UserOrders = () => {
       title: "Delete",
       dataIndex: "_id",
       key: "_id",
-      render: (_id, record) => (
-        <Button danger onClick={() => deleteOrder(_id)}>
-          {record.isPaid ? "Delete" : "Cancel order"}
-        </Button>
-      ),
+      render: (_id, record) =>
+        !record.isPaid ? (
+          <Button danger onClick={() => deleteOrder(_id)}>
+            Cancel
+          </Button>
+        ) : (
+          <p className="text-center">N/A</p>
+        ),
+
+      // render: (_id, record) => (
+      //   <Button danger onClick={() => deleteOrder(_id)}>
+      //     {record.isPaid ? "Delete" : "Cancel order"}
+      //   </Button>
+      // ),
     },
   ];
 
