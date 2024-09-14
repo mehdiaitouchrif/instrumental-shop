@@ -76,6 +76,7 @@ const OrderContextProvider = ({ children }) => {
 
   // Create payment session with Stripe
   const createStripeSession = async (id) => {
+    dispatch({ type: types.ORDER_PAY_LOADING });
     const res = await fetch(
       `${API_URL}/api/orders/${id}/create-stripe-session`,
       {
@@ -176,6 +177,9 @@ const OrderContextProvider = ({ children }) => {
     dispatch({ type: types.EXPAND_ORDER_TOGGLE, payload: { orderId } });
   };
 
+  const resetOrderState = () => {
+    dispatch({ type: types.RESET_ORDERS_STATE });
+  };
   return (
     <OrdersContext.Provider
       value={{
@@ -189,6 +193,7 @@ const OrderContextProvider = ({ children }) => {
         toggleDeliveryStatus,
         toggleOrderExpanded,
         deleteOrder,
+        resetOrderState,
       }}
     >
       {children}

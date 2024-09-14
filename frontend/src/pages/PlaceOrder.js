@@ -12,7 +12,14 @@ import Spinner from "../components/Spinner";
 const PlaceOrder = () => {
   const { cartItems, total, shippingAddress, paymentMethod } = useCartContext();
 
-  const { createOrder, order, loading, error, success } = useOrdersContext();
+  const {
+    createOrder,
+    order,
+    loading,
+    error,
+    isOrderCreated,
+    resetOrderState,
+  } = useOrdersContext();
 
   const navigate = useNavigate();
 
@@ -23,18 +30,21 @@ const PlaceOrder = () => {
       paymentMethod,
       totalPrice: total,
     });
+  };
+
+  useEffect(() => {
+    // Reset the order state before creating a new order
+    resetOrderState();
 
     if (error) {
       toast.error(error);
     }
-    if (success) {
-      navigate(`/orders/${order._id}`);
-    }
-  };
 
-  useEffect(() => {
+    if (isOrderCreated) {
+      return navigate(`/orders/${order._id}`);
+    }
     // eslint-disable-next-line
-  }, [cartItems]);
+  }, [cartItems, navigate, error, isOrderCreated]);
 
   return (
     <Layout>

@@ -9,8 +9,14 @@ import { BiCreditCard } from "react-icons/bi";
 import Spinner from "../components/Spinner";
 
 const Order = () => {
-  const { getOrder, order, loading, error, createStripeSession } =
-    useOrdersContext();
+  const {
+    getOrder,
+    order,
+    loading,
+    paymentLoading,
+    error,
+    createStripeSession,
+  } = useOrdersContext();
 
   const params = useParams();
 
@@ -141,6 +147,7 @@ const Order = () => {
                     <p>Pay with Card</p>
                   </button>
                 )}
+                {paymentLoading && <Spinner />}
               </div>
             </div>
           )

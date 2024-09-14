@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 
@@ -8,29 +9,25 @@ import useOrdersContext from "../hooks/useOrdersContext";
 const SuccessPayment = () => {
   const { orderId } = useParams();
 
-  const { updateToPaid } = useOrdersContext();
+  const { updateToPaid, isPaymentSuccessful, paymentLoading } =
+    useOrdersContext();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     updateToPaid(orderId);
 
+    if (isPaymentSuccessful) {
+      navigate(`/orders/${orderId}`);
+    }
+
     //eslint-disable-next-line
-  }, [orderId]);
+  }, [orderId, isPaymentSuccessful]);
 
   return (
     <Layout>
       <Meta title="Successfull Payment | Instrumental Shop" />
-      <div className="max-w-xl mx-auto flex flex-col items-center justify-center mt-20">
-        <div className="w-40">
-          <img className="w-full" src="/img/payment.svg" alt="Secure payment" />
-        </div>
-        <p className="my-4 text-xl">Your Payment is Successfull</p>
-        <Link
-          to={`/orders/${orderId}`}
-          className="font-medium my-4 hover:underline hover:text-blue-700 "
-        >
-          View order
-        </Link>
-      </div>
+      {paymentLoading && <Spinner />}
     </Layout>
   );
 };

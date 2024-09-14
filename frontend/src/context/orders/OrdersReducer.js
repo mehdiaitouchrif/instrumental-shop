@@ -5,6 +5,13 @@ const ordersReducer = (state, action) => {
     case types.SET_LOADING:
       return { ...state, loading: true, error: false, success: false };
     case types.CREATE_ORDER:
+      return {
+        ...state,
+        order: action.payload,
+        error: null,
+        loading: false,
+        isOrderCreated: true,
+      };
     case types.SET_ORDER:
       return {
         ...state,
@@ -66,8 +73,8 @@ const ordersReducer = (state, action) => {
     case types.ORDER_PAY_SUCCESS:
       return {
         ...state,
-        paymentSuccess: true,
-        // order: action.payload,
+        isPaymentSuccessful: true,
+        paymentLoading: false,
       };
     case types.SET_ERROR:
       return {
@@ -75,6 +82,18 @@ const ordersReducer = (state, action) => {
         error: action.payload,
         loading: false,
         success: false,
+        paymentSuccess: false,
+        paymentLoading: false,
+      };
+    case types.RESET_ORDERS_STATE:
+      return {
+        order: null,
+        orders: null,
+        userOrders: null,
+        isOrderCreated: false,
+        loading: false,
+        success: false,
+        error: null,
         paymentSuccess: false,
         paymentLoading: false,
       };
