@@ -1,6 +1,7 @@
 import { Table, Tag, Space, Button } from "antd";
 import { useState, useEffect } from "react";
 import useOrdersContext from "../hooks/useOrdersContext";
+import moment from "moment";
 
 const OrdersTable = () => {
   const {
@@ -36,9 +37,11 @@ const OrdersTable = () => {
   const columns = [
     {
       title: "Date",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (createdAt) => new Date(createdAt).toLocaleString(),
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (updatedAt) => (
+        <>{moment(updatedAt).format("MMM D, YYYY, HH:mm")}</>
+      ),
     },
     {
       title: "Items",
