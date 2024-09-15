@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import useOrdersContext from "../hooks/useOrdersContext";
 import { Table, Button, Space, Tag } from "antd";
+import moment from "moment";
 
 const UserOrders = () => {
   const { getUserOrders, deleteOrder, userOrders, loading } =
@@ -14,6 +15,14 @@ const UserOrders = () => {
   }, []);
 
   const columns = [
+    {
+      title: "Date",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (updatedAt) => (
+        <>{moment(updatedAt).format("MMM D, YYYY, HH:mm")}</>
+      ),
+    },
     {
       title: "Items",
       dataIndex: "orderItems",
@@ -70,12 +79,6 @@ const UserOrders = () => {
         ) : (
           <p className="text-center">N/A</p>
         ),
-
-      // render: (_id, record) => (
-      //   <Button danger onClick={() => deleteOrder(_id)}>
-      //     {record.isPaid ? "Delete" : "Cancel order"}
-      //   </Button>
-      // ),
     },
   ];
 
