@@ -11,7 +11,7 @@ const UserDashboard = () => {
   return (
     <Layout>
       <Meta title="My Dashboard | Instrumental Shop" />
-      <div className="max-w-6xl mx-auto md:my-8">
+      <div className="max-w-7xl mx-auto md:my-8">
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8">
           <div className="py-4 px-8 md:border-r text-center md:text-left border-r-gray-200">
             <h1
