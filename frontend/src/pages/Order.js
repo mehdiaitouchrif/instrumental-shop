@@ -3,8 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import Message from "../components/Message";
 import useOrdersContext from "../hooks/useOrdersContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import { BiCreditCard } from "react-icons/bi";
 import Spinner from "../components/Spinner";
 
@@ -37,7 +36,6 @@ const Order = () => {
 
   return (
     <Layout>
-      <ToastContainer />
       <div className="max-w-6xl mx-auto my-8 md:mb-60">
         <h2 className="text-2xl uppercase my-2 text-gray-700">
           Order #{params.id}{" "}

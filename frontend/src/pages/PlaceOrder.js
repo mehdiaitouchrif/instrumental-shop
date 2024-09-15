@@ -5,8 +5,7 @@ import Layout from "../components/Layout";
 import Message from "../components/Message";
 import { useCartContext } from "../hooks/useCartContext";
 import useOrdersContext from "../hooks/useOrdersContext";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
 
 const PlaceOrder = () => {
@@ -48,7 +47,6 @@ const PlaceOrder = () => {
 
   return (
     <Layout>
-      <ToastContainer />
       <div className="max-w-6xl mx-auto my-8 md:mb-60">
         <CheckoutSteps step1 step2 step3 step4 />
         <div className="grid grid-cols-12 md:gap-16 text-gray-700">

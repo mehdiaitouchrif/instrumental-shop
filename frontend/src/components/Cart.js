@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
 import CartItem from "./CartItem";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import Modal from "./Modal";
 
@@ -19,7 +18,6 @@ const Cart = ({ isOpen, onClose }) => {
   };
   return (
     <Modal open={isOpen} onClose={onClose}>
-      <ToastContainer />
       {/* Cart header */}
       <div className="flex items-center justify-between">
         <h3 className="uppercase text-xl font-medium">
