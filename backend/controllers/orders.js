@@ -109,6 +109,7 @@ exports.getMyOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({ user: req.user._id }).sort({
       isPaid: 1,
+      updatedAt: -1,
       isDelivered: -1,
     });
     res.status(200).json({ success: true, data: orders });
@@ -128,7 +129,7 @@ exports.getOrders = async (req, res) => {
 
   const skip = (page - 1) * pageSize;
   const orders = await Order.find({ isPaid: true })
-    .sort({ isDelivered: 1 })
+    .sort({ isDelivered: 1, updatedAt: 1 })
     .skip(skip)
     .limit(pageSize);
 
