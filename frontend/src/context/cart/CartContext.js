@@ -1,7 +1,6 @@
 import { createContext, useReducer } from "react";
 import cartReducer from "./CartReducer";
 import * as types from "../types";
-import API_URL from "../../utils/setupApi";
 
 export const CartContext = createContext();
 
@@ -25,14 +24,10 @@ const CartContextProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
-  // Add to cart
-  const addToCart = async (slug, qty) => {
-    // Find product
-    const res = await fetch(`${API_URL}/api/products/${slug}`);
-    const { data } = await res.json();
-
+  const addToCart = (data, qty) => {
     // Update state
     const cartItem = {
+      fullData: data,
       pid: data._id,
       product: data._id,
       slug: data.slug,

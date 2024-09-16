@@ -94,7 +94,7 @@ const Product = () => {
                     </div>
                     <button
                       onClick={() => {
-                        addToCart(productSlug, quantity);
+                        addToCart(product, quantity);
                         toast.success("Product added to cart!");
                       }}
                       className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500"
