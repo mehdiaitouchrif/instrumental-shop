@@ -42,3 +42,8 @@
 .color-change {
   animation: color-change 2s linear infinite;
 }
+
+/* scale down a little bit */
+body {
+  zoom: 95%;
+}
