@@ -10,7 +10,8 @@ import Product from "./pages/Product";
 import Shipping from "./pages/Shipping";
 import Signup from "./pages/Signup";
 import SuccessPayment from "./pages/SuccessPayment";
-import UserDashboard from "./pages/UserDashboard";
+import UserAccount from "./pages/UserAccount";
+import UserOrders from "./pages/UserOrders";
 import EditProduct from "./pages/EditProduct";
 import AdminProductsPage from "./pages/AdminProductsPage";
 import AdminOrdersPage from "./pages/AdminOrdersPage";
@@ -28,7 +29,8 @@ const App = () => {
         <Route path="/:collection/:productSlug" element={<Product />} />
 
         <Route element={<UserRoutes />}>
-          <Route path="/account/dashboard" element={<UserDashboard />} />
+          <Route path="/account" element={<UserAccount />} />
+          <Route path="/orders" element={<UserOrders />} />
           <Route path="/shipping" element={<Shipping />} />
           <Route path="/payment" element={<PaymentMethod />} />
           <Route path="placeorder" element={<PlaceOrder />} />

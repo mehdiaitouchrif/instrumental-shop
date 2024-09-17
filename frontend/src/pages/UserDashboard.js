@@ -1,3 +1,7 @@
+// NOTE: This component is no longer used.
+// We have transitioned to using separate routes for the User Account and Orders pages
+// instead of managing them with this component's state-based switching.
+
 import { useState } from "react";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
