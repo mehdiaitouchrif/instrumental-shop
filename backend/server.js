@@ -52,6 +52,7 @@ app.use(
         "'self'",
         "https://res.cloudinary.com",
         "https://www.paypalobjects.com",
+        "data:",
       ],
     },
   })
