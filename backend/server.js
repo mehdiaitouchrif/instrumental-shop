@@ -46,7 +46,12 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "https://res.cloudinary.com"],
+      "script-src": ["'self'", "https://www.paypal.com"],
+      "img-src": [
+        "'self'",
+        "https://res.cloudinary.com",
+        "https://www.paypalobjects.com",
+      ],
     },
   })
 );

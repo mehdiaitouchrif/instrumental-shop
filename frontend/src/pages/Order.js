@@ -18,6 +18,7 @@ const Order = () => {
     order,
     loading,
     paymentLoading,
+    isPaymentSuccessful,
     error,
     createStripeSession,
     getPaypalClientID,
@@ -61,7 +62,7 @@ const Order = () => {
     }
 
     // eslint-disable-next-line
-  }, [params.id, paypalClientID, paypalDispatch]);
+  }, [params.id, paypalClientID, paypalDispatch, isPaymentSuccessful]);
 
   // Stripe payment
   const createPaymentSession = () => {
@@ -73,7 +74,6 @@ const Order = () => {
     return actions.order.capture().then(async function (details) {
       try {
         updateToPaid(params.id);
-        getOrder(params.id);
         toast.success("Order is paid");
       } catch (err) {
         toast.error(err?.data?.message || err.error);
