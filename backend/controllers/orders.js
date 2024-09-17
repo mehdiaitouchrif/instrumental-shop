@@ -29,18 +29,32 @@ exports.createStripeSession = async (req, res, next) => {
       payment_method_types: ["card"],
       mode: "payment",
       allow_promotion_codes: true,
-      line_items: order.orderItems.map((item) => {
-        return {
+      line_items: [
+        ...order.orderItems.map((item) => {
+          return {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: item.name,
+                images: [item.image],
+              },
+              unit_amount: +item.price * 100,
+            },
+            quantity: +item.qty,
+          };
+        }),
+        // Add shipping as a line item
+        {
           price_data: {
             currency: "usd",
             product_data: {
-              name: item.name,
+              name: "Shipping",
             },
-            unit_amount: +item.price * 100,
+            unit_amount: +order.shippingPrice * 100,
           },
-          quantity: +item.qty,
-        };
-      }),
+          quantity: 1,
+        },
+      ],
       success_url: `${process.env.CLIENT_URL}/success/${order._id}`,
       cancel_url: `${process.env.CLIENT_URL}/orders/${order._id}`,
     });
