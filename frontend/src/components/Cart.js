@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import Modal from "./Modal";
 
 const Cart = ({ isOpen, onClose }) => {
-  const { cartItems, total, clearCart } = useCartContext();
+  const { cartItems, subtotal, clearCart } = useCartContext();
   const navigate = useNavigate();
 
   const handleCheckout = () => {
@@ -45,7 +45,7 @@ const Cart = ({ isOpen, onClose }) => {
       {/* Cart total */}
       <div className="flex items-center justify-between my-4">
         <h4 className="text-gray-600 uppercase text-lg">Total</h4>
-        <h4 className="text-lg font-medium">${total}</h4>
+        <h4 className="text-lg font-medium">${subtotal}</h4>
       </div>
 
       <button
