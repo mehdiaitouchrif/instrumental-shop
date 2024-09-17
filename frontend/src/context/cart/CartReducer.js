@@ -11,35 +11,41 @@ const cartReducer = (state, action) => {
         itemsToStore = state.cartItems.map((i) =>
           i.pid === existItem.pid ? item : i
         );
-        localStorage.setItem(
-          "instrumental_cart_items",
-          JSON.stringify(itemsToStore)
-        );
-        return {
-          ...state,
-          cartItems: itemsToStore,
-          total: Number(
-            itemsToStore
-              .map((item) => item.price * item.qty)
-              .reduce((partial, accum) => partial + accum, 0)
-          ).toFixed(2),
-        };
       } else {
         itemsToStore = [...state.cartItems, item];
-        localStorage.setItem(
-          "instrumental_cart_items",
-          JSON.stringify(itemsToStore)
-        );
-        return {
-          ...state,
-          cartItems: itemsToStore,
-          total: Number(
-            itemsToStore
-              .map((item) => item.price)
-              .reduce((partial, accum) => partial + accum, 0)
-          ).toFixed(2),
-        };
       }
+
+      localStorage.setItem(
+        "instrumental_cart_items",
+        JSON.stringify(itemsToStore)
+      );
+
+      // Recalculate subtotal
+      const subtotal = Number(
+        itemsToStore
+          .map((item) => item.price * item.qty)
+          .reduce((partial, accum) => partial + accum, 0)
+      ).toFixed(2);
+
+      // Shipping price logic: free if subtotal > 1000, otherwise 20$
+      const shippingPrice = subtotal > 1000 ? 0 : 20;
+
+      // Tax is 20% of the subtotal (already included in price)
+      const taxRate = 0.2;
+      const taxPrice = Number(subtotal * taxRate).toFixed(2);
+
+      // Final total
+      const total = Number(subtotal) + Number(shippingPrice);
+
+      return {
+        ...state,
+        cartItems: itemsToStore,
+        subtotal,
+        shippingPrice: shippingPrice.toFixed(2),
+        taxPrice,
+        total: total.toFixed(2),
+      };
+
     case types.CLEAR_CART:
       return { ...state, cartItems: [], total: 0 };
     case types.SAVE_SHIPPING_ADDRESS:

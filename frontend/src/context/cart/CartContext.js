@@ -7,14 +7,29 @@ export const CartContext = createContext();
 const CartContextProvider = ({ children }) => {
   const itemsFromLS =
     JSON.parse(localStorage.getItem("instrumental_cart_items")) || [];
+
+  const subtotal =
+    Number(
+      itemsFromLS
+        .map((item) => item.price * item.qty)
+        .reduce((partial, accum) => partial + accum, 0)
+    ).toFixed(2) || 0;
+
+  // Shipping price logic: free if total > 1000, otherwise 20$
+  const shippingPrice = subtotal > 1000 ? 0 : 20;
+
+  // Tax is 20% (included in the price)
+  const taxRate = 0.2;
+  const taxPrice = Number(subtotal * taxRate).toFixed(2);
+
+  const total = Number(subtotal) + Number(shippingPrice);
+
   const initialState = {
     cartItems: itemsFromLS,
-    total:
-      Number(
-        itemsFromLS
-          .map((item) => item.price)
-          .reduce((partial, accum) => partial + accum, 0)
-      ).toFixed(2) || 0,
+    subtotal,
+    shippingPrice: shippingPrice.toFixed(2),
+    taxPrice,
+    total: total.toFixed(2),
     shippingAddress:
       JSON.parse(localStorage.getItem("instrumental_shipping_address")) || {},
     paymentMethod:
