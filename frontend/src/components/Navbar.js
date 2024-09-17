@@ -4,9 +4,11 @@ import { FaBars } from "react-icons/fa";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useState } from "react";
 import Cart from "./Cart";
+import { useCartContext } from "../hooks/useCartContext";
 
 const Navbar = () => {
   const { user, loading, logout } = useAuthContext();
+  const { cartItems } = useCartContext();
 
   // Cart Modal state
   const [isOpen, setIsOpen] = useState(false);
@@ -57,10 +59,15 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4 md:gap-8">
           <button
-            className="hover:text-orange-500"
+            className="relative hover:text-orange-500"
             onClick={() => setIsOpen(true)}
           >
-            <CiShoppingCart size={24} />
+            <CiShoppingCart size={25} />
+            {cartItems.length > 0 && (
+              <span className="absolute top-0 right-0 -mt-2 -mr-2 bg-gradient-to-r from-orange-500 to-yellow-400 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {cartItems.length}
+              </span>
+            )}
           </button>
           {!user && !loading && (
             <Link to="/login" className="hover:text-orange-500">
