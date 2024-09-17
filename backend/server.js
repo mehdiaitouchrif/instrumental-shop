@@ -47,6 +47,7 @@ app.use(
     directives: {
       ...helmet.contentSecurityPolicy.getDefaultDirectives(),
       "script-src": ["'self'", "https://www.paypal.com"],
+      "frame-src": ["'self", "https://www.sandbox.paypal.com"],
       "img-src": [
         "'self'",
         "https://res.cloudinary.com",
