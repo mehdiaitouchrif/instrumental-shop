@@ -4,9 +4,10 @@ import Meta from "../components/Meta";
 import UserOrders from "../components/UserOrders";
 
 const UserOrdersPage = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
-  console.log(location);
+  const renderActiveClass = pathname === "/orders" ? "font-semibold" : null;
+
   return (
     <Layout>
       <Meta title="My Dashboard | Instrumental Shop" />
@@ -26,10 +27,13 @@ const UserOrdersPage = () => {
 
           <div className="col-span-2 py-4 px-8">
             <div className="flex gap-x-8 justify-center">
-              <Link to="/orders" className={`text-gray-600 underline`}>
+              <Link
+                to="/orders"
+                className={`text-gray-600 ${renderActiveClass}`}
+              >
                 Orders
               </Link>
-              <Link to="/account" className={`text-gray-600 underline`}>
+              <Link to="/account" className={`text-gray-600`}>
                 Account
               </Link>
             </div>
