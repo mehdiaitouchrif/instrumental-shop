@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaCreditCard, FaPaypal } from "react-icons/fa";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Layout from "../components/Layout";
 import { useCartContext } from "../hooks/useCartContext";
+import Meta from "../components/Meta";
 
 const PaymentMethod = () => {
   const { shippingAddress, paymentMethod, savePaymentMethod } =
     useCartContext();
 
-  const [method, setMethod] = useState(paymentMethod);
+  const [method, setMethod] = useState(paymentMethod || "Stripe");
 
   const navigate = useNavigate();
 
@@ -16,51 +18,94 @@ const PaymentMethod = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    console.log(method);
     savePaymentMethod(method);
-
-    // Go to payment!
     navigate("/placeorder");
   };
 
   return (
     <Layout>
-      <form onSubmit={onSubmit} className="max-w-2xl mx-auto my-8">
-        <CheckoutSteps step1 step2 step3 />
-        <h1 className="text-2xl text-gray-600 uppercase my-4">
-          Payment Method
+      <Meta title="Choose payment method | Instrumental Shop" />
+      <CheckoutSteps step1 step2 />
+      <form
+        onSubmit={onSubmit}
+        className="max-w-3xl mx-auto my-8 p-6 bg-white shadow-lg rounded-lg mb-40"
+      >
+        <h1 className="text-2xl font-semibold text-gray-700 text-center mb-6">
+          Choose Payment Method
         </h1>
-        <div className="flex items-center gap-4 mb-2">
-          <input
-            type="radio"
-            disabled
-            value="PayPal"
-            defaultChecked={method === "PayPal"}
-            name="paymentMethod"
-            id="paypal"
-            onChange={(e) => setMethod(e.target.value)}
-          />
-          <label htmlFor="paypal">PayPal or Credit Card</label>
-        </div>
-        <div className="flex items-center gap-4">
-          <input
-            type="radio"
-            value="Stripe"
-            defaultChecked={method === "Stripe"}
-            name="paymentMethod"
-            id="stripe"
-            onChange={(e) => setMethod(e.target.value)}
-          />
-          <label htmlFor="stripe">Stripe</label>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Stripe Payment Card */}
+          <div
+            onClick={() => setMethod("Stripe")}
+            className={`border-2 rounded-lg p-6 cursor-pointer transform transition-all ${
+              method === "Stripe"
+                ? "border-blue-600 scale-102"
+                : "border-gray-300"
+            } hover:scale-105 transition duration-300 ease-in-out`}
+          >
+            <div className="flex items-center">
+              <input
+                type="radio"
+                value="Stripe"
+                checked={method === "Stripe"}
+                name="paymentMethod"
+                id="stripe"
+                className="mr-4 hidden"
+              />
+              {/* Using FaCcStripe from react-icons */}
+              <FaCreditCard className="h-10 w-10 text-yellow-600" />
+              <label
+                htmlFor="stripe"
+                className="ml-4 text-lg font-medium text-gray-700 cursor-pointer"
+              >
+                Credit/Debit Card
+              </label>
+            </div>
+            <p className="text-gray-500 text-sm mt-2">
+              Pay securely with your credit or debit card via Stripe.
+            </p>
+          </div>
+
+          <div
+            onClick={() => setMethod("PayPal")}
+            className={`border-2 rounded-lg p-6 cursor-pointer transform transition-all ${
+              method === "PayPal"
+                ? "border-yellow-500 scale-102"
+                : "border-gray-300"
+            } hover:scale-105 transition duration-300 ease-in-out`}
+          >
+            <div className="flex items-center">
+              <input
+                type="radio"
+                value="PayPal"
+                checked={method === "PayPal"}
+                name="paymentMethod"
+                id="paypal"
+                className="mr-4 hidden"
+              />
+              <FaPaypal className="h-10 w-10 text-blue-600" />
+              <label
+                htmlFor="paypal"
+                className="ml-4 text-lg font-medium text-gray-700 cursor-pointer"
+              >
+                PayPal
+              </label>
+            </div>
+            <p className="text-gray-500 text-sm mt-2">
+              Pay easily using your PayPal account.
+            </p>
+          </div>
         </div>
 
-        <button
-          type="submit"
-          className="inline-block py-2 px-4 my-4 bg-black hover:bg-gray-800 hover:shadow text-white rounded-sm shadow-sm"
-        >
-          Continue
-        </button>
+        <div className="text-center mt-8">
+          <button
+            type="submit"
+            className="inline-block py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition duration-300 ease-in-out"
+          >
+            Continue to Payment
+          </button>
+        </div>
       </form>
     </Layout>
   );
