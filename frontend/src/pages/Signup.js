@@ -27,7 +27,7 @@ const Signup = () => {
     if (user) {
       if (redirect) navigate(redirect);
       else if (user.role === "admin") navigate("/admin/products");
-      else if (user.role === "user") navigate("/account/dashboard");
+      else if (user.role === "user") navigate("/orders");
     }
   }, [error, loading, navigate, user, redirect]);
 
