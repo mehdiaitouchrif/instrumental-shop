@@ -39,6 +39,7 @@ const PlaceOrder = () => {
       orderItems: cartItems,
       shippingAddress,
       paymentMethod,
+      shippingPrice,
       totalPrice: total,
     });
   };
