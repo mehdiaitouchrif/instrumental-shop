@@ -70,34 +70,32 @@ const Product = () => {
                   </p>
 
                   <div className="my-4 flex items-center gap-6">
-                    <div className="bg-gray-50 shadow-sm rounded-sm flex items-center text-center">
+                    <div className="flex items-center bg-gray-200 rounded-full overflow-hidden">
                       <button
-                        className="w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100"
+                        className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-300"
                         onClick={() =>
-                          setQuantity((prev) => {
-                            if (quantity === 1) {
-                              return 1;
-                            }
-                            return prev - 1;
-                          })
+                          setQuantity((prev) => Math.max(prev - 1, 1))
                         }
                       >
                         -
                       </button>
-                      <div className="w-11 py-2.5 px-2">{quantity}</div>
+                      <div className="w-14 h-10 flex items-center justify-center text-gray-800">
+                        {quantity}
+                      </div>
                       <button
-                        className="w-11 py-2.5 px-2 cursor-pointer hover:bg-gray-100"
+                        className="w-10 h-10 flex items-center justify-center text-gray-600 hover:bg-gray-300"
                         onClick={() => setQuantity((prev) => prev + 1)}
                       >
                         +
                       </button>
                     </div>
+
                     <button
                       onClick={() => {
                         addToCart(product, quantity);
                         toast.success("Product added to cart!");
                       }}
-                      className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm hover:bg-orange-500"
+                      className="py-2 px-4 uppercase font-medium text-white bg-orange-600 rounded-sm shadow-sm transition-transform transform hover:bg-orange-500 hover:scale-105"
                     >
                       Add to cart
                     </button>

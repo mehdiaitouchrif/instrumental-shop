@@ -47,32 +47,40 @@ const Collection = () => {
 const CollectionProduct = ({ product, idx, params }) => {
   return (
     <div
-      key={product._id}
-      className="grid grid-cols-1 md:grid-cols-2 gap-16 my-12"
+      className="relative group grid grid-cols-1 md:grid-cols-2 gap-8 my-12"
+      style={{ minHeight: "40px" }}
     >
       <div
-        className={`bg-gray-50 flex flex-col items-center justify-center p-4 ${
-          idx % 2 === 0 && "md:order-1"
+        className={`flex items-center justify-center w-full p-4 ${
+          idx % 2 === 0 ? "md:order-1" : "md:order-2"
         }`}
-        style={{ height: 500 }}
       >
-        <img
-          style={{ mixBlendMode: "multiply", objectFit: "contain" }}
-          className="block h-full w-2/3"
-          src={product.mainImage}
-          alt=""
-        />
+        <div
+          className="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden"
+          style={{ height: "400px" }}
+        >
+          <img
+            className="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+            src={product.mainImage}
+            alt={product.name}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-30 transition-opacity duration-500 group-hover:opacity-40" />
+        </div>
       </div>
       <div
-        className={`flex flex-col justify-center ${
-          idx % 2 !== 0 && "md:order-2"
+        className={`flex flex-col justify-center p-4 ${
+          idx % 2 !== 0 ? "md:order-1" : "md:order-2"
         }`}
       >
-        <h2 className="text-2xl uppercase font-medium">{product.name}</h2>
-        <p className="text-gray-700 font-extralight my-4">{product.features}</p>
+        <h2 className="text-3xl font-semibold text-gray-800 mb-2 group-hover:text-orange-600 transition-colors duration-300">
+          {product.name}
+        </h2>
+        <p className="text-xl font-bold text-gray-900 mb-4">
+          ${product.price.toFixed(2)}
+        </p>
         <Link
           to={`/${params.collection}/${product.slug}`}
-          className="inline-block w-fit py-2 px-4 rounded-sm shadow-sm bg-orange-600 text-white font-medium uppercase hover:bg-orange-500"
+          className="inline-block py-3 px-6 rounded-lg shadow-lg bg-orange-600 text-white font-medium uppercase hover:bg-orange-500 transition-colors duration-300"
         >
           See Product
         </Link>
