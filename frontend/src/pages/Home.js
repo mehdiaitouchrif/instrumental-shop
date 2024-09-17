@@ -6,6 +6,7 @@ import Meta from "../components/Meta";
 import ProductCarousel from "../components/ProductCarousel";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import { useEffect } from "react";
+import CouponBanner from "../components/CouponBanner";
 
 const Home = () => {
   const { fetchCollections, collections, loading } = useCollectionContext();
@@ -18,6 +19,7 @@ const Home = () => {
   return (
     <Layout>
       <Meta />
+      <CouponBanner />
       <ProductCarousel />
       <div className="px-4 md:px-2">
         <Collections collections={collections} loading={loading} />
