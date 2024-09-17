@@ -38,6 +38,11 @@ const Login = () => {
     login(email, password);
   };
 
+  const fillAdminCredentials = () => {
+    setEmail("admin@instrumental.com");
+    setPassword("123456");
+  };
+
   return (
     <Layout>
       <div className="px-2">
@@ -92,6 +97,14 @@ const Login = () => {
               </Link>
             </p>
           </div>
+
+          <button
+            type="button"
+            onClick={fillAdminCredentials}
+            className="mt-4 text-blue-500 hover:underline"
+          >
+            Use Admin Test Account
+          </button>
         </form>
       </div>
     </Layout>
