@@ -10,6 +10,7 @@ import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import "photoswipe/dist/photoswipe.css";
 import "swiper/css";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { register } from "swiper/element/bundle";
 // register Swiper custom elements
@@ -23,7 +24,9 @@ root.render(
         <CartContextProvider>
           <OrderContextProvider>
             <CollectionContextProvider>
-              <App />
+              <PayPalScriptProvider deferLoading={true}>
+                <App />
+              </PayPalScriptProvider>
             </CollectionContextProvider>
           </OrderContextProvider>
         </CartContextProvider>

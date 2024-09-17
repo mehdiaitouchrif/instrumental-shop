@@ -63,7 +63,15 @@ const ordersReducer = (state, action) => {
         ...state,
         orders: updatedOrders,
       };
-
+    case types.PAYPAL_CLIENT_ID_LOADING:
+      return { ...state, paypalClientID: null, paypalClientIDLoading: true };
+    case types.SET_PAYPAL_CLIENT_ID: {
+      return {
+        ...state,
+        paypalClientID: action.payload,
+        paypalClientIDLoading: false,
+      };
+    }
     case types.ORDER_PAY_LOADING:
       return {
         ...state,

@@ -92,6 +92,15 @@ const OrderContextProvider = ({ children }) => {
     window.location = data;
   };
 
+  // Get paypal client id
+  const getPaypalClientID = async () => {
+    dispatch({ type: types.PAYPAL_CLIENT_ID_LOADING });
+    const res = await fetch(`${API_URL}/api/config/paypal`);
+    const data = await res.json();
+
+    dispatch({ type: types.SET_PAYPAL_CLIENT_ID, payload: data });
+  };
+
   // Update order to paid
   const updateToPaid = async (id) => {
     dispatch({ type: types.ORDER_PAY_LOADING });
@@ -188,6 +197,7 @@ const OrderContextProvider = ({ children }) => {
         getOrder,
         getUserOrders,
         createStripeSession,
+        getPaypalClientID,
         updateToPaid,
         getOrders,
         toggleDeliveryStatus,
