@@ -40,6 +40,7 @@ const PlaceOrder = () => {
       shippingAddress,
       paymentMethod,
       shippingPrice,
+      taxPrice,
       totalPrice: total,
     });
   };

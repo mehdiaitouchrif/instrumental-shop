@@ -28,7 +28,7 @@ const Order = () => {
   } = useOrdersContext();
 
   // Cart context
-  const { total, shippingPrice, taxPrice, clearCart } = useCartContext();
+  const { clearCart } = useCartContext();
 
   const params = useParams();
 
@@ -227,7 +227,7 @@ const Order = () => {
                 <div className="mt-6">
                   <div className="flex justify-between text-gray-900 font-semibold">
                     <span>Total Price:</span>
-                    <span>${total}</span>
+                    <span>${order.totalPrice}</span>
                   </div>
                   <p className="text-gray-900 text-sm font-medium mt-4 mb-2">
                     Including:
@@ -236,11 +236,11 @@ const Order = () => {
                   <ul>
                     <li className="flex justify-between text-gray-900 text-sm font-thin">
                       <span>* Shipping Price:</span>
-                      <span>${shippingPrice}</span>
+                      <span>${order.shippingPrice}</span>
                     </li>
                     <li className="flex justify-between text-gray-900 text-sm font-thin">
                       <span>* Tax Price (20%):</span>
-                      <span>${taxPrice}</span>
+                      <span>${order.taxPrice}</span>
                     </li>
                   </ul>
                   {!order.isPaid && order.paymentMethod === "Stripe" && (
