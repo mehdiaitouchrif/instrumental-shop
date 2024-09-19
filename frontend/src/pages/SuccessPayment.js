@@ -5,12 +5,14 @@ import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 
 import useOrdersContext from "../hooks/useOrdersContext";
+import { useCartContext } from "../hooks/useCartContext";
 
 const SuccessPayment = () => {
   const { orderId } = useParams();
 
   const { updateToPaid, isPaymentSuccessful, paymentLoading } =
     useOrdersContext();
+  const { clearCart } = useCartContext();
 
   const navigate = useNavigate();
 
@@ -18,6 +20,7 @@ const SuccessPayment = () => {
     updateToPaid(orderId);
 
     if (isPaymentSuccessful) {
+      clearCart();
       navigate(`/orders/${orderId}`);
     }
 

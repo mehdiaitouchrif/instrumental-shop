@@ -28,7 +28,7 @@ const Order = () => {
   } = useOrdersContext();
 
   // Cart context
-  const { total, shippingPrice, taxPrice } = useCartContext();
+  const { total, shippingPrice, taxPrice, clearCart } = useCartContext();
 
   const params = useParams();
 
@@ -53,6 +53,10 @@ const Order = () => {
 
     if (error) {
       toast.error(error);
+    }
+
+    if (isPaymentSuccessful) {
+      clearCart();
     }
 
     if (!paypalClientIDLoading && paypalClientID && !order?.isPaid) {
