@@ -6,23 +6,21 @@ import DrumLoadingSkeleton from "./DrumLoadingSkeleton";
 import GuitarLoadingSkeleton from "./GuitarLoadingSkeleton";
 
 const HomeProducts = ({ collections, loading }) => {
-  let piano, guitar, drum;
+  const [piano, setPiano] = useState(null);
+  const [guitar, setGuitar] = useState(null);
+  const [drum, setDrum] = useState(null);
 
-  if (collections && collections.length === 3) {
-    const pianoCollection = collections.find(
-      (collection) => collection.name === "pianos"
-    );
-    const guitarCollection = collections.find(
-      (collection) => collection.name === "guitars"
-    );
-    const drumCollection = collections.find(
-      (collection) => collection.name === "drums"
-    );
+  useEffect(() => {
+    if (collections && collections.length === 3) {
+      const pianoCollection = collections.find((c) => c.name === "pianos");
+      const guitarCollection = collections.find((c) => c.name === "guitars");
+      const drumCollection = collections.find((c) => c.name === "drums");
 
-    piano = pianoCollection ? pianoCollection.product : null;
-    guitar = guitarCollection ? guitarCollection.product : null;
-    drum = drumCollection ? drumCollection.product : null;
-  }
+      setPiano(pianoCollection ? pianoCollection.product : null);
+      setGuitar(guitarCollection ? guitarCollection.product : null);
+      setDrum(drumCollection ? drumCollection.product : null);
+    }
+  }, [collections]);
 
   return (
     <div className="max-w-6xl mx-auto my-8">

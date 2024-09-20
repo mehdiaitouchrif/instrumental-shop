@@ -8,10 +8,12 @@ import Meta from "../components/Meta";
 const Shipping = () => {
   const { shippingAddress, saveShippingAddress } = useCartContext();
 
-  const [address, setAddress] = useState(shippingAddress.address);
-  const [city, setCity] = useState(shippingAddress.city);
-  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
-  const [country, setCountry] = useState(shippingAddress.country);
+  const [address, setAddress] = useState(shippingAddress?.address || "");
+  const [city, setCity] = useState(shippingAddress?.city || "");
+  const [postalCode, setPostalCode] = useState(
+    shippingAddress?.postalCode || ""
+  );
+  const [country, setCountry] = useState(shippingAddress?.country || "");
 
   const navigate = useNavigate();
   const onSubmit = (e) => {

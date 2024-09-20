@@ -120,7 +120,10 @@ const OrdersTable = () => {
   return (
     <Table
       columns={columns}
-      dataSource={orders}
+      dataSource={orders?.map((order) => ({
+        ...order,
+        key: order._id,
+      }))}
       loading={loading}
       pagination={{
         total: count,

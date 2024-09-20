@@ -52,6 +52,7 @@ const PaymentMethod = () => {
                 name="paymentMethod"
                 id="stripe"
                 className="mr-4 hidden"
+                readOnly
               />
               {/* Using FaCcStripe from react-icons */}
               <FaCreditCard className="h-10 w-10 text-yellow-600" />
@@ -83,6 +84,7 @@ const PaymentMethod = () => {
                 name="paymentMethod"
                 id="paypal"
                 className="mr-4 hidden"
+                readOnly
               />
               <FaPaypal className="h-10 w-10 text-blue-600" />
               <label

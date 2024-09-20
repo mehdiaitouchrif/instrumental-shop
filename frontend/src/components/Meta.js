@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import PropTypes from "prop-types";
 
 const Meta = ({ title, description, keywords }) => {

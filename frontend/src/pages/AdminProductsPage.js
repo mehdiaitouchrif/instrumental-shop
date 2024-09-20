@@ -100,7 +100,10 @@ const AdminProductsPage = () => {
 
               <Table
                 columns={columns}
-                dataSource={products}
+                dataSource={products?.map((product) => ({
+                  ...product,
+                  key: product._id,
+                }))}
                 loading={loading}
                 pagination={{
                   total: count,

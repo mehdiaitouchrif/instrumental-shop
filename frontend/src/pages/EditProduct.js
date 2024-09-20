@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-import { FiDelete, FiPlus, FiTrash2, FiUpload, FiCheck } from "react-icons/fi";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { FiDelete, FiPlus, FiTrash2, FiCheck } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Layout from "../components/Layout";
 import Meta from "../components/Meta";
@@ -154,7 +155,7 @@ const EditProduct = () => {
     if (success) {
       toast.success("Product updated succesfully!");
 
-      window.open(`/${collectionRef.name}/${product.slug}`);
+      window.open(`/${product.collectionRef.name}/${product.slug}`);
       setUpdateProductLoading(false);
     }
 
@@ -240,6 +241,7 @@ const EditProduct = () => {
               <p>Product category</p>
 
               <select
+                value={collectionRef._id}
                 onChange={(e) => setCollectionRef(e.target.value)}
                 name="collection"
                 className="capitalize py-3 px-2 my-2 h-12 w-full"
@@ -248,7 +250,7 @@ const EditProduct = () => {
                 {collections &&
                   collections.map((collection) => (
                     <option
-                      selected={collectionRef._id === collection._id}
+                      // selected={collectionRef._id === collection._id}
                       key={collection._id}
                       value={collection._id}
                     >
@@ -314,12 +316,12 @@ const EditProduct = () => {
                 className="flex flex-col items-center justify-center w-full h-60 border border-dashed rounded-md cursor-pointer overflow-hidden"
               >
                 {!mainImagePreview && (
-                  <>
-                    <FiUpload size={30} />
-                    <p className="my-2 text-gray-500 text-sm">
-                      Upload Main Image
-                    </p>
-                  </>
+                  <LazyLoadImage
+                    effect="blur"
+                    src={mainImagePreview}
+                    alt="Main Preview"
+                    className="w-full h-full object-cover"
+                  />
                 )}
                 {mainImagePreview && (
                   <img

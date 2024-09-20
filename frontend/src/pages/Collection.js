@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import Meta from "../components/Meta";
 import { useCollectionContext } from "../hooks/useCollectionContext";
 import CollectionPageLoadingSkeleton from "../components/CollectionPageLoadingSkeleton";
+import { v4 as uuidv4 } from "uuid";
 
 const Collection = () => {
   const { fetchCollectionProducts, collectionProducts, loading } =
@@ -27,7 +28,7 @@ const Collection = () => {
       <div className="max-w-6xl mx-auto p-4">
         {loading &&
           [1, 2, 3].map((_, idx) => (
-            <CollectionPageLoadingSkeleton idx={idx} />
+            <CollectionPageLoadingSkeleton key={uuidv4()} idx={idx} />
           ))}
         {collectionProducts &&
           collectionProducts.map((product, idx) => (

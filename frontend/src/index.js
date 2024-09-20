@@ -13,6 +13,7 @@ import "swiper/css";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import { register } from "swiper/element/bundle";
+import { HelmetProvider } from "react-helmet-async";
 // register Swiper custom elements
 register();
 
@@ -25,7 +26,9 @@ root.render(
           <OrderContextProvider>
             <CollectionContextProvider>
               <PayPalScriptProvider deferLoading={true}>
-                <App />
+                <HelmetProvider>
+                  <App />
+                </HelmetProvider>
               </PayPalScriptProvider>
             </CollectionContextProvider>
           </OrderContextProvider>
