@@ -32,6 +32,8 @@ Instrumental Shop offers the following features:
 - Admin panel for managing products, orders, and customers
 - Responsive design for mobile and desktop devices
 
+![collectionpage](https://github.com/user-attachments/assets/38f11b3d-d9a0-4259-854d-b78ca7df91a7)
+
 ![Product Detail](https://user-images.githubusercontent.com/112659075/230420168-4da7b37d-6546-44f3-b2e3-f1ea51de8e26.png)
 
 ![Orders Management](https://github.com/mehdiaitouchrif/instrumental-shop/assets/112659075/f56ce560-2210-466a-9a84-e6f3b2bce346)
@@ -51,37 +53,44 @@ To run Instrumental Shop on your local machine, follow these steps:
 3. Create a `.env` file in the root directory with the following environment variables:
 
 ```
+   # setup
    NODE_ENV=development
    PORT=5000
    CLIENT_URL=http://localhost:3000
 
-   MONGODB_URI=<private>
+   # databases
+   MONGO_URI=<your mongodb connection url>
+   REDIS_PASSWORD=<your redis password>
+   REDIS_SOCKET_HOST=<your redis socket host>
+   REDIS_SOCKET_PORT=12813
 
-   JWT_SECRET=<private>
+   # JWT
+   JWT_SECRET=<generate a strong private key>
    JWT_EXPIRE=30d
+   JWT_COOKIE_EXPIRE=30
 
-   STRIPE_PRIVATE_KEY=<private>
+   # cloudinary
+   CLOUDINARY_CLOUD_NAME = <cloudinary cloud name>
+   CLOUDINARY_API_SECRET=<cloudinary api secret>
+   CLOUDINARY_API_KEY=<cloudinary api key>
 
-   CLOUDINARY_CLOUD_NAME = <private>
-   CLOUDINARY_API_KEY=<private>
-   CLOUDINARY_API_SECRET=<private>
-
-   SMTP_HOST=
-   SMTP_PORT=2525
-   SMTP_USER=
-   SMTP_PASSWORD=
+   # SMTP
+   SMTP_HOST=<ex. gmail>
+   SMTP_PORT=<ex. 587 for gmail>
+   SMTP_USER=<your email>
+   SMTP_PASSWORD=<your email's password>
    FROM_EMAIL=noreply@instrumental.shop
    FROM_NAME=Instrumental Shop
 
-   REDIS_PASSWORD=<private>
-   REDIS_SOCKET_HOST=<private>
-   REDIS_SOCKET_PORT=12813
-
+   # payments
+   STRIPE_PRIVATE_KEY=<your stripe private key>
+   PAYPAL_CLIENT_ID=<your paypal client id>
 ```
 
-4. Run the development server: `npm run dev`
+4. Create .env in frontend (check .env.example in frontend)
+5. Run the development server: `npm run dev`
    Run the frontend: `cd frontend && npm start`
-5. Open your browser and go to `http://localhost:3000`
+6. Open your browser and go to `http://localhost:3000`
 
 ## Test Accounts
 
